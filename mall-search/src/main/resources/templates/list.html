@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/search/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/static/search/font/iconfont.css">
+    <!--<script src="/static/search/./js/jquery-3.2.1.min.js"></script>-->
+    <script src="/static/search/js/jquery-1.12.4.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<!--头部-->
+<div class="header_head">
+    <div class="header_head_box">
+        <b class="header_head_p">
+            <div style="overflow: hidden">
+                <a href="http://mall.com" class="header_head_p_a1" style="width:100px;">
+                    Mall商城首页
+                </a>
+            </div>
+            <div class="header_head_p_cs">
+            </div>
+        </b>
+        <ul>
+            <li>
+                <a th:if="${session.loginUser==null}" href="http://auth.mall.com/auth/login.html" class="li_2">你好，请登录</a>
+                <a th:if="${session.loginUser!=null}" style="width: 100px">欢迎：[[${session.loginUser.nickname}]]</a>
+            </li>
+            <li>
+                <a th:if="${session.loginUser == null}" href="http://auth.mall.com/auth/reg.html">免费注册</a>
+            </li>
+            <span>|</span>
+            <li>
+                <a href="/static/search/#">我的订单</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--搜索导航-->
+<div class="header_sous" style="height: 80px">
+    <div class="logo">
+        <a href="http://mall.com"><img src="/static/search/./image/logo1.jpg" alt=""></a>
+    </div>
+    <div class="header_form">
+        <input id="keyword_input" type="text" placeholder="手机" th:value="${param.keyword}"/>
+        <a href="javascript:searchByKeyword();">搜索</a>
+    </div>
+    <div class="header_ico">
+        <div class="header_gw">
+            <span><a href="/static/search/#">我的购物车</a></span>
+            <img src="/static/search/image/settleup-@1x.png"/>
+            <span>0</span>
+        </div>
+        <div class="header_ko">
+            <p>购物车中还没有商品，赶紧选购吧！</p>
+        </div>
+    </div>
+    <div class="header_form_nav">
+    </div>
+</div>
+
+<!--手机-->
+<div class="JD_ipone">
+    <div class="JD_ipone_bar">
+
+        <div class="JD_ipone_one c" style="left: 0px">
+            <!--            遍历面包屑功能-->
+            <a style="left: 0px" th:href="${nav.link}" th:each="nav:${result.navs}"><span
+                    th:text="${nav.navName}"></span>：<span th:text="${nav.navValue}"></span> ×</a>
+        </div>
+    </div>
+</div>
+<!--商品筛选和排序-->
+<div class="JD_banner w">
+    <div class="JD_nav">
+        <div class="JD_selector">
+            <div class="JD_nav_logo" th:with="brandid= ${param.brandId}">
+                <!--品牌-->
+                <div th:if="${#strings.isEmpty(brandid)}" class="JD_nav_wrap">
+
+                    <div class="sl_key">
+                        <span><b>品牌：</b></span>
+                    </div>
+                    <div class="sl_value">
+                        <div class="sl_value_logo">
+                            <ul>
+                                <li th:each="brand:${result.brands}">
+                                    <a href="/static/search/#"
+                                       th:href="${'javascript:searchProducts(&quot;brandId&quot;,'+brand.brandId+')'}">
+                                        <img th:src="${brand.brandImg}" alt="">
+                                        <div th:text="${brand.brandName}">
+                                            华为(HUAWEI)
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sl_ext">
+                    </div>
+                </div>
+                <!--分类-->
+                <div class="JD_pre">
+                    <div class="sl_key">
+                        <span><b>分类：</b></span>
+                    </div>
+                    <div class="sl_value">
+                        <ul>
+                            <li th:each="catalog:${result.catalogs}">
+                                <a href="/static/search/#"
+                                   th:href="${'javascript:searchProducts(&quot;catalog3Id&quot;,'+catalog.catalogId+')'}"
+                                   th:text="${catalog.catalogName}">5.56英寸及以上</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sl_ext">
+
+                    </div>
+                </div>
+
+                <!--其他的所有需要展示的属性-->
+                <div class="JD_pre" th:each="attr:${result.attrs}"
+                     th:if="${!#lists.contains(result.attrIds, attr.attrId)}">
+                    <div class="sl_key">
+                        <span th:text="${attr.attrName}">屏幕尺寸：</span>
+                    </div>
+                    <div class="sl_value">
+                        <ul>
+                            <li th:each="val:${attr.attrValue}">
+                                <a href="/static/search/#"
+                                   th:href="${'javascript:searchProducts(&quot;attrs&quot;,&quot;'+attr.attrId+'_'+val+'&quot;)'}"
+                                   th:text="${val}">5.56英寸及以上</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="JD_show">
+                <a href="/static/search/#">
+                    <span>
+                        更多选项（ CPU核数、网络、机身颜色 等）
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--排序-->
+        <div class="JD_banner_main">
+            <!--商品精选-->
+            <div class="JD_con_left">
+                <div class="JD_con_left_bar">
+                    <div class="JD_con_one">
+                        <div class="mt">
+                            <h3>商品精选</h3>
+                            <span>广告</span>
+                        </div>
+                        <div class="mc">
+                            <ul>
+                                <li>
+                                    <a href="/static/search/#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img
+                                            src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="/static/search/#"
+                                       title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
+                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
+                                    </a>
+                                    <div class="mc_price">
+                                        <strong class="price">
+                                            <span class="J-p-5963064">￥2999.00</span>
+                                        </strong>
+                                        <span class="mc-ico" title="购买本商品送赠品">
+                                            <i class="goods-icons">赠品</i>
+                                        </span>
+                                    </div>
+                                    <div class="mc_rev">
+                                        已有
+                                        <a href="/static/search/#" class="number">12466</a>
+                                        人评价
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/static/search/#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img
+                                            src="/static/search/img/59bf3c47n91d65c73.jpg" alt=""></a>
+                                    <a href="/static/search/#"
+                                       title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
+                                        <em>华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待</em>
+                                    </a>
+                                    <div class="mc_price">
+                                        <strong class="price">
+                                            <span class="J-p-5963064">￥2999.00</span>
+                                        </strong>
+                                        <span class="mc-ico" title="购买本商品送赠品">
+                                            <i class="goods-icons">赠品</i>
+                                        </span>
+                                    </div>
+                                    <div class="mc_rev">
+                                        已有
+                                        <a href="/static/search/#" class="number">12466</a>
+                                        人评价
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="/static/search/#" title="vivo X9s 全网通 4GB+64GB 磨砂黑 移动联通电信4G手机 双卡双待"><img
+                                            src="/static/search/img/593ba628n8794c6a6.jpg" alt=""></a>
+                                    <a href="/static/search/#"
+                                       title="【预约版】华为 HUAWEI 畅享7S 全面屏双摄 4GB +64GB 黑色 移动联通电信4G手机 双卡双待">
+                                        <em>诺基亚 7 (Nokia 7) 4GB+64GB 黑色 全网通 双卡双待 移动联通电信4G手机</em>
+                                    </a>
+                                    <div class="mc_price">
+                                        <strong class="price">
+                                            <span class="J-p-5963064">￥1799.00</span>
+                                        </strong>
+                                        <span class="mc-ico" title="购买本商品送赠品">
+                                            <i class="goods-icons">赠品</i>
+                                        </span>
+                                    </div>
+                                    <div class="mc_rev">
+                                        已有
+                                        <a href="/static/search/#" class="number">15600</a>
+                                        人评价
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--综合排序-->
+            <div class="JD_con_right">
+                <div class="filter">
+                    <!--综合排序
+                    1、sort=saleCount_asc/desc skuPrice_asc/desc
+                    2、
+                    -->
+                    <div class="filter_top">
+                        <div class="filter_top_left" th:with="p = ${param.sort},priceRange = ${param.skuPrice}">
+                            <a th:class="${(!#strings.isEmpty(p) && #strings.startsWith(p,'hotScore') && #strings.endsWith(p,'desc'))?'sort_a desc':'sort_a'}"
+                               th:attr="style=${(#strings.isEmpty(p) || #strings.startsWith(p,'hotScore'))?'color: #FFF;border-color:#e4393c;background: #e4393c':'color: #333;border-color:#CCC;background: #fff'}"
+                               sort="hotScore" href="/static/search/#"> 综合排序 [[${(!#strings.isEmpty(p) &&
+                                #strings.startsWith(p,'hotScore') && #strings.endsWith(p,'desc'))?'↓':'↑'}]] </a>
+                            <a th:class="${(!#strings.isEmpty(p) && #strings.startsWith(p,'saleCount') && #strings.endsWith(p,'desc'))?'sort_a desc':'sort_a'}"
+                               th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'saleCount'))?'color: #FFF;border-color:#e4393c;background: #e4393c':'color: #333;border-color:#CCC;background: #fff'}"
+                               sort="saleCount" href="/static/search/#">销量 [[${(!#strings.isEmpty(p) &&
+                                #strings.startsWith(p,'saleCount') && #strings.endsWith(p,'desc'))?'↓':'↑'}]]</a>
+                            <a th:class="${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice')&& #strings.endsWith(p,'desc'))?'sort_a desc':'sort_a'}"
+                               th:attr="style=${(!#strings.isEmpty(p) && #strings.startsWith(p,'skuPrice'))?'color: #FFF;border-color:#e4393c;background: #e4393c':'color: #333;border-color:#CCC;background: #fff'}"
+                               sort="skuPrice" href="/static/search/#">价格 [[${(!#strings.isEmpty(p) &&
+                                #strings.startsWith(p,'skuPrice')&& #strings.endsWith(p,'desc'))?'↓':'↑'}]]</a>
+                            <input id="skuPriceFrom" type="number" style="width: 100px;margin-left: 30px;"
+                                   th:value="${#strings.isEmpty(priceRange)?'':#strings.substringBefore(priceRange,'_')}">
+                            -
+                            <input id="skuPriceTo" type="number" style="width: 100px;"
+                                   th:value="${#strings.isEmpty(priceRange)?'':#strings.substringAfter(priceRange,'_')}">
+                            <button id="skuPriceSearchBtn">确定</button>
+                        </div>
+
+                    </div>
+                    <!--是否有货-->
+                    <div class="filter_bottom">
+                        <div class="filter_bottom_left">
+                            <div class="dizhi">
+
+                            </div>
+                            <div class="dizhi_con">
+
+                                <div id="container">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filter_bottom_right">
+                            <ul>
+                                <li>
+                                    <a href="#" th:with="check = ${param.hasStock}">
+                                        <input id="showHasStock" type="checkbox"
+                                               th:checked="${#strings.equals(check,'1')}">
+                                        仅显示有货
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                    </div>
+                    <!--排序内容;商品每4个是一组-->
+                    <div class="rig_tab">
+                        <div th:each="product:${result.getProducts()}" style="height: 350px">
+                            <div class="ico">
+                                <i class="iconfont icon-weiguanzhu"></i>
+                                <a href="/static/search/#">关注</a>
+                            </div>
+                            <p class="da">
+                                <a th:href="|http://item.mall.com/${product.skuId}.html|">
+                                    <img th:src="${product.skuImg}" class="dim">
+                                </a>
+                            </p>
+                            <ul class="tab_im">
+                                <li><a href="/static/search/#" title="黑色">
+                                    <img th:src="${product.skuImg}"></a></li>
+                            </ul>
+                            <p class="tab_R">
+                                <span th:text="'¥'+${product.skuPrice}">¥5199.00</span>
+                            </p>
+                            <p class="tab_JE">
+                                <a style="height: 80px" href="/static/search/#" th:utext="${product.skuTitle}">
+                                    Apple iPhone 7 Plus (A1661) 32G 黑色 移动联通电信4G手机
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <!--分页-->
+                    <div class="filter_page">
+                        <div class="page_wrap">
+                            <span class="page_span1">
+                                <a class="page_a" th:attr="pn=${result.pageNum - 1}"
+                                   th:if="${result.pageNum>1}">
+                                    < 上一页
+                                </a>
+                                <a class="page_a"
+                                   th:attr="pn=${nav},style=${nav == result.pageNum?'border: 0;color:#ee2222;background: #fff':''}"
+                                   th:each="nav:${result.pageNavs}">[[${nav}]]</a>
+                                <a class="page_a" th:attr="pn=${result.pageNum + 1}"
+                                   th:if="${result.pageNum<result.totalPages}">
+                                    下一页 >
+                                </a>
+                            </span>
+                            <span class="page_span2">
+                                <em>共<b>[[${result.totalPages}]]</b>页&nbsp;&nbsp;到第</em>
+                                <input type="number" value="1">
+                                <em>页</em>
+                                <a class="page_submit">确定</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".sl_ext a:nth-child(1)").hover(function () {
+        $(this).children("b").stop(true).animate({top: "3px"}, 50);
+        $(this).children("i").stop(true).animate({top: "-23px"}, 50)
+    }, function () {
+        $(this).children("b").stop(true).animate({top: "24px"}, 50);
+        $(this).children("i").stop(true).animate({top: "3px"}, 50)
+    });
+    $(".sl_ext a:nth-child(2)").hover(function () {
+        $(this).children("span").stop(true).animate({top: "-1px"}, 100);
+        $(this).children("i").stop(true).animate({top: "-14px"}, 100).css({display: "none"})
+    }, function () {
+        $(this).children("span").stop(true).animate({top: "14px"}, 100);
+        $(this).children("i").stop(true).animate({top: "-1px"}, 100).css({display: "block"})
+    });
+    $('.tab_im img').hover(function () {
+        var a = $(this).prop('src');
+        var index = $(this).parents('li').list();
+        $(this).parents('li').css('border', '2px solid red').siblings('li').css('border', '1px solid #ccc');
+        $(this).parents('ul').prev().find('img').prop('src', a);
+        $(this).parents('ul').siblings('.tab_JE').find('a').eq(list).css('display', 'block').siblings('a').css('display', 'none');
+        $(this).parents('ul').siblings('.tab_R').find('span').eq(list).css('display', 'block').siblings('span').css('display', 'none')
+    });
+
+    $(".JD_ipone_one").hover(function () {
+        $(this).children("div").css({display: "block"})
+    }, function () {
+        $(this).children("div").css({display: "none"})
+    });
+
+    $("#tab>li").click(function () {
+        var i = $(this).list();
+        $("#container>div").hide().eq(i).show()
+    });
+    $(".dizhi_show").hover(function () {
+        $(".dizhi_con").css({display: "block"})
+    }, function () {
+        $(".dizhi_con").css({display: "none"})
+    });
+    $(".dizhi_con").hover(function () {
+        $(this).css({display: "block"})
+    }, function () {
+        $(this).css({display: "none"})
+    });
+    //显示隐藏
+    var $li = $(".JD_nav_logo>div:gt(3)").hide();
+    $('.JD_show span').click(function () {
+        if ($li.is(':hidden')) {
+            $li.show();
+            $(this).css({width: "86px"}).text('收起 ^');
+        } else {
+            $li.hide();
+            $('.JD_show span').css({width: "291px"}).text('更多选项（ CPU核数、网络、机身颜色 等）');
+        }
+        return false;
+    });
+
+
+    $(".rig_tab>div").hover(function () {
+        var i = $(this).list();
+        $(this).find('.ico').css({display: 'block'}).stop(true).animate({top: "190px"}, 300)
+    }, function () {
+        var i = $(this).list();
+        $(this).find('.ico').css({display: 'none'}).stop(true).animate({top: "230px"})
+    });
+
+    $('.header_main_left>ul>li').hover(function () {
+        $(this).css({
+            background: "#f0f0f0"
+        }).find('.header_main_left_main').stop(true).fadeIn(300)
+    }, function () {
+        $(this).css({
+            background: "#fff"
+        }).find(".header_main_left_a").css({
+            color: "#000"
+        });
+        $(this).find('.header_main_left_main').stop(true).fadeOut(100)
+    });
+    $(".header_sj a").hover(function () {
+        $(this).css({
+            background: "#444"
+        })
+    }, function () {
+        $(this).css({
+            background: "#6e6568"
+        })
+    });
+
+
+    $(".nav_li1 a").hover(function () {
+        $(".header_main_left").stop(true).fadeIn()
+    }, function () {
+        $(".header_main_left").stop(true).fadeOut()
+    });
+    $(".header_main_left").hover(function () {
+        $(this).stop(true).fadeIn()
+    }, function () {
+        $(this).stop(true).fadeOut()
+    });
+
+
+    //右侧侧边栏
+    $(".header_bar_box ul li").hover(function () {
+        $(this).css({
+            background: "#7A6E6E"
+        }).children(".div").css({
+            display: "block"
+        }).stop(true).animate({
+            left: "-60px"
+        }, 300)
+    }, function () {
+        $(this).css({
+            background: "#7A6E6E"
+        }).children(".div").css({
+            display: "none"
+        }).stop(true).animate({
+            left: "0"
+        }, 300)
+    });
+
+
+    //底部
+    $(".footer_foot .p1 a").hover(function () {
+        $(this).css("color", "#D70B1C")
+    }, function () {
+        $(this).css("color", "#727272")
+    });
+
+    $(".footer .footer_center ol li a").hover(function () {
+        $(this).css("color", "#D70B1C")
+    }, function () {
+        $(this).css("color", "#727272")
+    })
+
+
+    function searchProducts(name, value) {
+        //原来的页面
+        location.href = replaceAndAddParamVal(location.href, name, value, true)
+
+
+    }
+
+    function searchByKeyword() {
+        searchProducts("keyword", $("#keyword_input").val());
+
+    }
+
+    $(".page_a").click(function () {
+        var pn = $(this).attr("pn");
+
+        var href = location.href;
+        if (href.indexOf("pageNum") != -1) {
+            //替换pageNum的值
+            location.href = replaceAndAddParamVal(href, "pageNum", pn,null);
+        } else {
+            location.href = location.href + "&pageNum=" + pn;
+        }
+        return false;
+    });
+
+    function searchBySort(sortType) {
+        if (sortType == "default") {
+
+        }
+        if (sortType == "sale") {
+
+        }
+        if (sortType == "price") {
+
+        }
+    }
+
+    function replaceAndAddParamVal(url, paramName, replaceVal, forceAdd) {
+        var oUrl = url.toString();
+        //1、如果没有就添加，有就替换；
+        if (oUrl.indexOf(paramName) != -1) {
+            if (forceAdd) {
+                var nUrl = "";
+                if (oUrl.indexOf("?") != -1) {
+                    nUrl = oUrl + "&" + paramName + '=' + replaceVal;
+                } else {
+                    nUrl = oUrl + "?" + paramName + '=' + replaceVal;
+                }
+
+
+                return nUrl;
+            } else {
+                var re = eval('/(' + paramName + '=)([^&]*)/gi');
+                var nUrl = oUrl.replace(re, paramName + '=' + replaceVal);
+                return nUrl;
+            }
+        } else {
+            var nUrl = "";
+            if (oUrl.indexOf("?") != -1) {
+                nUrl = oUrl + "&" + paramName + '=' + replaceVal;
+            } else {
+                nUrl = oUrl + "?" + paramName + '=' + replaceVal;
+            }
+
+
+            return nUrl;
+        }
+
+
+    }
+
+    $(".sort_a").click(function () {
+        //1、当前被点击的元素变为选中状态
+        //    color: #FFF; border-color: #e4393c; background: #e4393c;
+        //改变当前元素以及兄弟元素的样式
+        // changeStyle(this);
+
+        $(this).toggleClass("desc");
+        //2、跳转到指定位置 sort=skuPrice_asc/desc
+        var sort = $(this).attr("sort");
+        sort = $(this).hasClass("desc") ? sort + "_desc" : sort + "_asc";
+        location.href = replaceAndAddParamVal(location.href, "sort", sort);
+
+
+        //禁用默认行为
+        return false;
+    });
+
+    function changeStyle(ele) {
+        // 'color: #333;border-color:#CCC;background: #fff' 默认
+        // 'color: #FFF;border-color:#e4393c;background: #e4393c' 高亮
+        $(".sort_a").css({"color": "#333", "border-color": "#CCC", "background": "#FFF"});
+        $(".sort_a").each(function () {
+            var text = $(this).text().replace("↓", "").replace("↑", "");
+            $(this).text(text);
+        });
+        $(ele).css({"color": "#FFF", "border-color": "#e4393c", "background": "#e4393c"});
+        //改变升降序
+        $(ele).toggleClass("desc");//加上就是降序，不加就是升序
+        if ($(ele).hasClass("desc")) {
+            //降序
+            var text = $(ele).text().replace("↓", "").replace("↑", "");
+            text = text + "↓";
+            $(ele).text(text);
+        } else {
+            var text = $(ele).text().replace("↓", "").replace("↑", "");
+            text = text + "↑";
+            $(ele).text(text);
+        }
+    }
+
+    $("#skuPriceSearchBtn").click(function () {
+        //1、拼上价格区间的查询条件
+        var from = $("#skuPriceFrom").val();
+        var to = $("#skuPriceTo").val();
+
+        var query = from + "_" + to;
+
+        location.href = replaceAndAddParamVal(location.href, "skuPrice", query);
+    });
+
+    $("#showHasStock").change(function () {
+        if ($(this).prop('checked')) {
+            location.href = replaceAndAddParamVal(location.href, "hasStock", 1);
+        } else {
+            //没选中
+            var re = eval('/(hasStock=)([^&]*)/gi');
+            location.href = (location.href + "").replace(re, '');
+        }
+        return false;
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>购物车添加成功页</title>
+    <script type="text/javascript" src="http://cart.mall.com/static/cart/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="http://cart.mall.com/static/cart/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://cart.mall.com/static/cart/js/swiper.min.js"></script>
+    <script src="http://cart.mall.com/js/swiper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cart.mall.com/static/cart/css/swiper.min.css"/>
+    <link rel="stylesheet" type="text/css" href="http://cart.mall.com/static/cart/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="http://cart.mall.com/static/cart/css/success.css"/>
+    <link rel="icon" href="http://cart.mall.com/static/cart/img/心04.png" type="/image/x-icon"/>
+    <link rel="stylesheet" href="http://cart.mall.com/static/cart/css/One_bdyStyle.css">
+    <link rel="stylesheet" href="http://cart.mall.com/static/cart/css/index.css">
+    <script src="http://cart.mall.com/static/cart/js/jquery-3.1.1.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="http://cart.mall.com/static/cart/css/One_mainFoot.css">
+    <link rel="stylesheet" href="http://cart.mall.com/static/cart/css/font-awesome-4.7.0/css/font-awesome.css"/>
+
+</head>
+
+<body>
+<!--头部-->
+<header>
+    <a name="mao1">
+        <div class="header">
+            <ul class="header-left">
+                <li style="height: 100%">
+                    <a href="http://mall.com">首页</a>
+                </li>
+            </ul>
+            <ul class="header-right">
+                <li style="height: 100%"><a th:if="${session.loginUser!=null}" style="width: 100px">欢迎：[[${session.loginUser.nickname}]]</a>
+                </li>
+                <li style="height: 100%"><a th:if="${session.loginUser==null}"
+                                            href="http://auth.mall.com/auth/login.html"
+                                            style="color: red;">你好，请登录</a></li>
+                <li style="height: 100%"><a th:if="${session.loginUser==null} "
+                                            href="http://auth.mall.com/auth/reg.html">免费注册</a></li>
+                <li class="spacer"></li>
+                <li style="height: 100%"><a href="#">我的订单</a>
+                </li>
+                <li class=" spacer">
+                </li>
+            </ul>
+            <div style="clear: both;"></div>
+        </div>
+    </a>
+
+</header>
+
+<div class="main" style="height: 250px">
+
+    <div class="success-wrap" style="height: 250px">
+        <div class="w" id="result" style="width: 100%;height: 250px">
+            <div class="m succeed-box" style="width: 100%;height: 250px">
+                <div th:if="${orderSn != null}" class="mc success-cont" style="left: 750px;top: 110px">
+                    <h1>恭喜您，秒杀成功，订单号[[${orderSn}]]</h1>
+                    <h2>正在准备订单数据，10s后自动跳转去支付
+                        <a style="color:red;" th:href="${'http://order.mall.com/payOrder?orderSn=' + orderSn}">去支付</a>
+                    </h2>
+                </div>
+                <div th:if="${orderSn == null}" class="mc success-cont" style="left: 750px;top: 110px">
+                    <h1>很抱歉，秒杀失败</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/javascript" src="http://cart.mall.com/static/cart/js/success.js"></script>
+
+</html>

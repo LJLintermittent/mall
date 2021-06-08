@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>商城注册页</title>
+    <script src="/static/reg/libs/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/static/reg/js/jQuery/jquery-3.1.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/reg/bootStrap/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/reg/sass/index.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/reg/css/index.css">
+</head>
+<body>
+<header>
+    <a href="http://mall.com"
+       class="logo"><img src="/static/reg/img/logo1.jpg" alt=""></a>
+    <div class="desc">欢迎注册</div>
+    <div class="dfg">
+        <span>已有账号？</span>
+        <a href="http://auth.mall.com/auth/login.html">请登录</a>
+    </div>
+</header>
+<section>
+    <form action="/auth/register" method="post" class="one">
+        <div class="tips" style="color:red"
+             th:text="${errors!=null?(#maps.containsKey(errors, 'msg')?errors.msg:''):''}">
+
+        </div>
+        <div class="register-box">
+            <label class="username_label">用 户 名
+                <input name="username" maxlength="20" type="text" placeholder="您的用户名和登录名">
+            </label>
+            <div class="tips" style="color:red"
+                 th:text="${errors!=null?(#maps.containsKey(errors, 'username')?errors.username:''):''}">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">设 置 密 码
+                <input name="password" maxlength="20" type="password" placeholder="建议至少使用两种字符组合">
+            </label>
+            <div class="tips" style="color:red"
+                 th:text="${errors!=null?(#maps.containsKey(errors, 'password')?errors.password:''):''}">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">确 认 密 码
+                <input maxlength="20" type="password" placeholder="请再次输入密码">
+            </label>
+            <div class="tips">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">
+                <span>中国 0086∨</span>
+                <input name="phone" id="phoneNumber" class="phone" maxlength="20" type="text" placeholder="建议使用常用手机">
+            </label>
+            <div class="tips" style="color:red"
+                 th:text="${errors!=null?(#maps.containsKey(errors, 'phone')?errors.phone:''):''}">
+
+            </div>
+        </div>
+        <div class="register-box">
+            <label class="other_label">验 证 码
+                <input name="code" maxlength="20" type="text" placeholder="请输入验证码" class="caa">
+            </label>
+            <a id="sendCode"> 发送验证码 </a>
+            <div class="tips" style="color:red"
+                 th:text="${errors!=null?(#maps.containsKey(errors, 'code')?errors.code:''):''}">
+            </div>
+        </div>
+        <div class="arguement">
+            <!--            <input type="checkbox" id="xieyi"> 阅读并同意-->
+            <!--            <a href="/static/reg/#">《谷粒商城用户注册协议》</a>-->
+            <!--            <a href="/static/reg/#">《隐私政策》</a>-->
+            <!--            <div class="tips">-->
+
+            <!--            </div>-->
+            <br/>
+            <div class="submit_btn">
+                <button type="submit" id="submit_btn">立 即 注 册</button>
+            </div>
+        </div>
+
+    </form>
+    <div class="two">
+        <div class="right_r">
+            <img style="width: 100%;height: 100%" src="/static/reg/img/lei.png">
+        </div>
+    </div>
+</section>
+<br/><br/>
+<hr>
+<br/><br/>
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        var stuList = getStuList(); //设置传送信息：学生的集合
+
+        // //聚焦失焦input
+        // $('input').eq(0).focus(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("支持中文，字母，数字，'-'，'_'的多种组合");
+        //     }
+        // })
+        // $('input').eq(1).focus(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("建议使用字母、数字和符号两种以上的组合，6-18字符");
+        //     }
+        // })
+        // $('input').eq(2).focus(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("请再次输入密码");
+        //     }
+        // })
+        // $('input').eq(3).focus(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("验证完后，你可以使用该手机登陆和找回密码");
+        //     }
+        // })
+        // $('input').eq(4).focus(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next().next("div").text("看不清？点击图片更换验证码");
+        //     }
+        // })
+        //input各种判断
+        //用户名：
+        // $('input').eq(0).blur(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("");
+        //         $(this).parent().next("div").css("color", '#ccc');
+        //     } else if ($(this).val().length > 0 && $(this).val().length < 4) {
+        //         $(this).parent().next("div").text("长度只能在6-18个字符之间");
+        //         $(this).parent().next("div").css("color", 'red');
+        //     } else if ($(this).val().length >= 4 && !isNaN($(this).val())) {
+        //         $(this).parent().next("div").text("用户名不能为纯数字");
+        //         $(this).parent().next("div").css("color", 'red');
+        //     } else {
+        //         for (var m = 0; m < stuList.length; m++) {
+        //             if ($(this).val() == stuList[m].name) {
+        //                 $(this).parent().next("div").text("该用户名已被注册");
+        //                 $(this).parent().next("div").css("color", 'red');
+        //                 return;
+        //             }
+        //         }
+        //         $(this).parent().next("div").text("");
+        //     }
+        // })
+        // //密码
+        // $('input').eq(1).blur(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("");
+        //         $(this).parent().next("div").css("color", '#ccc');
+        //     } else if ($(this).val().length > 0 && $(this).val().length < 6) {
+        //         $(this).parent().next("div").text("长度只能在6-18个字符之间");
+        //         $(this).parent().next("div").css("color", 'red');
+        //     } else {
+        //         $(this).parent().next("div").text("");
+        //     }
+        // })
+        // //	确认密码
+        // $('input').eq(2).blur(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("");
+        //         $(this).parent().next("div").css("color", '#ccc');
+        //     } else if ($(this).val() != $('input').eq(1).val()) {
+        //         $(this).parent().next("div").text("两次密码不匹配");
+        //         $(this).parent().next("div").css("color", 'red');
+        //     } else {
+        //         $(this).parent().next("div").text("");
+        //     }
+        // })
+        // //	手机号
+        // $('input').eq(3).blur(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next("div").text("");
+        //         $(this).parent().next("div").css("color", '#ccc');
+        //     } else if ($(this).val().substr(0, 3) != 180 && $(this).val().substr(0, 3) != 138 && $(this).val().substr(0, 3) != 189 && $(this).val().substr(0, 3) != 139 && $(this).val().substr(0, 3) != 158 && $(this).val().substr(0, 3) != 188 && $(this).val().substr(0, 3) != 157 || $(this).val().length != 11) {
+        //         $(this).parent().next("div").text("手机号格式不正确");
+        //         $(this).parent().next("div").css("color", 'red');
+        //     } else {
+        //         $(this).parent().next("div").text("");
+        //     }
+        // })
+        // 	验证码
+        //	 验证码刷新
+        function code() {
+            var str = "qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPLKJHGFDSAZXCVBNM";
+            var str1 = 0;
+            for (var i = 0; i < 4; i++) {
+                str1 += str.charAt(Math.floor(Math.random() * 62))
+            }
+            str1 = str1.substring(1)
+            $("#code").text(str1);
+        }
+
+        code();
+        $("#code").click(code);
+        //	验证码验证
+        // $('input').eq(4).blur(function () {
+        //     if ($(this).val().length == 0) {
+        //         $(this).parent().next().next("div").text("");
+        //         $(this).parent().next().next("div").css("color", '#ccc');
+        //     } else if ($(this).val().toUpperCase() != $("#code").text().toUpperCase()) {
+        //         $(this).parent().next().next("div").text("验证码不正确");
+        //         $(this).parent().next().next("div").css("color", 'red');
+        //     } else {
+        //         $(this).parent().next().next("div").text("");
+        //     }
+        // })
+
+        //  建立构造函数，构造学生信息模板
+        function Student(name, password, tel, id) {
+            this.name = name;
+            this.password = password;
+            this.tel = tel;
+            this.id = id;
+        }
+
+        //	获取之前所有已经注册的用户集合
+        function getStuList() {
+            var list = localStorage.getItem('stuList');
+            if (list != null) {
+                return JSON.parse(list);
+            } else {
+                return new Array();
+            }
+        }
+
+    })
+    $(".ty").click(function () {
+        $(".zong").hide();
+        $(".laoda").hide();
+    });
+    $(".cuo").click(function () {
+        $(".zong").hide();
+    });
+
+    $(function () {
+        $("#sendCode").click(function () {
+            if ($(this).hasClass("disabled")) {
+                //正在倒计时
+            } else {
+                //给指定手机发送验证码
+                $.get("/auth/sendSms?phone=" + $("#phoneNumber").val(), function (data) {
+                    if (data.code != 0) {
+                        alert(data.msg);
+                    }
+                })
+                timeoutChangeStyle();
+            }
+        });
+    })
+
+    var num = 60;
+
+    function timeoutChangeStyle() {
+        $("#sendCode").attr("class", "disabled");
+        if (num == 0) {
+            $("#sendCode").text("发送验证码");
+            num = 60;
+            $("#sendCode").attr("class", "");
+        } else {
+            var str = num + "s后可再次发送";
+            $("#sendCode").text(str);
+            setTimeout("timeoutChangeStyle()", 1000);
+        }
+        num--;
+    }
+</script>
+</body>
+
+</html>

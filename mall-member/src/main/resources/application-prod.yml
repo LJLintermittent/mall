@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://mysql-master.mall:3306/mall_ums?serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.jdbc.Driver
+
+  application:
+    name: mall-member
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 8080
+logging:
+  level:
+    com.learn.mall: dubug

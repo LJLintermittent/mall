@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/item/scss/shop.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/item/scss/jd.css"/>
+    <link rel="stylesheet" href="/static/item/scss/header.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/item/bootstrap/css/bootstrap.css"/>
+</head>
+<body>
+<div id="max">
+    <header>
+        <!--品牌官方网站-->
+        <div class="min">
+            <ul class="header_ul_left">
+                <li>
+                    <a href="http://mall.com" class="aa">商城首页</a>
+                </li>
+            </ul>
+            <ul class="header_ul_right">
+                <li style="border: 0;">
+                    <a href="http://auth.mall.com/auth/login.html" th:if="${session.loginUser==null}"
+                       class="aa">你好，请登录</a>
+                    <a style="width: 100px" th:if="${session.loginUser!=null}" class="aa">欢迎：[[${session.loginUser.nickname}]]</a>
+                </li>
+                <li><a th:if="${session.loginUser==null}" href="http://auth.mall.com/auth/reg.html" style="color: red;">免费注册</a>
+                    |
+                </li>
+                <li><a href="/static/item/javascript:;" class="aa">我的订单</a> |</li>
+            </ul>
+        </div>
+    </header>
+    <nav>
+        <div class="nav_min">
+            <div class="nav_top">
+                <div class="nav_top_one"><a href="http://mall.com"><img src="/static/item/img/111.png"/></a></div>
+                <div class="nav_top_two"><input type="text"/>
+                    <button>搜索</button>
+                </div>
+                <div class="nav_top_three"><a href="#">我的购物车</a><span
+                        class="glyphicon glyphicon-shopping-cart"></span>
+                    <div class="nav_top_three_1">
+                        <img src="/static/item/img/44.png"/>购物车还没有商品，赶紧选购吧！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="Shop">
+    <div class="box">
+        <div class="box-one ">
+            <div class="boxx">
+                <div class="imgbox">
+                    <div class="probox">
+                        <img class="img1" alt="" th:src="${item.info.skuDefaultImg}">
+                        <div class="hoverbox"></div>
+                    </div>
+                    <div class="showbox">
+                        <img class="img1" alt="" th:src="${item.info.skuDefaultImg}">
+                    </div>
+                </div>
+                <div class="box-lh">
+                    <div class="box-lh-one">
+                        <ul>
+                            <li th:each="img:${item.images}" th:if="${!#strings.isEmpty(img.imgUrl)}">
+                                <img th:src="${img.imgUrl}"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="left">
+                        <
+                    </div>
+                    <div id="right">
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="box-two">
+                <div class="box-name" th:text="${item.info.skuTitle}">
+                </div>
+                <div class="box-hide" th:text="${item.info.skuSubtitle}">
+                </div>
+                <div class="box-summary clear">
+                    <ul>
+                        <li>价格</li>
+                        <li>
+                            <span>￥</span>
+                            <span th:text="${#numbers.formatDecimal(item.info.price,3,2)}">4499.00</span>
+                        </li>
+                        <li style="color: red" th:if="${item.secKillInfoVo != null}">
+                           <span th:if="${#dates.createNow().getTime()< item.secKillInfoVo.startTime}">
+							商品将会在[[${#dates.format(new java.util.Date(item.secKillInfoVo.startTime),"yyyy-MM-dd HH:mm:ss")}]]进行秒杀
+                           </span>
+                            <span th:if="${#dates.createNow().getTime()>=item.secKillInfoVo.startTime && #dates.createNow().getTime()<=item.secKillInfoVo.endTime}">
+							秒杀价：[[${#numbers.formatDecimal(item.secKillInfoVo.seckillPrice,1,2)}]]
+						</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box-stock">
+                    <div class="box-attr clear">
+                        <dl>
+                            <dt>是否有货</dt>
+                            <p th:text="${item.hasStock?'有货':'无货'}"></p>
+                        </dl>
+                    </div>
+                </div>
+                <div class="box-attr-3">
+                    <div class="box-attr clear" th:each="attr:${item.saleAttr}">
+                        <dl>
+                            <dt>选择[[${attr.attrName}]]</dt>
+                            <dd th:each="vals:${attr.attrValues}">
+                                <a class="sku_attr_value"
+                                   th:attr="skus=${vals.skuIds},class=${#lists.contains(#strings.listSplit(vals.skuIds,','), item.info.skuId.toString())?'sku_attr_value checked':'sku_attr_value'}">
+                                    [[${vals.attrValue}]]
+                                </a>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+
+                <div class="box-btns clear">
+                    <div class="box-btns-one">
+                        <input type="text" name="" id="numInput" value="1"/>
+                        <div class="box-btns-one1">
+                            <div>
+                                <button id="jia">
+                                    +
+                                </button>
+                            </div>
+                            <div>
+                                <button id="jian">
+                                    -
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-btns-two"
+                         th:if="${item.secKillInfoVo != null}">
+                        <a href="#"
+                           th:attr="skuId=${item.info.skuId},sessionId=${item.secKillInfoVo.promotionSessionId},code=${item.secKillInfoVo.randomCode}"
+                           id="secKillA">
+                            立即抢购
+                        </a>
+                    </div>
+                    <div class="box-btns-two"
+                         th:if="${item.secKillInfoVo == null}">
+                        <a href="#" th:attr="skuId=${item.info.skuId}" id="addToCartA">
+                            加入购物车
+                        </a>
+                    </div>
+                    <div class="box-btns-three">
+                        <img src="/static/item/img/e4ed3606843f664591ff1f68f7fda12d.png" alt=""/> 分享
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="ShopXiangqing">
+        <div class="allLeft">
+            <!--火热预约-->
+            <div class="huoreyuyue">
+                <h3>火热预约</h3>
+            </div>
+            <div class="dangeshopxingqing">
+                <ul class="shopdange">
+                    <li>
+                        <a href="/static/item/##"><img src="/static/item/img/5a0afeddNb34732af.jpg"/></a>
+                        <p>
+                            <a href="/static/item/##">OPPO R11s Plus 双卡双待全面屏拍照手机香槟色 全网通(6G RAM+64G ROM)标配</a>
+                        </p>
+                        <p><strong class="J-p-20015341974">￥3699.00</strong></p>
+                    </li>
+                    <li>
+                        <a href="/static/item/##"><img src="/static/item/img/5a12873eN41754123.jpg"/></a>
+                        <p>
+                            <a target="_blank" title="詹姆士（GEMRY） R19plus全网通4G 智能手机 双卡双待 6+128GB 鳄鱼纹雅致版（新品预约）"
+                               href="/static/item///item.jd.com/20348283521.html">詹姆士（GEMRY） R19plus全网通4G 智能手机 双卡双待
+                                6+128GB 鳄鱼纹雅致版（新品预约）</a>
+                        </p>
+                        <p><strong class="J-p-20348283521">￥13999.00</strong></p>
+                    </li>
+                    <li>
+                        <a href="/static/item/##"><img src="/static/item/img/59ec0131Nf239df75.jpg"/></a>
+                        <p>
+                            <a target="_blank" title="斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器 静音大吸力吸尘器TF-X60"
+                               href="/static/item///item.jd.com/16683419775.html">斐纳（TOMEFON） 德国家用无线无绳手持立式充电吸尘器
+                                静音大吸力吸尘器TF-X60</a>
+                        </p>
+                        <p><strong class="J-p-16683419775">￥1599.00</strong></p>
+                    </li>
+                    <li>
+                        <a href="/static/item/##"><img src="/static/item/img/59015444N27317512.jpg"/></a>
+                        <p>
+                            <a target="_blank" title="斐纳（TOMEFON） 扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金"
+                               href="/static/item///item.jd.com/12187770381.html">斐纳（TOMEFON）
+                                扫地机器人德国智能导航规划全自动超薄扫地机器人吸尘器TF-D60 香槟金</a>
+                        </p>
+                        <p><strong class="J-p-12187770381">￥2599.00</strong></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--商品介绍-->
+        <div class="allquanbushop">
+            <ul class="shopjieshao">
+                <li class="jieshoa" style="background: #e4393c;">
+                    <a style="color: white;">商品介绍</a>
+                </li>
+                <li class="baozhuang">
+                    <a>规格</a>
+                </li>
+            </ul>
+
+            <!--商品详情-->
+            <div class="huawei">
+                <ul class="xuanxiangka">
+                    <!--商品介绍-->
+                    <li class="jieshoa actives" id="li1">
+                        <div class="shanpinsssss">
+                            <img class="xiaoguo" th:src="${descp}"
+                                 th:each="descp:${#strings.listSplit(item.descEntity.decript,',')}"/>
+                        </div>
+                    </li>
+                    <!--规格与包装-->
+                    <li class="baozhuang actives" id="li2">
+                        <div class="guiGebox">
+                            <div class="guiGe" th:each="group:${item.groupAttrs}">
+                                <h3 th:text="${group.groupName}">主体</h3>
+                                <dl>
+                                    <div th:each="attr:${group.attrs}">
+                                        <dt th:text="${attr.attrName}">品牌</dt>
+                                        <dd th:text="${attr.attrValue}">华为(HUAWEI)</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="gouwuchexiaguo">
+    <img src="/static/item/img/44.png"/>
+    <span>购物车还没有商品，赶紧选购吧！</span>
+</div>
+</body>
+
+<script src="/static/item/js/jquery1.9.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/item/js/js.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    $(".sku_attr_value").click(function () {
+        //1、点击的元素先添加上自定义的属性。为了识别我们是刚才被点击的
+        var skus = new Array();
+        $(this).addClass("clicked");
+        var curr = $(this).attr("skus").split(",");
+        //当前被点击的所有sku组合数组放进去
+        skus.push(curr);
+        //去掉同一行的所有的checked
+        $(this).parent().parent().find(".sku_attr_value").removeClass("checked");
+
+        $("a[class='sku_attr_value checked']").each(function () {
+            skus.push($(this).attr("skus").split(","));
+        });
+        // console.log(skus);
+        //2、取出他们的交集，得到skuId
+        var filterEle = skus[0];
+        for (var i = 1; i < skus.length; i++) {
+            filterEle = $(filterEle).filter(skus[i]);
+        }
+        // console.log(filterEle[0]);
+        //4、跳转
+        location.href = "http://item.mall.com/" + filterEle[0] + ".html";
+    });
+
+    $(function () {
+        $(".sku_attr_value").parent().css({"border": "solid 1px #CCC"});
+        $("a[class='sku_attr_value checked']").parent().css({"border": "solid 1px red"});
+    })
+
+    $("#addToCartA").click(function () {
+        var num = $("#numInput").val();
+        var skuId = $(this).attr("skuId");
+        location.href = "http://cart.mall.com/addToCart?skuId=" + skuId + "&num=" + num;
+        return false;
+    })
+
+    $("#secKillA").click(function () {
+        var isLogin = [[${session.loginUser!=null}]]; // true
+        if (isLogin) {
+            var killId = $(this).attr("sessionId") + "_" + $(this).attr("skuId");
+            var key = $(this).attr("code");
+            var num = $("#numInput").val();
+            location.href = "http://seckill.mall.com/kill?killId=" + killId + "&key=" + key + "&num=" + num;
+        } else {
+            alert("秒杀请先登录");
+            location.href = "http://auth.mall.com/auth/login.html";
+        }
+        return false;
+    });
+
+</script>
+
+
+</html>

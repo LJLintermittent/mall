@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>订单列表页</title>
+    <link rel="stylesheet" href="/static/order/list/css/index.css">
+    <style media="screen">
+        * {
+            font-family: "微软雅黑";
+        }
+    </style>
+</head>
+
+<body>
+<div id="nav" style="width: 100%">
+    <nav>
+        <div class="myjd">
+            <h3>Mall商城</h3>
+            <button onclick="location.href='http://mall.com'">返回商城首页</button>
+        </div>
+        <div class="right">
+            <ul class="shop">
+                <li><i class="shop_che"></i>我的购物车 >
+                </li>
+            </ul>
+        </div>
+        <div style="clear:both;"></div>
+    </nav>
+</div>
+<div style="clear:both;"></div>
+<div id="big" style="margin-left: 250px">
+    <div id="bigRight">
+        <div class="myOrder">
+            <p>我的订单</p>
+        </div>
+        <div class="allBig">
+            <div class="allOrder">
+                <ul class="allOrderTop">
+                    <li>
+                        <ol>
+                            <li>全部订单</li>
+                            <li>待付款</li>
+                            <li>待收货</li>
+                            <li>待评价</li>
+                            <div style="clear:both;"></div>
+                        </ol>
+                    </li>
+                    <li class="allOrderTopLi">我的常购商品</li>
+                    <li class="allOrderTopLi">好货清仓</li>
+                    <li class="allOrderTopLastLi">
+                        <span>订单回收站</span>
+                        <div>
+                            <input type="text" placeholder="商品名称/商品编号/订单号">
+                            <button class="search"></button>
+                            <button calss="gao">高级<i></i></button>
+                        </div>
+                    </li>
+                    <div class="clear:both;"></div>
+                </ul>
+
+            </div>
+            <div class="details">
+                <ul class="detailsUl">
+                    <div class="detailsUlDiv">
+                        <li class="detailsLiok detailsLi">近三个月订单<i class="allBig_i"></i>
+                            <ol>
+                                <li>近三个月订单</li>
+                                <li>今年内订单</li>
+                                <li>今年内订单</li>
+                                <li>2016年订单</li>
+                                <li>2015年订单</li>
+                                <li>2014年订单</li>
+                                <li>2014年以前订单</li>
+                            </ol>
+                        </li>
+                        <li class="detailsLi">订单详情</li>
+                        <div style="clear:both;"></div>
+                    </div>
+
+                    <li class="detailsLi1">收货人</li>
+                    <li class="detailsLi1">金额</li>
+                    <li class="detailsLi1 detailsLiok">全部状态<i class="allBig_i"></i>
+                        <ol>
+                            <li>全部状态</li>
+                            <li>等待付款</li>
+                            <li>等待收货</li>
+                            <li>已完成</li>
+                            <li>已取消</li>
+                        </ol>
+                    </li>
+                    <li class="detailsLi1">操作</li>
+                    <div style="clear:both;"></div>
+                </ul>
+            </div>
+            <table class="table" th:each="order:${orders.list}">
+                <tr>
+                    <td colspan="7" style="background:#F7F7F7">
+                        <span style="color:#AAAAAA">2020.5.20 22.49</span>
+                        <span><ruby style="color:#AAAAAA">订单号:</ruby>[[${order.orderSn}]]</span>
+                        <span>阿里首席架构师的旗舰店<i class="table_i"></i></span>
+                        <i class="table_i5 isShow"></i>
+                    </td>
+                </tr>
+                <tr class="tr" th:each="item,itemStat:${order.itemEntities}">
+                    <td colspan="3" style="border-right: 1px solid #ccc">
+                        <img style="width: 60px;height: 60px" th:src="${item.skuPic}" alt="" class="img">
+                        <div>
+                            <p style="width: 242px;height: auto;overflow: auto">
+                                [[${item.skuName}]]
+                            </p>
+                        </div>
+                        <div style="margin-left:15px;">x[[${item.skuQuantity}]]</div>
+                        <div style="clear:both"></div>
+                    </td >
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">[[${order.receiverName}]]<i><i class="table_i1"></i></i></td>
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}" style="padding-left:10px;color:#AAAAB1;">
+                        <p style="margin-bottom:5px;">总额 ￥[[${order.payAmount}]]</p>
+                        <hr style="width:90%;">
+                        <p>在线支付</p>
+                    </td>
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">
+                        <ul>
+                            <li style="color:#71B247;" th:if="${order.status == 0}">待付款</li>
+                            <li style="color:#71B247;" th:if="${order.status == 1}">已付款</li>
+                            <li style="color:#71B247;" th:if="${order.status == 2}">已发货</li>
+                            <li style="color:#71B247;" th:if="${order.status == 3}">已完成</li>
+                            <li style="color:#71B247;" th:if="${order.status == 4}">已取消</li>
+                            <li style="color:#71B247;" th:if="${order.status == 5}">售后中</li>
+                            <li style="color:#71B247;" th:if="${order.status == 6}">售后完成</li>
+                            <li style="margin:4px 0;" class="hide"><i class="table_i2"></i>跟踪<i class="table_i3"></i>
+                                <div class="hi">
+                                    <div class="p-tit">
+                                        普通快递 运单号:390085324974
+                                    </div>
+                                    <div class="hideList">
+                                        <ul>
+                                            <li>
+                                                [北京市] 在北京昌平区南口公司进行签收扫描,快件已被拍照(您
+                                                的快件已签收,感谢您使用韵达快递)签收
+                                            </li>
+                                            <li>
+                                                [北京市] 在北京昌平区南口公司进行签收扫描,快件已被拍照(您
+                                                的快件已签收,感谢您使用韵达快递)签收
+                                            </li>
+                                            <li>
+                                                [北京昌平区南口公司] 在北京昌平区南口公司进行派件扫描
+                                            </li>
+                                            <li>
+                                                [北京市] 在北京昌平区南口公司进行派件扫描;派送业务员:业务员;联系电话:17319268636
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="tdLi">订单详情</li>
+                        </ul>
+                    </td>
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">
+                        <button>确认收货</button>
+                        <p style="margin:4px 0; ">取消订单</p>
+                        <p>催单</p>
+                    </td>
+                </tr>
+            </table>
+            <div class="order_btm">
+                <div>
+                    <button>上一页</button>
+                    <span>1</span>
+                    <button>下一页</button>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+
+</body>
+<script src="/static/order/list/js/jquery-3.1.1.min.js"></script>
+<script src="/static/order/list/js/index.js"></script>
+
+</html>

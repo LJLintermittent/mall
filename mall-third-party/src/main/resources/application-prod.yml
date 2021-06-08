@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos-service.mall:8848
+    alicloud:
+      access-key: LTAI5tQGwqa9Aoo1wQEey7iQ
+      secret-key: K0cmhle8E0HzPgpw7hNR8IrmlVgSIe
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: mall-ljl
+      mysms:
+        region-id: cn-hangzhou
+        access-key-id: LTAI4G9GNwxYQ5mgDQWpDLiv
+        secret: 8nNOjdtsiPH0fI5Kkr3XBooPr3WUN0
+        sign-name: 李哥说Java
+        template-code: SMS_195861786
+  application:
+    name: mall-third-party
+  redis:
+    host: redis.mall
+    port: 6379
+server:
+  port: 8080

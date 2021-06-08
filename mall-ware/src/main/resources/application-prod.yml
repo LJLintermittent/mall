@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://mysql-master.mall:3306/mall_wms?serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: mall-ware
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos-service.mall:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+server:
+  port: 8080
+logging:
+  level:
+    com.learn: debug

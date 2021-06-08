@@ -16,7 +16,21 @@
         <module>mall-order</module>
         <module>mall-member</module>
         <module>mall-coupon</module>
+        <module>mall-common</module>
+        <module>mall-gateway</module>
+        <module>mall-search</module>
+        <module>mall-third-party</module>
+        <module>mall-auth-server</module>
+        <module>mall-test-sso-client</module>
+        <module>mall-test-sso-client2</module>
+        <module>mall-test-sso-server</module>
+        <module>mall-cart</module>
+        <module>mall-seckill</module>
+
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+
     </modules>
 
-    
+
 </project>

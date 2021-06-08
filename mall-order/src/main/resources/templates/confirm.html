@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <script src="/static/order/confirm/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/order/confirm/css/JD2.css"/>
+    <title>订单结算页</title>
+</head>
+
+<body>
+<!--顶部-->
+<header>
+    <div class="header">
+        <ul class="header-left">
+            <li>
+                <img src="/static/order/confirm/img/header_1.png"/>
+                <a href="http://mall.com">商城首页</a>
+            </li>
+        </ul>
+        <ul class="header-right">
+            <li>[[${session.loginUser==null?'':session.loginUser.nickname}]]
+                <img src="/static/order/confirm/img/03.png" style="margin-bottom: 0px;margin-left3: 3px;"/>
+            </li>
+            <li class="spacer"></li>
+            <li><a href="/static/order/confirm/">我的订单</a>
+            </li>
+
+        </ul>
+        <div style="clear: both;"></div>
+    </div>
+</header>
+<!--logo图片-->
+<div class="top-1">
+    <img style="margin-left: 260px" src="/static/order/confirm/img/logo1.jpg" class="img1"/>
+    <!--右侧绿色-->
+    <img style="margin-left: 230px" src="/static/order/confirm/img/08.png" class="img2"/>
+</div>
+<!--主体部分-->
+
+<div class="section" style="margin-left: 270px;height: 1000px">
+    <!--收货人信息-->
+    <div class="top-2">
+        <span>收货人信息</span>
+        <span style="color: red" th:if="${session.message != null}" th:text="${session.message}"></span>
+        <span>新增收货地址</span>
+    </div>
+    <!--地址-->
+    <div class="top-3 addr-item" th:each="addr:${orderConfirmData.address}">
+        <p th:attr="def=${addr.defaultStatus},addrId=${addr.id}">[[${addr.name}]]</p>
+        <span>[[${addr.name}]] [[${addr.province}]][[${addr.city}]][[${addr.region}]] [[${addr.detailAddress}]] [[${addr.phone}]]</span>
+    </div>
+
+    <!--送货清单-->
+    <h4 class="h4" style="margin-top: 5px;">送货清单</h4>
+    <div class="top_1" style="height: 500px">
+        <div class="to_left">
+            <h5><span class="peisong">配送方式</span><span class="dui"><img
+                    src="/static/order/confirm/img/i_03.png"/> 对应商品</span></h5>
+            <div class="box">
+                Mall电商快递
+            </div>
+            <p class="biao">
+                <span class="til">标 准 达 ：</span>
+                <span class="con">预计 12月16日[今天] 15:00-19:00 送达</span>
+                <a href="/static/order/confirm/#">修改</a>
+            </p>
+            <div class="updata-1">
+                <img src="/static/order/confirm/img/im_06.png"/>
+                <span>标准达</span>
+                <span style="color: black;"> 配送服务全面升级</span>
+            </div>
+            <div class="hh1"></div>
+            <p class="tui">
+                <span class="til">退换无忧：</span>
+                <span class="con">
+							<input type="checkbox"/>
+							自签收后7天内退货，15天内换<span style="font-size: 12px;margin-left: 5px"> ￥ 0.50</span><br/>
+						<span class="nul">货，</span>可享1次上门取件服务 ﹀
+						</span>
+
+            <div class="updata-2">
+                <img src="/static/order/confirm/img/im_11.png"/>
+                <span>标准达运费大促（限自营中小件）</span>
+            </div>
+
+            </p>
+            <p class="kg" style="color:#666666;margin-top: 13px;font-size: 12px">总重量 :<span
+                    style="color:#999999;font-size: 12px">0.095kg</span></p>
+        </div>
+        <div class="to_right" style="height: 500px">
+            <h5>商家：LJLMall电商自营</h5>
+            <!--				<div><button>换购</button><span>已购满20.00元，再加49.90元，可返回购物车领取赠品</span></div>-->
+            <!--图片-->
+            <div class="yun1" th:each="item:${orderConfirmData.items}">
+                <img style="width: 100px;height: 100px" th:src="${item.image}" class="yun"/>
+                <div class="mi">
+                    <p>[[${item.title}]]<span style="color: red;">￥[[${#numbers.formatDecimal(item.price,1,2)}]]</span>
+                        <span>x[[${item.count}]]</span>
+                        <span> [[${orderConfirmData.stock[item.skuId]?"有货":"无货"}]] </span></p>
+                    <p>[[${item.skuAttr}]]</p>
+                    <p class="tui-1"><img src="/static/order/confirm/img/i_07.png"/>支持7天无理由退货</p>
+                </div>
+            </div>
+            <!--				<div class="hh1"></div>-->
+            <!--				<p>退换无忧 <span class="money">￥ 0.00</span></p>-->
+        </div>
+    </div>
+    <div class="xia">
+        <div class="qian">
+            <p class="qian_y">
+                <span>[[${orderConfirmData.count}]]</span>
+                <span>件商品，总商品金额：</span>
+                <span class="rmb">￥[[${#numbers.formatDecimal(orderConfirmData.total,1,2)}]]</span>
+            </p>
+
+            <p class="qian_y">
+                <span>运费： </span>
+                <span class="rmb"> &nbsp ￥<b id="fareEle"></b></span>
+            </p>
+        </div>
+        <div class="yfze">
+            <p class="yfze_a"><span class="z">应付总额：</span>
+                <span class="hq">￥<b id="payPriceEle">[[${#numbers.formatDecimal(orderConfirmData.payPrice,1,2)}]]</b>
+                </span>
+            </p>
+            <p class="yfze_b">
+                寄送至：<span id="receiveAddressEle"></span>
+                收货人：<span id="receiverEle"></span>
+            </p>
+        </div>
+        <form action="http://order.mall.com/submitOrder" method="post">
+            <input type="hidden" name="orderToken" th:value="${orderConfirmData.orderToken}">
+            <input id="addrIdInput" type="hidden" name="addrId">
+            <input id="payPriceInput" type="hidden" name="payPrice">
+            <button class="tijiao" type="submit">提交订单</button>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.header-right li:nth-of-type(6)').hover(function () {
+            $('.header-r-11').css('display', 'block')
+        }, function () {
+            $('.header-r-11').css('display', 'none')
+        })
+        $('.header-right li:nth-of-type(12)').hover(function () {
+            $('.header-r-2').css('display', 'block')
+        }, function () {
+            $('.header-r-2').css('display', 'none')
+        })
+        $('.header-right li:nth-of-type(14)').hover(function () {
+            $('.header-r-3').css('display', 'block')
+        }, function () {
+            $('.header-r-3').css('display', 'none')
+        })
+        $('.header-l-2').hover(function () {
+            $('.header-l-d').css('display', 'block')
+        }, function () {
+            $('.header-l-d').css('display', 'none')
+        })
+        $('.header-r-4').hover(function () {
+            $('.h-r-1').css('display', 'block')
+        }, function () {
+            $('.h-r-1').css('display', 'none')
+        })
+        highLight();
+        getFare($(".addr-item p[def='1']").attr("addrId"));
+    })
+
+    function highLight() {
+        $(".addr-item p").css({"border": "2px solid gray"})
+        $(".addr-item p[def='1']").css({"border": "2px solid red"})
+    }
+
+    $(".addr-item p").click(function () {
+        $(".addr-item p").attr("def", 0);
+        $(this).attr("def", 1);
+        highLight();
+        //获取到当前的地址ID
+        var addrId = $(this).attr("addrId");
+        getFare(addrId);
+
+    })
+
+    function getFare(addrId) {
+        //给表单回填选择的地址
+        $("#addrIdInput").val(addrId);
+        $.get("http://mall.com/api/ware/wareinfo/fare?addrId=" + addrId, function (resp) {
+            console.log(resp)
+            $("#fareEle").text(resp.data.fare);
+            var total = [[${orderConfirmData.total}]];
+            var payPrice = total * 1 + resp.data.fare * 1;
+            $("#payPriceEle").text(payPrice);
+            $("#payPriceInput").val(payPrice);
+            $("#receiveAddressEle").text(resp.data.address.province + " " + resp.data.address.city + " " + resp.data.address.region + " " + resp.data.address.detailAddress);
+            $("#receiverEle").text(resp.data.address.name);
+        });
+    }
+</script>
+</body>
+
+</html>
