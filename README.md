@@ -14,7 +14,7 @@ Mall-LJLintermittent是一套电商系统，包括mall商城系统和mall-admin-
 
 #### 项目演示
 
-由于项目并未部署云服务器上线，所有暂无法提供在线访问，开发完毕的展示图如下: ( **GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall **)
+由于项目并未部署云服务器上线，所有暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
 
 后台管理系统：
 
