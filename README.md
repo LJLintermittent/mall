@@ -16,6 +16,22 @@ Mall-LJLintermittent是一套电商系统，包括mall商城系统和mall-admin-
 
 由于项目并未部署云服务器上线，所有暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
 
+Kubernates集群整合kubesphere可视化管理：
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBbf7593d7459fa775dfd2affcf4b90f73?method=download&shareKey=476e359045d9c470df76d13f5da8d8b9)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBe894b5bc73812399678bb0827ffe8d10?method=download&shareKey=bd5074dd484b91b0edcc84f6ddbde6d4)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEB247be7fc38e621ea421da101d05634f8?method=download&shareKey=cb9c209e46625775a68ff06bf90f54e9)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEB2e151079731eb72754d8b195c81caeab?method=download&shareKey=b76a1c1f54627182c8d7dc61bc94b998)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEB3b51d51c2b410882f25d627f3791401b?method=download&shareKey=b38a4f64a4f46a5bd75e656c2cd896f7)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBa97db931858ab77aba83f7d634ff486a?method=download&shareKey=7a600e66286f41fb2921096351f2f313)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEB82de1d891ce4190fe44ccd5bdd68ac51?method=download&shareKey=f0999fdf438237a721b952f8c90de58a)
+
 后台管理系统：
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBd99b4e3cfa32133787c03de2fe39e5c5?method=download&shareKey=2afa20e682cc807410dbe3ac753db0c0)
