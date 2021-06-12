@@ -16,7 +16,7 @@ Mall-LJLintermittent是一套电商系统，包括mall商城系统和mall-admin-
 
 由于项目并未部署云服务器上线，所有暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
 
-Kubernates集群整合kubesphere可视化管理：
+Kubernetes集群整合kubesphere可视化管理：
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBbf7593d7459fa775dfd2affcf4b90f73?method=download&shareKey=476e359045d9c470df76d13f5da8d8b9)
 
