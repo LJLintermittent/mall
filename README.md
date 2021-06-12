@@ -12,11 +12,23 @@ Mall-LJLintermittent是一套电商系统，包括mall商城系统和mall-admin-
 
 商城前台系统：在后台管理系统技术栈的基础上加了Redis实现缓存，分布式信号量，分布式锁，存放共享Session等功能，使用RabbitMQ实现流量削峰，解耦，使用ElasticSearch做前台商城的商品检索与上架商品的存储，kibana可视化管理。使用SpringCloud及SpringCloudAlibaba服务进行微服务治理，如Sentinel降级，熔断，Nacos服务注册与发现，配置中心，Sleuth+zipkin服务链路追踪，短信验证码服务使用阿里云提供的短信服务，图片文件上传使用阿里云Oss对象存储，订单支付业务使用支付宝沙箱支付，支付宝支付成功的回调使用哲西云的内网穿透服务。
 
+系统架构图：
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBe6432858caeb0ddb75433a1f6b2c1037?method=download&shareKey=a66cfb247580976bee9355f94039fcb1)
+
+服务架构图：
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBfdcf1a98ca94078c456718355a5d9d8e?method=download&shareKey=f935cb41d80c6b2e417d3fe1f35bb61f)
+
+服务组织图：
+
+![image](https://note.youdao.com/yws/api/personal/file/WEB839873a3b074cd53bf8a8d770113b53f?method=download&shareKey=391696f3439fa07040410acd1f17b5d6)
+
 #### 项目演示
 
-由于项目并未部署云服务器上线，所有暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
+由于项目并未在云服务器部署上线，所以暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
 
-Kubernetes集群整合kubesphere可视化管理：
+Kubernetes集群整合kubeSphere可视化管理：
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBbf7593d7459fa775dfd2affcf4b90f73?method=download&shareKey=476e359045d9c470df76d13f5da8d8b9)
 
