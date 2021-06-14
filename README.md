@@ -52,6 +52,10 @@ Kubernetes集群整合kubeSphere可视化管理：
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%A7%84%E6%A0%BC%E5%8F%82%E6%95%B0%E9%A1%B5.png)
 
+![image](https://note.youdao.com/yws/api/personal/file/WEB4b500524b5e0384176c1a811dc044b35?method=download&shareKey=3a536cc3bd9d260f8ef8ee9fd35e309b)
+
+![image](https://note.youdao.com/yws/api/personal/file/WEBfbff1d912387ef9ae789bb06682cc3da?method=download&shareKey=0d570b3922a6c90608646a56311af787)
+
 前台商城系统首页：
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%9F%8E%E9%A6%96%E9%A1%B5.png)
@@ -112,15 +116,9 @@ Kubernetes集群整合kubeSphere可视化管理：
 
   ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/nacos.png)
 
-  
-
-  
-
 * Sentinel
 
-  ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/sentinel.png)
-
-  
+  ![image](https://note.youdao.com/yws/api/personal/file/WEBe64e01567f138edb024090b52440e122?method=download&shareKey=ab4eb4d53fb5d7e174d2ba5f95275474)
 
 * Zipkin
 
