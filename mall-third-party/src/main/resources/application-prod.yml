@@ -4,15 +4,15 @@ spring:
       discovery:
         server-addr: nacos-service.mall:8848
     alicloud:
-      access-key: LTAI5tQGwqa9Aoo1wQEey7iQ
-      secret-key: K0cmhle8E0HzPgpw7hNR8IrmlVgSIe
+      access-key: your access-key
+      secret-key: your secret-key
       oss:
-        endpoint: oss-cn-beijing.aliyuncs.com
-        bucket: mall-ljl
+        endpoint: your endpoint
+        bucket: your bucket
       mysms:
         region-id: cn-hangzhou
-        access-key-id: LTAI4G9GNwxYQ5mgDQWpDLiv
-        secret: 8nNOjdtsiPH0fI5Kkr3XBooPr3WUN0
+        access-key-id: your access-key-id
+        secret: your secret
         sign-name: 李哥说Java
         template-code: SMS_195861786
   application:

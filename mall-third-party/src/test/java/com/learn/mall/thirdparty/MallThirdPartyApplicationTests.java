@@ -45,7 +45,7 @@ public class MallThirdPartyApplicationTests {
      */
     @Test
     public void testSmsApi(){
-        smsService.sendSms("18066550996","11111");
+        smsService.sendSms("your phoneNumber","11111");
     }
 
     /**
@@ -54,14 +54,14 @@ public class MallThirdPartyApplicationTests {
     @Test
     public void testSms() {
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou"
-                , "LTAI4G9GNwxYQ5mgDQWpDLiv", "8nNOjdtsiPH0fI5Kkr3XBooPr3WUN0");
+                , "your accessKeyId", "your secret");
         IAcsClient client = new DefaultAcsClient(profile);
         CommonRequest request = new CommonRequest();
         request.setSysMethod(MethodType.POST);
         request.setSysDomain("dysmsapi.aliyuncs.com");
         request.setSysVersion("2017-05-25");
         request.setSysAction("SendSms");
-        request.putQueryParameter("PhoneNumbers", "18066550996");
+        request.putQueryParameter("PhoneNumbers", "your phoneNumber");
         request.putQueryParameter("SignName", "李哥说Java");
         request.putQueryParameter("TemplateCode", "SMS_195861786");
 
@@ -84,7 +84,7 @@ public class MallThirdPartyApplicationTests {
     @Test
     public void testOss() throws FileNotFoundException {
         FileInputStream fileInputStream = new FileInputStream("C:\\Users\\20127\\Desktop\\zhou.png");
-        ossClient.putObject("mall-ljl", "zhouyang.png", fileInputStream);
+        ossClient.putObject("your bucktName", "zhouyang.png", fileInputStream);
         ossClient.shutdown();
         System.out.println("上传成功...");
     }
