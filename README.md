@@ -32,26 +32,27 @@
 
 ## 技术选型（仅列部分重要组件）
 
-|      技术      |        版本        |              说明               |
-| :------------: | :----------------: | :-----------------------------: |
-|      Java      |       JDK1.8       |          后端开发语言           |
-|     Vue.JS     |        2.x         |          渐进式JS框架           |
-|     Maven      |       3.5.4        |          项目构建工具           |
-|  Spring Boot   |       2.1.8        |           MVC核心框架           |
-|  MyBatis-Plus  |       3.2.0        |             ORM框架             |
-| validation-api |    2.0.1.Final     |            验证框架             |
-|    Redisson    |       3.12.0       | 对redis进行封装、集成分布式锁等 |
-|     Redis      |        4.0         |           内存数据库            |
-|     Nacos      |       1.1.3        |       服务注册与配置中心        |
-|    Gateway     | 同Spring Cloud版本 |             API网关             |
-|    Sentinel    | 同Spring Cloud版本 |       服务熔断&限流&降级        |
-| Seluth+Zipkin  | 同Spring Cloud版本 |            链路追踪             |
-|  SpringCloud   |   Greenwich.SR3    |     微服务治理综合解决方案      |
-| SpringSession  | 同Spring Boot版本  |          分布式Session          |
-|  SpringCache   | 同Spring Boot版本  |         基于注解的缓存          |
-| ElasticSearch  |       7.4.2        |         分布式检索引擎          |
-|    RabbitMQ    |     management     |            消息队列             |
-|     MySQL      |        5.7         | OLTP应用数据库(InnoDB存储引擎)  |
+|      技术      |        版本        |                说明                |
+| :------------: | :----------------: | :--------------------------------: |
+|      Java      |       JDK1.8       |            后端开发语言            |
+|     Vue.JS     |        2.x         |            渐进式JS框架            |
+|     Maven      |       3.5.4        |            项目构建工具            |
+|  Spring Boot   |       2.1.8        |            MVC核心框架             |
+|  MyBatis-Plus  |       3.2.0        |              ORM框架               |
+| validation-api |    2.0.1.Final     |              验证框架              |
+|    Redisson    |       3.12.0       |  对redis进行封装、集成分布式锁等   |
+|     Redis      |        6.x         |             内存数据库             |
+|     Nacos      |       1.1.3        |         服务注册与配置中心         |
+|    Gateway     | 同Spring Cloud版本 |              API网关               |
+|    Sentinel    | 同Spring Cloud版本 |         服务熔断&限流&降级         |
+| Seluth+Zipkin  | 同Spring Cloud版本 |              链路追踪              |
+|  SpringCloud   |   Greenwich.SR3    |       微服务治理综合解决方案       |
+| SpringSession  | 同Spring Boot版本  |           分布式Session            |
+|  SpringCache   | 同Spring Boot版本  |           基于注解的缓存           |
+| ElasticSearch  |       7.4.2        |           分布式检索引擎           |
+|    RabbitMQ    |     management     |              消息队列              |
+|     MySQL      |        5.7         |   OLTP应用数据库(InnoDB存储引擎)   |
+|     Nginx      |        1.10        | 反向代理服务器，负载均衡，动静分离 |
 
 ## 软件架构
 
