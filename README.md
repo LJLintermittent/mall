@@ -1,8 +1,12 @@
-#                                                  																						《mall电商》
+![fFcOyt.png](https://z3.ax1x.com/2021/08/04/fFcOyt.png)
+
+![fFczTS.png](https://z3.ax1x.com/2021/08/04/fFczTS.png)
+
+[![fFgCWj.png](https://z3.ax1x.com/2021/08/04/fFgCWj.png)](https://imgtu.com/i/fFgCWj)
 
 ## 介绍
 
-《mall电商》是一个小型商城系统，包括mall商城前台系统和mall-admin-vue商城后台管理系统。
+《mall电商》是一套商城系统，包括mall商城前台系统和mall-admin-vue商城后台管理系统。
 
 《mall电商》致力于打造一套集商品系统，检索系统，认证系统，库存系统，订单系统，秒杀系统，第三方服务系统(短信验证码，支付宝沙箱支付等)，网关路由系统为一体的分布式微服务架构的前后端分离的开源商城系统。
 
@@ -41,7 +45,7 @@
 |  MyBatis-Plus  |       3.2.0        |              ORM框架               |
 | validation-api |    2.0.1.Final     |              验证框架              |
 |    Redisson    |       3.12.0       |  对redis进行封装、集成分布式锁等   |
-|     Redis      |        6.x         |             内存数据库             |
+|     Redis      |       6.0.10       |             内存数据库             |
 |     Nacos      |       1.1.3        |         服务注册与配置中心         |
 |    Gateway     | 同Spring Cloud版本 |              API网关               |
 |    Sentinel    | 同Spring Cloud版本 |         服务熔断&限流&降级         |
@@ -115,7 +119,7 @@
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%9F%8E%E9%A6%96%E9%A1%B5.png)
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%9F%8E%E9%A6%96%E9%A1%B5%E5%AE%8C%E6%95%B4%E5%9B%BE.png)
+![fFgy0f.png](https://z3.ax1x.com/2021/08/04/fFgy0f.png)
 
 * 商品检索页
 
