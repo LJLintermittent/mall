@@ -1,3 +1,5 @@
+**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee浏览  https://gitee.com/LJLintermittent/mall**
+
 ![image](https://note.youdao.com/yws/api/personal/file/WEB07397e2486b3342a3167c5babe8b16a0?method=download&shareKey=f7ec84088f192655eb1858002cadebac)
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBfee07438362708d88e2b89d1f5cae61a?method=download&shareKey=445f25122540e93dcc6c42c3c5034e9b)
@@ -85,7 +87,7 @@
 
 ## 项目演示
 
-由于项目并未在云服务器部署上线，所以暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee查看  https://gitee.com/LJLintermittent/mall**)
+由于项目并未在云服务器部署上线，所以暂无法提供在线访问，开发完毕的展示图如下: (**GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee浏览  https://gitee.com/LJLintermittent/mall**)
 
 * Kubernetes集群整合kubeSphere可视化管理
 
