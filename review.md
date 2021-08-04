@@ -62,3 +62,97 @@
 
 网关作为所有流量的统一入口，抽象了所有微服务中都需要的功能，提供了客户端负载均衡，服务自动熔断，灰度发布，统一认证，限流流控，日志统计等丰富的功能。作为所有微服务统一的入口，解决API的管理问题。
 
+### @Mapper与@MapperScan注解
+
+@Mapper：
+作用：在接口类上添加了@Mapper，并不是在编译期间生成实现类，而是在运行时通过动态代理生成这个接口的实现类
+
+如果想要每个接口都要变成实现类，那么需要在每个接口类上加上@Mapper注解，比较麻烦，解决这个问题用@MapperScan
+
+@MapperScan：
+MapperScan注解被MapperScannerRegistrar的registerBeanDefinitions方法所引用，目的是将basePackages定义的所有包下的所有接口生成一个org.apache.ibatis.binding.MapperProxy代理bean，,无论这个接口你是用来干嘛的，他都会生成一个Bean，这样就可以用@Autowired注解进行装配使用了。
+添加位置：是在Springboot启动类上面添加
+
+~~~java
+ public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
+    AnnotationAttributes mapperScanAttrs = AnnotationAttributes
+        .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
+    if (mapperScanAttrs != null) {
+      registerBeanDefinitions(mapperScanAttrs, registry, generateBaseBeanName(importingClassMetadata, 0));
+    }
+  }
+
+
+ void registerBeanDefinitions(AnnotationAttributes annoAttrs, BeanDefinitionRegistry registry, String beanName) {
+
+    BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(MapperScannerConfigurer.class);
+    builder.addPropertyValue("processPropertyPlaceHolders", true);
+
+    Class<? extends Annotation> annotationClass = annoAttrs.getClass("annotationClass");
+    if (!Annotation.class.equals(annotationClass)) {
+      builder.addPropertyValue("annotationClass", annotationClass);
+    }
+
+    Class<?> markerInterface = annoAttrs.getClass("markerInterface");
+    if (!Class.class.equals(markerInterface)) {
+      builder.addPropertyValue("markerInterface", markerInterface);
+    }
+
+    Class<? extends BeanNameGenerator> generatorClass = annoAttrs.getClass("nameGenerator");
+    if (!BeanNameGenerator.class.equals(generatorClass)) {
+      builder.addPropertyValue("nameGenerator", BeanUtils.instantiateClass(generatorClass));
+    }
+
+    Class<? extends MapperFactoryBean> mapperFactoryBeanClass = annoAttrs.getClass("factoryBean");
+    if (!MapperFactoryBean.class.equals(mapperFactoryBeanClass)) {
+      builder.addPropertyValue("mapperFactoryBeanClass", mapperFactoryBeanClass);
+    }
+
+    String sqlSessionTemplateRef = annoAttrs.getString("sqlSessionTemplateRef");
+    if (StringUtils.hasText(sqlSessionTemplateRef)) {
+      builder.addPropertyValue("sqlSessionTemplateBeanName", annoAttrs.getString("sqlSessionTemplateRef"));
+    }
+
+    String sqlSessionFactoryRef = annoAttrs.getString("sqlSessionFactoryRef");
+    if (StringUtils.hasText(sqlSessionFactoryRef)) {
+      builder.addPropertyValue("sqlSessionFactoryBeanName", annoAttrs.getString("sqlSessionFactoryRef"));
+    }
+
+    List<String> basePackages = new ArrayList<>();
+    basePackages.addAll(
+        Arrays.stream(annoAttrs.getStringArray("value")).filter(StringUtils::hasText).collect(Collectors.toList()));
+
+    basePackages.addAll(Arrays.stream(annoAttrs.getStringArray("basePackages")).filter(StringUtils::hasText)
+        .collect(Collectors.toList()));
+
+     							     basePackages.addAll(Arrays.stream(annoAttrs.getClassArray("basePackageClasses")).map(ClassUtils::getPackageName)
+        .collect(Collectors.toList()));
+
+    String lazyInitialization = annoAttrs.getString("lazyInitialization");
+    if (StringUtils.hasText(lazyInitialization)) {
+      builder.addPropertyValue("lazyInitialization", lazyInitialization);
+    }
+
+    builder.addPropertyValue("basePackage", StringUtils.collectionToCommaDelimitedString(basePackages));
+
+    registry.registerBeanDefinition(beanName, builder.getBeanDefinition());
+
+  }
+
+~~~
+
+注意：
+
+MapperScan用来扫描定义包下的所有的接口，无论这个接口你的设计目的是用来干嘛的，他都会生成一个bean（经测试，@Service实现的接口和@FeignClient注解的接口，即使他已经都相关的程序注册了一个bean，MapperScan还是会将这些接口再注册一个bean，导致出错）
+
+@Mapper注解源码里面空空如也，什么也没有(只有一行注释)
+
+那么它的作用是什么？
+
+```java
+@MapperScan(value = "com.learn.mall.product.dao", annotationClass = Mapper.class)
+```
+
+指定扫描这个包下带Mapper注解的接口，然后生成代理Bean，从而不会由于多次注册一个接口的Bean而报错
+
+Mapper注解就相当于是一个标志，用法目前也看到了这处用法

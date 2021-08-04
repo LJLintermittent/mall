@@ -1,5 +1,6 @@
 package com.learn.mall.product;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @SpringBootApplication
-@MapperScan("com.learn.mall.product.dao")
+@MapperScan(value = "com.learn.mall.product.dao", annotationClass = Mapper.class)
 @EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.learn.mall.product.feign")
 @EnableCaching
