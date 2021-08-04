@@ -155,4 +155,13 @@ MapperScan用来扫描定义包下的所有的接口，无论这个接口你的�
 
 指定扫描这个包下带Mapper注解的接口，然后生成代理Bean，从而不会由于多次注册一个接口的Bean而报错
 
-Mapper注解就相当于是一个标志，用法目前也看到了这处用法
+Mapper注解就相当于是一个标志，可能在mybatis中会有拦截器来处理带有这个注解的接口，为他们生成动态代理类。
+
+## **classpath**
+
+在springboot项目中，classpath路径指的是resources文件夹下的目录
+
+classpath 和 classpath* 区别： 
+classpath：只会到你的class路径中查找找文件; 
+classpath*：不仅包含class路径，还包括jar文件中(class路径)进行查找. 
+
