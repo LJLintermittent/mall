@@ -1,6 +1,6 @@
 **GitHub访问可能会由于网络原因导致图片加载不完整，建议使用Gitee浏览  https://gitee.com/LJLintermittent/mall**
 
-![image](https://note.youdao.com/yws/api/personal/file/WEB07397e2486b3342a3167c5babe8b16a0?method=download&shareKey=f7ec84088f192655eb1858002cadebac)
+![image](https://note.youdao.com/yws/api/personal/file/WEBf49d43562091220a57af5fbcac7526c4?method=download&shareKey=b989898ff1d12286b642c0697caa06a8)
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBfee07438362708d88e2b89d1f5cae61a?method=download&shareKey=445f25122540e93dcc6c42c3c5034e9b)
 
@@ -107,7 +107,7 @@
 
 * 后台管理系统
 
-![image](https://note.youdao.com/yws/api/personal/file/WEB07397e2486b3342a3167c5babe8b16a0?method=download&shareKey=f7ec84088f192655eb1858002cadebac)
+![image](https://note.youdao.com/yws/api/personal/file/WEBf49d43562091220a57af5fbcac7526c4?method=download&shareKey=b989898ff1d12286b642c0697caa06a8)
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBd99b4e3cfa32133787c03de2fe39e5c5?method=download&shareKey=2afa20e682cc807410dbe3ac753db0c0)
 
