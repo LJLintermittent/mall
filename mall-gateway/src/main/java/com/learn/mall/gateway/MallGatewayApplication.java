@@ -18,6 +18,19 @@ public class MallGatewayApplication {
      * 断言一般作为路径来源的检测，从而根据路径来源，将请求分发给不同的微服务
      * 过滤器可以做 请求头的添加，路径重写等功能
      * 本项目中主要用过滤器做路径重写，从而将请求转换为满足要求的请求格式
+     * 网关路径重写需求实例：
+     * renrenfast后台管理系统微服务的登录验证码原生接口格式：http://localhost:8080/renrenfast/captcha.jpg/xxx...
+     * 因为我们改了基准请求路径，所以网关收到的请求如下：
+     * http://localhost:88/api/captcha.jpg/xxx....
+     * 根据断言规则匹配: /api/**  ,匹配成功，按理说应该发送到了 lb://renren-fast 微服务
+     * 但是这样子它会先去注册中心找到renren-fast的地址， 假设 http://renrenfast:8090/api/captcha.jpg/xxx....
+     * 也就是说，不做路径重写的话相当于我们前端人为地破坏了原生路径，当然就请求不过去
+     *
+     * 路径重写案例：
+     * RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+     * 意思是：/api/xxx  ->>>> /renren-fast/xxx
+     * http://renrenfast:8090/api/captcha.jpg/xxx....
+     * http://renrenfast:8090/renren-fast/captcha.jpg/xxx....
      */
     public static void main(String[] args) {
         SpringApplication.run(MallGatewayApplication.class, args);
