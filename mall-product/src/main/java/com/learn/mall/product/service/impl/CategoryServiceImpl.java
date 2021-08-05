@@ -413,6 +413,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<CategoryEntity> children = all.stream().filter((categoryEntity) -> {
             return categoryEntity.getParentCid().equals(root.getCatId());
         }).map((categoryEntity) -> {
+            //此处是一个递归调用，一直查找到没有分类为止，不只是在这里面查找一次
             categoryEntity.setChildren(getChildren(categoryEntity, all));
             return categoryEntity;
         }).sorted((menu1, menu2) -> {
