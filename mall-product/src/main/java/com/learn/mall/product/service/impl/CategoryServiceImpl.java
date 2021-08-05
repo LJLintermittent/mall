@@ -60,8 +60,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     /**
      * 查出所有商品分类（三级分类），以树形结构返回
-     *
-     * @return 商品三级分类
      */
     @Override
     public List<CategoryEntity> listWithTree() {
@@ -405,11 +403,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
-     * 递归查找当前菜单的子菜单
+     * 递归查找当前分类的子分类
      *
-     * @param root 当前菜单
-     * @param all  所有菜单
-     * @return 当前菜单在所有菜单中查找到的子菜单
+     * @param root 当前分类（某一个）
+     * @param all  所有分类（所有）
+     * @return 当前分类在所有分类中查找到的子分类
      */
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
         List<CategoryEntity> children = all.stream().filter((categoryEntity) -> {

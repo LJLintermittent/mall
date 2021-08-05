@@ -15,10 +15,17 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:38:20
  */
+@SuppressWarnings("all")
 public interface CategoryService extends IService<CategoryEntity> {
 
+    /**
+     * 分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 查询三级分类（封装成树形数据结构展示）
+     */
     List<CategoryEntity> listWithTree();
 
     void removeMenusByIds(List<Long> asList);

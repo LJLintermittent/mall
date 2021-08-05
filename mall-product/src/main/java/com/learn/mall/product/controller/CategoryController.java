@@ -26,21 +26,24 @@ import javax.lang.model.type.ArrayType;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:38:20
  */
+@SuppressWarnings("all")
 @RestController
 @RequestMapping("product/category")
 public class CategoryController {
+
     @Autowired
     private CategoryService categoryService;
 
     /**
      * 查出所有商品分类（三级分类），以树形结构显示
+     *
+     * @RequestMapping注解:如果不指定method参数，它的源码里也没有给method参数默认值，那么get，post等等restfulAPI都可以实现
      */
     @RequestMapping("/list/tree")
     public R list() {
         List<CategoryEntity> entities = categoryService.listWithTree();
         return R.ok().put("data", entities);
     }
-
 
     /**
      * 信息
