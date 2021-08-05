@@ -51,9 +51,13 @@ public class CouponController {
      * 例子：开发环境的配置空间，测试环境的，生产环境的（dev,test,prod）
      * 在配置中心中选择特定的命名空间，比如有开发环境的配置，测试环境的配置等
      * spring.cloud.nacos.config.namespace=94faffaa-9692-44b7-9e98-72cc5891c301
+     * 除了开发环境之间的隔离可以用名称空间，每一个微服务还可以做名称空间的隔离
      * 2）.配置集
+     * 所有的配置的集合叫配置集
      * 3）.配置集ID
+     * DataID 类似于springboot项目中的配置文件名
      * 4）.配置分组
+     * 在真实开发中：可以使用名称空间来划分微服务，每个微服务在用配置分组来区分dev，test，prod开发环境
      */
     @Value("${coupon.user.name}")
     private String name;
