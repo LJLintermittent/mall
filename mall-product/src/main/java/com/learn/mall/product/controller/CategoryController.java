@@ -2,21 +2,16 @@ package com.learn.mall.product.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.learn.mall.product.entity.CategoryEntity;
 import com.learn.mall.product.service.CategoryService;
-import com.learn.common.utils.PageUtils;
 import com.learn.common.utils.R;
-
-import javax.lang.model.type.ArrayType;
 
 
 /**
@@ -36,8 +31,8 @@ public class CategoryController {
 
     /**
      * 查出所有商品分类（三级分类），以树形结构显示
-     *
-     * @RequestMapping注解:如果不指定method参数，它的源码里也没有给method参数默认值，那么get，post等等restfulAPI都可以实现
+     * RequestMapping注解:
+     * 如果不指定method参数，它的源码里也没有给method参数默认值，那么get，post等等restfulAPI都可以实现
      */
     @RequestMapping("/list/tree")
     public R list() {
@@ -49,10 +44,8 @@ public class CategoryController {
      * 信息
      */
     @RequestMapping("/info/{catId}")
-    //@RequiresPermissions("product:category:info")
     public R info(@PathVariable("catId") Long catId) {
         CategoryEntity category = categoryService.getById(catId);
-
         return R.ok().put("data", category);
     }
 
@@ -60,10 +53,8 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:category:save")
     public R save(@RequestBody CategoryEntity category) {
         categoryService.save(category);
-
         return R.ok();
     }
 
@@ -71,7 +62,6 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:category:update")
     public R update(@RequestBody CategoryEntity category) {
         categoryService.updateDetails(category);
         return R.ok();
@@ -88,11 +78,19 @@ public class CategoryController {
 
     /**
      * 删除
+     * TODO:@RequestBody与@RequestParam注解作用
+     * 我们的接口如果使用Json字符串来传参，而不是 x-www-form-urlencoded 类型，因为key-value有局限性
+     * key-value无法测试批量操作数据的接口
+     * 这时候就需要使用@RequestBody，这个注解表示接收到的参数来自requestBody中，也就是请求体中，一般用来处理
+     * content-type不是application/x-www-form-urlencoded编码格式的数据，比如application/json、application/xml等类型的数据
+     * 对于application/json类型的数据而言，使用注解@RequestBody可以将body里面所有的json数据传到后端，后端再进行解析
+     * 常用于POST请求
+     * 而@RequestParam注解：接收的参数来自requestHeader中，也就是请求头中。常用于GET请求
+     * 比如说以下这种url，在接口中需要对参数String author，String type加上@RequestParam注解，表示来自url中的key-value
+     * http://localhost:8081/spring-boot-study/novel/findByAuthorAndType?author=唐家三少&type=已完结
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds) {
-//        categoryService.removeByIds(Arrays.asList(catIds));
         categoryService.removeMenusByIds(Arrays.asList(catIds));
         return R.ok();
     }
