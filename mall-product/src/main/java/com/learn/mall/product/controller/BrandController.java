@@ -1,6 +1,7 @@
 package com.learn.mall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import com.learn.common.valid.AddGroup;
 import com.learn.common.valid.UpdateGroup;
 import com.learn.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import com.learn.mall.product.entity.BrandEntity;
 import com.learn.mall.product.service.BrandService;
 import com.learn.common.utils.PageUtils;
 import com.learn.common.utils.R;
+
+import javax.validation.Valid;
 
 
 /**
@@ -56,7 +60,6 @@ public class BrandController {
     @RequestMapping("/info/{brandId}")
     public R info(@PathVariable("brandId") Long brandId) {
         BrandEntity brand = brandService.getById(brandId);
-
         return R.ok().put("brand", brand);
     }
 
@@ -94,6 +97,25 @@ public class BrandController {
     public R delete(@RequestBody Long[] brandIds) {
         brandService.removeByIds(Arrays.asList(brandIds));
         return R.ok();
+    }
+
+    /**
+     * 使用BindingResult的接口写法（不推荐使用，太繁琐，应该使用全局统一异常处理）
+     */
+    @RequestMapping("/saveTest")
+    public R saveTest(@Valid @RequestBody BrandEntity brand, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> map = new HashMap<>(16);
+            result.getFieldErrors().forEach(item -> {
+                String message = item.getDefaultMessage();
+                String field = item.getField();
+                map.put(field, message);
+            });
+            return R.error(400, "提交的数据不合法").put("data", map);
+        } else {
+            brandService.save(brand);
+            return R.ok();
+        }
     }
 
 }

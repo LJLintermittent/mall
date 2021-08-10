@@ -21,13 +21,14 @@ import java.util.Map;
  */
 @Slf4j
 @RestControllerAdvice(basePackages = "com.learn.mall.product.controller")
+//这里由于异常信息我们都需要以JSON的形式返回出去，所以要加@ResponseBody注解，这里直接使用@RestControllerAdvice
 public class MallExceptionControllerAdvice {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidException(MethodArgumentNotValidException e) {
-        log.error(e.getMessage());
+        log.error("数据校验出现异常{},异常类型{}" + e.getMessage(), e.getClass());
         BindingResult result = e.getBindingResult();
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(16);
         result.getFieldErrors().forEach((item) -> {
             map.put(item.getField(), item.getDefaultMessage());
         });
