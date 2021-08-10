@@ -15,10 +15,12 @@ import java.lang.annotation.*;
 
 /**
  * 自定义JSR303校验注解
- * 作用： 判断传进来的值是否是规定的值 （integer类型）
+ * 作用:判断传进来的值是否是规定的值 （Integer类型）
  *
- * @Constraint(validatedBy = {ListValueConstraintValidator.class}) 此处可以指定多个校验器进行传入不同泛型的校验
+ * @Constraint(validatedBy = {ListValueConstraintValidator.class})
+ * 此处可以指定多个校验器进行传入不同泛型的校验
  */
+@SuppressWarnings("all")
 @Documented
 @Constraint(validatedBy = {ListValueConstraintValidator.class})
 @Target({ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})

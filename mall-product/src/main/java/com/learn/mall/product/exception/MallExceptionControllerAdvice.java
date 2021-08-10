@@ -21,8 +21,13 @@ import java.util.Map;
  */
 @Slf4j
 @RestControllerAdvice(basePackages = "com.learn.mall.product.controller")
+@SuppressWarnings("all")
 //这里由于异常信息我们都需要以JSON的形式返回出去，所以要加@ResponseBody注解，这里直接使用@RestControllerAdvice
 public class MallExceptionControllerAdvice {
+
+    /**
+     * @RestControllerAdvice与@ExceptionHandler注解是SprngMVC中与异常捕获与处理相关的注解
+     */
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidException(MethodArgumentNotValidException e) {

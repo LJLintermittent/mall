@@ -42,6 +42,11 @@ public class BrandEntity implements Serializable {
      * 1.使用@Validated注解标注在controller方法的参数前面（代替了@valid，因为这个是规范，功能有限）
      * 2.使用@Validated注解中的group属性指定校验分组，校验分组里面传的是空接口类型
      * 3.在JavaBean中的校验注解上指定groups属性的，填入空接口类型
+     *
+     * 自定义校验注解：
+     * 1.编写自定义校验注解
+     * 2.编写自定义校验器
+     * 3.两者关联
      */
 
     private static final long serialVersionUID = 1L;
