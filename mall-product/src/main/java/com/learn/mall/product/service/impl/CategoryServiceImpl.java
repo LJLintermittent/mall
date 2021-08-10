@@ -77,14 +77,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
-     * 批量删除菜单
-     *
-     * @param asList 需要被删除的菜单集合
+     * 根据分类id来批量删除分类
+     * 使用逻辑删除以后，sql语句会从delete改变为：
+     * update 表名 set 列名(逻辑删除字段) = 0 where xxx = xxx and 列名(逻辑删除字段) = 1
      */
     @Override
     public void removeMenusByIds(List<Long> asList) {
-        // TODO 检查当前删除的菜单，是否被其他地方引用
-
         baseMapper.deleteBatchIds(asList);
     }
 

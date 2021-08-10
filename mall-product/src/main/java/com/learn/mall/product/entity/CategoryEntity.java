@@ -20,6 +20,7 @@ import lombok.Data;
  */
 @Data
 @TableName("pms_category")
+@SuppressWarnings("all")
 public class CategoryEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -42,8 +43,8 @@ public class CategoryEntity implements Serializable {
     private Integer catLevel;
     /**
      * 是否显示[0-不显示，1显示]
+     * value: 默认逻辑未删除值  delval: 默认逻辑删除值
      */
-    // value: 默认逻辑未删除值  delval: 默认逻辑删除值
     @TableLogic(value = "1", delval = "0")
     private Integer showStatus;
     /**

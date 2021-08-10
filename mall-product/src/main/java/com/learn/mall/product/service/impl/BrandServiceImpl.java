@@ -21,10 +21,16 @@ import org.springframework.util.StringUtils;
 
 
 @Service("brandService")
+@SuppressWarnings("all")
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
+    /**
+     * 数据库中pms_brand表中的name字段加上了普通索引：create index idx_pms_brand_name on pms_brand(name);
+     * 在使用like模糊查询时，如果只查询name字段，那么sql语句执行类型从ALL优化到了TYPE
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         String key = (String) params.get("key");
@@ -47,15 +53,12 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         if (!StringUtils.isEmpty(brand.getName())) {
             //同步更新其他关联表中的数据
             categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
-            //TODO 更新其他关联表
         }
     }
 
     @Override
     public List<BrandEntity> getBrandsByIds(List<Long> brandIds) {
-
         return baseMapper.selectList(new QueryWrapper<BrandEntity>().in("brand_id", brandIds));
-
     }
 
 }

@@ -84,10 +84,13 @@ public class CategoryController {
      * 这时候就需要使用@RequestBody，这个注解表示接收到的参数来自requestBody中，也就是请求体中，一般用来处理
      * content-type不是application/x-www-form-urlencoded编码格式的数据，比如application/json、application/xml等类型的数据
      * 对于application/json类型的数据而言，使用注解@RequestBody可以将body里面所有的json数据传到后端，后端再进行解析
-     * 常用于POST请求
+     * 常用于POST请求，springmvc会将请求体中的json数据转换为对应的对象
      * 而@RequestParam注解：接收的参数来自requestHeader中，也就是请求头中。常用于GET请求
      * 比如说以下这种url，在接口中需要对参数String author，String type加上@RequestParam注解，表示来自url中的key-value
      * http://localhost:8081/spring-boot-study/novel/findByAuthorAndType?author=唐家三少&type=已完结
+     * <p>
+     * 如果使用的是x-www-form-urlencoded格式，在浏览器控制台的network中显示有form data部分
+     * 而如果使用的是application/json格式，在浏览器控制台的network中显示有request payload部分
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] catIds) {
