@@ -24,6 +24,7 @@ import java.util.Map;
  * @version 1.0
  */
 @RestController
+@SuppressWarnings("all")
 public class OssController {
 
     @Autowired
@@ -36,6 +37,14 @@ public class OssController {
     @Value("${spring.cloud.alicloud.access-key}")
     private String accessId;
 
+    /**
+     * TODO: OSS对象存储使用 服务端签名后直传的方式
+     * 前端在点击上传按钮后，会调用上传的JS方法，上传的JS方法中有一个beforeUpload方法
+     * 在这个方法里面，前端会向服务端发送一个policy()方法的请求，问服务端拿到OSS的签名
+     * 前端拿到签名后在直接向OSS的阿里云服务器发送上传请求
+     * 客户端会拿着从服务端获得的签名数据和要上传的文件，一起去请求以下这个地址，准备上传，注意：这里也有跨域问题！！！
+     * 例如：http://LJL-mall.oss-cn-beijing.aliyuncs.com/
+     */
     @RequestMapping("/oss/policy")
     public R policy() {
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
@@ -74,7 +83,7 @@ public class OssController {
         } finally {
             ossClient.shutdown();
         }
-        return R.ok().put("data",respMap);
+        return R.ok().put("data", respMap);
     }
 
 

@@ -90,6 +90,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
+        <!--这里注释掉oss的SDK依赖是因为使用了SpringCloudAlibaba的Alicloud-oss依赖-->
         <!--        <dependency>-->
         <!--            <groupId>com.aliyun.oss</groupId>-->
         <!--            <artifactId>aliyun-sdk-oss</artifactId>-->
