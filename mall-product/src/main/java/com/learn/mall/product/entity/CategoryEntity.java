@@ -68,6 +68,7 @@ public class CategoryEntity implements Serializable {
      */
     @TableField(exist = false)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    // @JsonInclude注解：JsonInclude.Include.NON_EMPTY，这样子表示这个字段只有不为空的时候才给前端返回
     private List<CategoryEntity> children;
 
 }

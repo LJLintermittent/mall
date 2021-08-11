@@ -33,8 +33,14 @@ public interface CategoryService extends IService<CategoryEntity> {
      */
     void removeMenusByIds(List<Long> asList);
 
+    /**
+     * 根据分类ID类查询当前分类往上的完整分类路径
+     */
     Long[] findCatelogPath(Long catelogId);
 
+    /**
+     * 更新分类本身的时候，还要更新在其他表中分类的名字
+     */
     void updateDetails(CategoryEntity category);
 
     List<CategoryEntity> getLevel1Categorys();

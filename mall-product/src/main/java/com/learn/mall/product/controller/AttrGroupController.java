@@ -109,7 +109,9 @@ public class AttrGroupController {
     }
 
     /**
-     * 信息
+     * 信息,根据属性分组的ID来获取属性分组的详细信息
+     * 注意，这里还需要查询当前分类的父分类，从而给前端完整的分类数据
+     * 这个接口是给属性分组，回显表单的时候查询用的
      */
     @RequestMapping("/info/{attrGroupId}")
     public R info(@PathVariable("attrGroupId") Long attrGroupId) {

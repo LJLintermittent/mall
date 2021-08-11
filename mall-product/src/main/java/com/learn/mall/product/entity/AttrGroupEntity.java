@@ -17,7 +17,9 @@ import lombok.Data;
  */
 @Data
 @TableName("pms_attr_group")
+@SuppressWarnings("all")
 public class AttrGroupEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     /**

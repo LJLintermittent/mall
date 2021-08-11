@@ -26,7 +26,9 @@ import com.learn.common.utils.R;
  */
 @RestController
 @RequestMapping("product/categorybrandrelation")
+@SuppressWarnings("all")
 public class CategoryBrandRelationController {
+
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
 
@@ -34,7 +36,6 @@ public class CategoryBrandRelationController {
      * 获取当前品牌关联的所有分类
      */
     @GetMapping("/catelog/list")
-    //@RequiresPermissions("product:categorybrandrelation:list")
     public R catelogList(@RequestParam("brandId") Long brandId) {
         QueryWrapper<CategoryBrandRelationEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("brand_id", brandId);
@@ -44,11 +45,11 @@ public class CategoryBrandRelationController {
 
     /**
      * 根据分类获取所有品牌  (获取选中的分类 关联的所有品牌)
-     * 业务点： 发布商品时，选中商品分类以后 ，需要将品牌做一个回显
+     * 需求： 发布商品时，选中商品分类以后 ，需要将品牌做一个回显
      * <p>
-     * controller : 处理请求，接收和校验数据
-     * service接收controller传来的数据，进行业务处理
-     * controller接收service处理完的数据，封装成页面指定的Vo
+     * controller:处理请求，接收和校验数据
+     * service:接收controller传来的数据，进行业务处理
+     * controller:接收service处理完的数据，封装成页面指定的Vo
      *
      * @param catId 当前三级分类ID
      * @return 封装好的BrandVo对象 可能有多个，用List包装
@@ -69,22 +70,17 @@ public class CategoryBrandRelationController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:categorybrandrelation:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = categoryBrandRelationService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:categorybrandrelation:info")
     public R info(@PathVariable("id") Long id) {
         CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
-
         return R.ok().put("categoryBrandRelation", categoryBrandRelation);
     }
 
@@ -92,7 +88,6 @@ public class CategoryBrandRelationController {
      * 保存品牌名与分类的关联关系
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation) {
         categoryBrandRelationService.saveDetails(categoryBrandRelation);
         return R.ok();
@@ -102,10 +97,8 @@ public class CategoryBrandRelationController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:categorybrandrelation:update")
     public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation) {
         categoryBrandRelationService.updateById(categoryBrandRelation);
-
         return R.ok();
     }
 
@@ -113,10 +106,8 @@ public class CategoryBrandRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:categorybrandrelation:delete")
     public R delete(@RequestBody Long[] ids) {
         categoryBrandRelationService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

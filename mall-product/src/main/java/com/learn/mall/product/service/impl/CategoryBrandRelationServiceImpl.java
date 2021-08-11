@@ -24,6 +24,7 @@ import com.learn.mall.product.service.CategoryBrandRelationService;
 
 
 @Service("categoryBrandRelationService")
+@SuppressWarnings("all")
 public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandRelationDao, CategoryBrandRelationEntity> implements CategoryBrandRelationService {
 
     @Autowired
@@ -38,16 +39,22 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Autowired
     private CategoryBrandRelationDao categoryBrandRelationDao;
 
+    /**
+     * 分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryBrandRelationEntity> page = this.page(
                 new Query<CategoryBrandRelationEntity>().getPage(params),
                 new QueryWrapper<CategoryBrandRelationEntity>()
         );
-
         return new PageUtils(page);
     }
 
+    /**
+     * 保存品牌ID和分类ID在品牌分类关联表中
+     * 不仅保存两者的ID，还要查出他们的名称并保存
+     */
     @Override
     public void saveDetails(CategoryBrandRelationEntity categoryBrandRelation) {
         Long brandId = categoryBrandRelation.getBrandId();
@@ -62,6 +69,9 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     }
 
+    /**
+     * 更新其他表的品牌名称，将冗余表字段与实际表字段进行一致性更新
+     */
     @Override
     public void updateBrand(Long brandId, String name) {
         CategoryBrandRelationEntity categoryBrandRelationEntity = new CategoryBrandRelationEntity();
