@@ -20,8 +20,12 @@ import com.learn.mall.product.service.AttrAttrgroupRelationService;
 
 
 @Service("attrAttrgroupRelationService")
+@SuppressWarnings("all")
 public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupRelationDao, AttrAttrgroupRelationEntity> implements AttrAttrgroupRelationService {
 
+    /**
+     * 分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrAttrgroupRelationEntity> page = this.page(
@@ -32,6 +36,9 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
         return new PageUtils(page);
     }
 
+    /**
+     * 保存属性与分组的关联关系
+     */
     @Override
     public void saveBatch(List<AttrGroupRelationVo> vos) {
         List<AttrAttrgroupRelationEntity> collect = vos.stream().map((item) -> {

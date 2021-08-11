@@ -39,6 +39,7 @@ import org.springframework.util.StringUtils;
 
 
 @Service("attrService")
+@SuppressWarnings("all")
 public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements AttrService {
 
     @Autowired
@@ -144,7 +145,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      * 规格参数信息 修改时候的回显
-     * 注意内容： 回显的时候需要回显  分类信息的全路径： 手机/数码/手机
+     * 注意内容： 回显的时候需要回显分类信息的全路径： 手机/数码/手机
      *
      * @param attrId 属性ID
      * @return AttrRespVo
@@ -216,7 +217,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      */
     @Override
     public List<AttrEntity> getRelationAttr(Long attrgroupId) {
-        List<AttrAttrgroupRelationEntity> entities = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>()
+        List<AttrAttrgroupRelationEntity> entities = attrAttrgroupRelationDao
+                .selectList(new QueryWrapper<AttrAttrgroupRelationEntity>()
                 .eq("attr_group_id", attrgroupId));
         List<Long> attrIds = entities.stream().map((attr) -> {
             return attr.getAttrId();
@@ -231,7 +233,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     /**
      * 删除分组与属性的关联关系
      *
-     * @param vos 关联关系 （分组id ------ 分类id）
+     * @param vos 关联关系 （分组id ---- 属性id）
      */
     @Override
     public void deleteRelation(AttrGroupRelationVo[] vos) {
