@@ -25,11 +25,15 @@ import org.springframework.util.StringUtils;
 
 
 @Service("attrGroupService")
+@SuppressWarnings("all")
 public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEntity> implements AttrGroupService {
 
     @Autowired
     private AttrService attrService;
 
+    /**
+     * 原生分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrGroupEntity> page = this.page(
@@ -40,6 +44,15 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         return new PageUtils(page);
     }
 
+    /**
+     * 根据分类ID来进行分页查询
+     * TODO:建立索引（未压测 2021/8/11）
+     * SQL语句如下
+     * SELECT attr_group_id,icon,catelog_id,sort,descript,attr_group_name FROM pms_attr_group
+     * WHERE (( (attr_group_id = ? OR attr_group_name LIKE ?) ) AND catelog_id = ?) LIMIT ?,?
+     * 在catelog_id和attr_group_name字段建立普通索引
+     * 加索引前后压测分析：
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long catelogId) {
         String key = (String) params.get("key");
