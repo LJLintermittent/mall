@@ -14,10 +14,17 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:38:20
  */
+@SuppressWarnings("all")
 public interface ProductAttrValueService extends IService<ProductAttrValueEntity> {
 
+    /**
+     * 分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 保存SPU的属性信息，注意：这个属性只包含基本属性，不包含销售属性
+     */
     void saveProductAttrValue(List<ProductAttrValueEntity> collect);
 
     List<ProductAttrValueEntity> queryBaseAttrListForSpu(Long spuId);

@@ -30,6 +30,7 @@ import org.springframework.util.StringUtils;
 
 
 @Service("skuInfoService")
+@SuppressWarnings("all")
 public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> implements SkuInfoService {
 
     @Autowired
@@ -60,6 +61,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * 保存SKU的基本信息
+     */
     @Override
     public void saveSkuInfo(SkuInfoEntity skuInfoEntity) {
         this.baseMapper.insert(skuInfoEntity);

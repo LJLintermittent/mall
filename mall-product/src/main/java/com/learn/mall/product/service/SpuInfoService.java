@@ -28,7 +28,7 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     void saveSpuInfo(SpuSaveVo spuSaveVo);
 
     /**
-     * @param spuInfoEntity
+     * 保存基本的SPU信息，涉及表：pms_spu_info
      */
     void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity);
 

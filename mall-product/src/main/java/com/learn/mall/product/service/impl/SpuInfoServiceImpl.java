@@ -204,6 +204,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
     }
 
+    /**
+     * 保存基本的SPU信息，涉及表：pms_spu_info
+     */
     @Override
     public void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity) {
         this.baseMapper.insert(spuInfoEntity);
