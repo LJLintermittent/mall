@@ -29,6 +29,9 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
      */
     PageUtils queryPage(Map<String, Object> params, Long catelogId);
 
+    /**
+     * 查出当前三级分类下所有的属性分组以及当前分组下所有的基本属性
+     */
     List<AttrGroupWithAttrsVo> getAttrGroupWithAttrByCategoryId(Long catelogId);
 
     List<SkuItemVo.SpuItemAttrGroupVo> getAttrGroupWithAttrBySpuId(Long spuId, Long catalogId);

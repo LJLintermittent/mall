@@ -93,7 +93,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
      * 3.保存SPU的图片集   涉及表 pms_spu_images
      * 4.保存SPU的规格参数 涉及表 pms_product_attr_value
      * 5.保存SPU的积分信息 涉及表 sms_spu_bounds
-     * <p>
      * 6.保存当前SPU对应的所有SKU信息
      * 6.1.SKU的基本信息 涉及表 pms_sku_info
      * 6.2 SKU的图片信息 涉及表 pms_sku_images
@@ -103,10 +102,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
      * sms_member_price(会员价格表)
      *
      * @param spuSaveVo 前端提交表单的SpuInfoVo的具体内容
-     * @GlobalTransactional
-     * 后台管理服务，提交一些增删改查数据，不要求超高并发
+     * @GlobalTransactional 后台管理服务，提交一些增删改查数据，不要求超高并发
      * 可以使用 seata AT模式做分布式事务
-     *
      */
     @Transactional
     @Override
@@ -248,7 +245,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     }
 
     /**
-     * 根据要上架的SpuId 查出与之对应的所以的Sku信息
+     * 根据要上架的SpuId查出与之对应的所有的Sku信息
      *
      * @param spuId 要上架的商品ID
      */

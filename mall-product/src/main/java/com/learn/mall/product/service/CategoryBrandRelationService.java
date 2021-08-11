@@ -40,6 +40,9 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
      */
     void updateCategory(Long catId, String name);
 
+    /**
+     * 根据分类来获取所有品牌
+     */
     List<BrandEntity> getBrandByCategoryId(Long catId);
 
 }

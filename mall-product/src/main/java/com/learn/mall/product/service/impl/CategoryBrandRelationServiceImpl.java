@@ -82,11 +82,17 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         this.update(categoryBrandRelationEntity, wrapper);
     }
 
+    /**
+     * 根据分类ID来更新分类名称，此接口SQL语句手写，非调用API
+     */
     @Override
     public void updateCategory(Long catId, String name) {
         this.baseMapper.updateCategory(catId, name);
     }
 
+    /**
+     * 根据分类来获取所有品牌
+     */
     @Override
     public List<BrandEntity> getBrandByCategoryId(Long catId) {
         QueryWrapper<CategoryBrandRelationEntity> wrapper = new QueryWrapper<>();
