@@ -13,8 +13,12 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 21:18:51
  */
+@SuppressWarnings("all")
 public interface WareOrderTaskDetailService extends IService<WareOrderTaskDetailEntity> {
 
+    /**
+     * 分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 }
 

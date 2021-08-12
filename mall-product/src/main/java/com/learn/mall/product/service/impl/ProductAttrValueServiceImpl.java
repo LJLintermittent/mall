@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("productAttrValueService")
+@SuppressWarnings("all")
 public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao, ProductAttrValueEntity> implements ProductAttrValueService {
 
     @Override
@@ -41,6 +42,9 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         this.saveBatch(collect);
     }
 
+    /**
+     * 获取SPU的所有规格参数信息
+     */
     @Override
     public List<ProductAttrValueEntity> queryBaseAttrListForSpu(Long spuId) {
         List<ProductAttrValueEntity> entities = this.baseMapper.selectList(new QueryWrapper<ProductAttrValueEntity>()
@@ -48,6 +52,9 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         return entities;
     }
 
+    /**
+     * 更新规格参数信息
+     */
     @Transactional
     @Override
     public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> entities) {

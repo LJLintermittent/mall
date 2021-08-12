@@ -16,7 +16,6 @@ import com.learn.common.utils.PageUtils;
 import com.learn.common.utils.R;
 
 
-
 /**
  * 库存工作单
  *
@@ -26,7 +25,9 @@ import com.learn.common.utils.R;
  */
 @RestController
 @RequestMapping("ware/wareordertaskdetail")
+@SuppressWarnings("all")
 public class WareOrderTaskDetailController {
+
     @Autowired
     private WareOrderTaskDetailService wareOrderTaskDetailService;
 
@@ -34,22 +35,17 @@ public class WareOrderTaskDetailController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("ware:wareordertaskdetail:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareOrderTaskDetailService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("ware:wareordertaskdetail:info")
-    public R info(@PathVariable("id") Long id){
-		WareOrderTaskDetailEntity wareOrderTaskDetail = wareOrderTaskDetailService.getById(id);
-
+    public R info(@PathVariable("id") Long id) {
+        WareOrderTaskDetailEntity wareOrderTaskDetail = wareOrderTaskDetailService.getById(id);
         return R.ok().put("wareOrderTaskDetail", wareOrderTaskDetail);
     }
 
@@ -57,10 +53,8 @@ public class WareOrderTaskDetailController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("ware:wareordertaskdetail:save")
-    public R save(@RequestBody WareOrderTaskDetailEntity wareOrderTaskDetail){
-		wareOrderTaskDetailService.save(wareOrderTaskDetail);
-
+    public R save(@RequestBody WareOrderTaskDetailEntity wareOrderTaskDetail) {
+        wareOrderTaskDetailService.save(wareOrderTaskDetail);
         return R.ok();
     }
 
@@ -68,10 +62,8 @@ public class WareOrderTaskDetailController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("ware:wareordertaskdetail:update")
-    public R update(@RequestBody WareOrderTaskDetailEntity wareOrderTaskDetail){
-		wareOrderTaskDetailService.updateById(wareOrderTaskDetail);
-
+    public R update(@RequestBody WareOrderTaskDetailEntity wareOrderTaskDetail) {
+        wareOrderTaskDetailService.updateById(wareOrderTaskDetail);
         return R.ok();
     }
 
@@ -79,10 +71,8 @@ public class WareOrderTaskDetailController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("ware:wareordertaskdetail:delete")
-    public R delete(@RequestBody Long[] ids){
-		wareOrderTaskDetailService.removeByIds(Arrays.asList(ids));
-
+    public R delete(@RequestBody Long[] ids) {
+        wareOrderTaskDetailService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

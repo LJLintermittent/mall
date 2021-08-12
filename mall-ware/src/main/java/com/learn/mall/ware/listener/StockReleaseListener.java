@@ -22,6 +22,7 @@ import java.io.IOException;
  */
 @Component
 @RabbitListener(queues = "stock.release.stock.queue")
+@SuppressWarnings("all")
 public class StockReleaseListener {
 
     @Autowired

@@ -35,7 +35,7 @@ public class AttrController {
     private ProductAttrValueService productAttrValueService;
 
     /**
-     * 更新 根据SpuId查询出来的规格参数信息
+     * 更新规格参数信息
      *
      * @param spuId    SpuId
      * @param entities 前端表单提交的更新后的数据 数据与数据库表对应，不需要写Vo类
