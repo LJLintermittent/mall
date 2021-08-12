@@ -34,6 +34,9 @@ public interface AttrGroupService extends IService<AttrGroupEntity> {
      */
     List<AttrGroupWithAttrsVo> getAttrGroupWithAttrByCategoryId(Long catelogId);
 
+    /**
+     * 查出当前spu对应的所有属性分组信息以及每一个分组下对应的属性名字和属性值
+     */
     List<SkuItemVo.SpuItemAttrGroupVo> getAttrGroupWithAttrBySpuId(Long spuId, Long catalogId);
 
 }

@@ -26,6 +26,7 @@ import java.util.UUID;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("all")
 public class IndexController {
 
     @Autowired

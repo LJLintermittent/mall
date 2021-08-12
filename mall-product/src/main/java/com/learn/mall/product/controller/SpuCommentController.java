@@ -15,8 +15,6 @@ import com.learn.mall.product.service.SpuCommentService;
 import com.learn.common.utils.PageUtils;
 import com.learn.common.utils.R;
 
-
-
 /**
  * 商品评价
  *
@@ -26,7 +24,9 @@ import com.learn.common.utils.R;
  */
 @RestController
 @RequestMapping("product/spucomment")
+@SuppressWarnings("all")
 public class SpuCommentController {
+
     @Autowired
     private SpuCommentService spuCommentService;
 
@@ -34,22 +34,17 @@ public class SpuCommentController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:spucomment:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = spuCommentService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("product:spucomment:info")
-    public R info(@PathVariable("id") Long id){
-		SpuCommentEntity spuComment = spuCommentService.getById(id);
-
+    public R info(@PathVariable("id") Long id) {
+        SpuCommentEntity spuComment = spuCommentService.getById(id);
         return R.ok().put("spuComment", spuComment);
     }
 
@@ -57,10 +52,8 @@ public class SpuCommentController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:spucomment:save")
-    public R save(@RequestBody SpuCommentEntity spuComment){
-		spuCommentService.save(spuComment);
-
+    public R save(@RequestBody SpuCommentEntity spuComment) {
+        spuCommentService.save(spuComment);
         return R.ok();
     }
 
@@ -68,10 +61,8 @@ public class SpuCommentController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:spucomment:update")
-    public R update(@RequestBody SpuCommentEntity spuComment){
-		spuCommentService.updateById(spuComment);
-
+    public R update(@RequestBody SpuCommentEntity spuComment) {
+        spuCommentService.updateById(spuComment);
         return R.ok();
     }
 
@@ -79,10 +70,8 @@ public class SpuCommentController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:spucomment:delete")
-    public R delete(@RequestBody Long[] ids){
-		spuCommentService.removeByIds(Arrays.asList(ids));
-
+    public R delete(@RequestBody Long[] ids) {
+        spuCommentService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

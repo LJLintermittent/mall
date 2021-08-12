@@ -13,8 +13,12 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:38:20
  */
+@SuppressWarnings("all")
 public interface CommentReplayService extends IService<CommentReplayEntity> {
 
+    /**
+     * 分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 }
 

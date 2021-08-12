@@ -101,7 +101,7 @@ public class BrandController {
 
     /**
      * 使用BindingResult的接口写法（不推荐使用，太繁琐，应该使用全局统一异常处理）
-     * 此接口为实例接口，没有前端调用和RPC调用
+     * 此接口为示例接口，仅为演示代码所用
      */
     @RequestMapping("/saveTest")
     public R saveTest(@Valid @RequestBody BrandEntity brand, BindingResult result) {
