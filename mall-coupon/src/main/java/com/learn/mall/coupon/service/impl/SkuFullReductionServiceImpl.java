@@ -27,6 +27,7 @@ import com.learn.mall.coupon.service.SkuFullReductionService;
 
 
 @Service("skuFullReductionService")
+@SuppressWarnings("all")
 public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao, SkuFullReductionEntity> implements SkuFullReductionService {
 
     @Autowired

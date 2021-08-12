@@ -33,6 +33,7 @@ import javax.management.relation.RelationNotFoundException;
 
 
 @Service("wareInfoService")
+@SuppressWarnings("all")
 public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity> implements WareInfoService {
 
     @Autowired

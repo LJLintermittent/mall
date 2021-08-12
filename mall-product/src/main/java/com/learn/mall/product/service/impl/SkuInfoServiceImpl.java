@@ -69,6 +69,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         this.baseMapper.insert(skuInfoEntity);
     }
 
+    /**
+     * 带条件的分页查询
+     */
     @Override
     public PageUtils queryPageByCondition(Map<String, Object> params) {
         QueryWrapper<SkuInfoEntity> wrapper = new QueryWrapper<>();

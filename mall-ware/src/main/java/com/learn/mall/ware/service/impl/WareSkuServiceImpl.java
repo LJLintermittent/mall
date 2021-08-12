@@ -73,6 +73,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * SKU库存的带条件分页查询
+     */
     @Override
     public PageUtils queryPageByCondition(Map<String, Object> params) {
         QueryWrapper<WareSkuEntity> wrapper = new QueryWrapper<>();
@@ -94,6 +97,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * 采购成功以后要将商品入库（入的是指定的库）
+     */
     @Override
     public void addStock(Long skuId, Long wareId, Integer skuNum) {
         List<WareSkuEntity> wareSkuEntities = wareSkuDao.selectList(new QueryWrapper<WareSkuEntity>()

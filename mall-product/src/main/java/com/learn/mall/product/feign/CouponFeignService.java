@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @version 1.0
  */
 @FeignClient("mall-coupon")
+@SuppressWarnings("all")
 public interface CouponFeignService {
 
     /**
@@ -26,9 +27,6 @@ public interface CouponFeignService {
      * 对方服务器收到请求，请求体里有json
      * .(@RequestBody SpuBoundsEntity spuBounds) 将请求体里的json转换为SpuBoundsEntity对象
      * 只要 json数据模型是兼容的，双方服务无需使用同一个 TO对象
-     *
-     * @param spuBoundsTo 远程传输对象
-     * @return
      */
     @PostMapping("/coupon/spubounds/save")
     R saveSpuBounds(@RequestBody SpuBoundsTo spuBoundsTo);

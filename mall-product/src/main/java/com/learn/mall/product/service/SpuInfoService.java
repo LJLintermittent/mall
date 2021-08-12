@@ -33,13 +33,12 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     void saveBaseSpuInfo(SpuInfoEntity spuInfoEntity);
 
     /**
-     * @param params
-     * @return
+     * 带条件的分页查询
      */
     PageUtils queryPageByCondition(Map<String, Object> params);
 
     /**
-     * @param spuId
+     * 商品上传功能，上传到ES中，供前台商城来检索
      */
     void up(Long spuId);
 

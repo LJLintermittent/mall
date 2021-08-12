@@ -72,10 +72,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     }
 
     /**
-     * purchaseId 采购单ID
-     * items 采购需求项
-     *
-     * @param mergeVo mergeVo
+     * 合并采购需求到采购单中
      */
     @Transactional
     @Override
@@ -128,7 +125,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     }
 
     /**
-     * @param ids 采购单ID
+     * 采购人员在采购人员的APP上领取采购单功能
      */
     @Override
     public void received(List<Long> ids) {
@@ -164,6 +161,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
     }
 
+    /**
+     * 完成采购，将会改变采购单状态和每一个采购需求的状态，如果采购失败，还要有每一项采购需求失败的原因
+     */
     @Transactional
     @Override
     public void done(PurchaseDoneVo doneVo) {
@@ -186,9 +186,6 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             purchaseDetailEntities.add(purchaseDetailEntity);
         }
         purchaseDetailService.updateBatchById(purchaseDetailEntities);
-        /**TODO 所有的采购项状态都变为已完成时，采购单状态才可以转为已完成
-         * TODO BUG:采购人员只采购了成功了一样商品，还有其他商品没有管，那么采购单状态依然变为了已完成状态
-         */
         //改变采购单状态
         Long id = doneVo.getId();
         PurchaseEntity purchaseEntity = new PurchaseEntity();

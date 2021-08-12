@@ -29,6 +29,9 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      */
     void saveSkuInfo(SkuInfoEntity skuInfoEntity);
 
+    /**
+     * 带条件的分页查询
+     */
     PageUtils queryPageByCondition(Map<String, Object> params);
 
     List<SkuInfoEntity> getSkuInfoBySpuId(Long spuId);
