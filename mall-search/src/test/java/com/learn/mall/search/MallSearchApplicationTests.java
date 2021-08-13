@@ -27,6 +27,7 @@ import java.util.Map;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@SuppressWarnings("all")
 public class MallSearchApplicationTests {
 
     @Autowired

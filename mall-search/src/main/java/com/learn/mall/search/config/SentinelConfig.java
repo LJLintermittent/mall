@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Description:
  * date: 2021/5/25 14:05
- * Package: com.learn.mall.seckill.config
+ * Package: com.learn.mall.search.config
  *
  * @author 李佳乐
  * @version 1.0
