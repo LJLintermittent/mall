@@ -36,8 +36,14 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      */
     void addStock(Long skuId, Long wareId, Integer skuNum);
 
+    /**
+     * 修改仓库的时候不只是修改表中的仓库ID字段，还要将仓库对应的名字改正(级联更新)
+     */
     void updateAllById(WareSkuEntity wareSku);
 
+    /**
+     * 检查每一个SKU是否有库存
+     */
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
 
     Boolean orderLockStock(WareSkuLockVo vo);

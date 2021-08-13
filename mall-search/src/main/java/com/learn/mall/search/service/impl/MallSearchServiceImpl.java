@@ -54,6 +54,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 @Service
+@SuppressWarnings("all")
 public class MallSearchServiceImpl implements MallSearchService {
 
     @Autowired

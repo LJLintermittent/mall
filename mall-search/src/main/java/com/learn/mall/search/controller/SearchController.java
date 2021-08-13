@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("all")
 public class SearchController {
 
     @Autowired

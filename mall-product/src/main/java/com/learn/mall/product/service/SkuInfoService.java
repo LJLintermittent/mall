@@ -34,8 +34,14 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      */
     PageUtils queryPageByCondition(Map<String, Object> params);
 
+    /**
+     * 根据spuID查询出所有的SKU
+     */
     List<SkuInfoEntity> getSkuInfoBySpuId(Long spuId);
 
+    /**
+     * 根据skuId获取前端需要展示的所有sku详情信息，异步+线程池优化
+     */
     SkuItemVo searchSkuVoInfoBySkuId(Long skuId) throws ExecutionException, InterruptedException;
 
 }

@@ -24,7 +24,7 @@ public class R extends HashMap<String, Object> {
 
     private static final long serialVersionUID = 1L;
 
-    public <T> T getData(String key,TypeReference<T> typeReference) {
+    public <T> T getData(String key, TypeReference<T> typeReference) {
         Object data = get(key);
         String s = JSON.toJSONString(data);
         T t = JSON.parseObject(s, typeReference);

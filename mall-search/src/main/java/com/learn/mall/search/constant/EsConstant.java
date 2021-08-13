@@ -11,7 +11,8 @@ package com.learn.mall.search.constant;
 @SuppressWarnings("all")
 public class EsConstant {
 
-    public static final String PRODUCT_INDEX = "mall_product";//sku数据在ES中的索引
+    public static final String PRODUCT_INDEX = "mall_product";//数据模型在ES中的索引
+
     public static final Integer PRODUCT_PAGESIZE = 12;
 
 }

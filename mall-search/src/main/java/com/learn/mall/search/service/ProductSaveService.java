@@ -15,6 +15,9 @@ import java.util.List;
  */
 public interface ProductSaveService {
 
+    /**
+     * 收集商品服务传过来的构造好的商品检索数据然后将这些数据保存在ES中
+     */
     boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException;
 
 }

@@ -113,6 +113,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * 根据spuID查询出所有的SKU
+     */
     @Override
     public List<SkuInfoEntity> getSkuInfoBySpuId(Long spuId) {
         List<SkuInfoEntity> skuInfoEntities = this.list(new QueryWrapper<SkuInfoEntity>().eq("spu_id", spuId));

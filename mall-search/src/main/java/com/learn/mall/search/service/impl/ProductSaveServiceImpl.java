@@ -29,11 +29,15 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@SuppressWarnings("all")
 public class ProductSaveServiceImpl implements ProductSaveService {
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
+    /**
+     * 收集商品服务传过来的构造好的商品检索数据然后将这些数据保存在ES中
+     */
     @Override
     public boolean productStatusUp(List<SkuEsModel> skuEsModels) throws IOException {
         //在ES中建立索引，product，并建立好映射关系 (操作Kibana)
@@ -50,11 +54,16 @@ public class ProductSaveServiceImpl implements ProductSaveService {
         }
         BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, MallElasticSearchConfig.COMMON_OPTIONS);
         //如果批量处理错误，返回一个错误结果
-        boolean b = bulk.hasFailures();//true 是有错误
-        List<Object> collect = Arrays.stream(bulk.getItems()).map(item -> {
-            return item.getId();
-        }).collect(Collectors.toList());
-        log.info("商品上架完成: {}", collect);
-        return b;
+        boolean flag = bulk.hasFailures();
+        //返回true是有错误,所以正常返回是false，那么打印正常的上架日志应该为!false
+        if (!flag) {
+            List<Object> collect = Arrays.stream(bulk.getItems()).map(item -> {
+                return item.getId();
+            }).collect(Collectors.toList());
+            log.info("成功上架的商品的ID: {}", collect);
+        } else {
+            log.info("商品上架出错");
+        }
+        return flag;
     }
 }

@@ -23,6 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
+@SuppressWarnings("all")
 @RequestMapping("/search/save")
 public class ElasticSaveController {
 
@@ -33,18 +34,18 @@ public class ElasticSaveController {
      * 商品上架,接收商品服务传过来的封装好的数据模型集合
      *
      * @param skuEsModels 上架商品数据模型
-     * @return
      */
     @PostMapping("/product")
     public R productStatusUp(@RequestBody List<SkuEsModel> skuEsModels) {
-        boolean b = false;
+        boolean flag = false;
         try {
-            b = productSaveService.productStatusUp(skuEsModels);
+            flag = productSaveService.productStatusUp(skuEsModels);
         } catch (Exception e) {
             log.error("ElasticSearch服务商品上架错误");
             return R.error(StatusCodeEnum.PRODUCT_UP_EXCEPTION.getCode(), StatusCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());
         }
-        if (!b) {
+        //flag返回true是有错误，所以正常上架返回false
+        if (!flag) {
             return R.ok();
         } else {
             return R.error(StatusCodeEnum.PRODUCT_UP_EXCEPTION.getCode(), StatusCodeEnum.PRODUCT_UP_EXCEPTION.getMsg());

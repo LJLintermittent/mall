@@ -14,8 +14,7 @@ import com.learn.mall.search.vo.SearchResponseVo;
 public interface MallSearchService {
 
     /**
-     * @param paramVo 检索的所有参数
-     * @return 检索的返回结果
+     * 商品检索，传入已经封装好的所有检索参数，调用API来构建成ES需要的DSL语句
      */
     SearchResponseVo search(SearchParamVo paramVo);
 

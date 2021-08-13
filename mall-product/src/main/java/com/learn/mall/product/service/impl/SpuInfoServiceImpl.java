@@ -311,16 +311,13 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         R searchFeignResult = searchFeignService.productStatusUp(skuEsModels);
         if (searchFeignResult.getCode() == 0) {
             //远程调用成功,更新这个商品状态为已上架
-//            baseMapper.updateSpuUpStatus(spuId, ProductConstant.ProductUpStatusEnum.SPU_UP.getCode());
             this.updateSpuUpStatus(spuId, ProductConstant.ProductUpStatusEnum.SPU_UP.getCode());
         } else {
-            //远程调用失败
-            //TODO 重复调用问题，接口幂等性 重复机制
             /**
-             * feign的调用流程：
-             * 1.构造请求数据,将对象转为json
-             * 2.发送请求并执行(执行成功会解码响应数据)
-             * 3.执行请求会有重试机制
+             * 远程调用失败，这里没有进行额外处理，真实场景应该收集错误日志
+             * 记录上架调用失败的接口的及参数，准备进行限定次数的重复调用
+             * 同时对于这种后台管理系统上架商品的业务，由于没有什么并发要求
+             * 出错了最好进行回滚处理，保证数据的准确性，同时一定要记录好日志信息
              */
         }
     }
