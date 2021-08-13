@@ -23,7 +23,13 @@ public class MallElasticSearchConfig {
      * 将elasticsearch的主机地址配置抽取到开发和生产两个配置文件中
      */
     @Value("${elasticsearch.host}")
-    private String EsHost;
+    private String Host;
+
+    @Value("${elasticsearch.scheme}")
+    private String SCHEME;
+
+    @Value("${elasticsearch.port}")
+    private Integer PORT;
 
     public static final RequestOptions COMMON_OPTIONS;
 
@@ -36,7 +42,7 @@ public class MallElasticSearchConfig {
     public RestHighLevelClient EsRestClient() {
         RestHighLevelClient client = new RestHighLevelClient(
                 RestClient.builder(
-                        new HttpHost(EsHost, 9200, "http")));
+                        new HttpHost(Host, PORT, SCHEME)));
         return client;
     }
 }
