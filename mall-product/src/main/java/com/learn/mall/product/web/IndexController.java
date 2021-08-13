@@ -38,6 +38,9 @@ public class IndexController {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 进入商城首页的跳转，顺便查询所有的一级分类数据在首页一进来时显示
+     */
     @GetMapping({"/", "/index.html"})
     public String indexPage(Model model) {
         //查出所有的一级分类
@@ -46,6 +49,9 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     * 查询二级分类和三级分类
+     */
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
@@ -53,6 +59,9 @@ public class IndexController {
         return map;
     }
 
+    /**
+     * 测试Redisson分布式锁（测试接口，无实际意义）
+     */
     @ResponseBody
     @GetMapping("/hello")
     public String hello() {
@@ -86,12 +95,12 @@ public class IndexController {
     /**
      * 加写锁，保证能读到最新的数据，修改期间，写锁就是一个排它锁（互斥锁） 读锁是一个共享锁
      * 写锁没释放读锁就必须等待
-     * <p>
      * 读 + 读：相当于无锁状态，并发读，只会在redis中记录好，所有当前的读锁，他们都会同时加锁成功
      * 写 + 读：等待写锁释放
      * 写 + 写：阻塞
      * 读 + 写: 有读锁，写也需要等待
      * 只要有写的存在，都必须等待
+     * ps:测试接口，无实际意义
      */
     @GetMapping("/write")
     @ResponseBody
@@ -112,6 +121,9 @@ public class IndexController {
         return s;
     }
 
+    /**
+     * 分布式锁测试（测试接口，无实际意义）
+     */
     @GetMapping("/read")
     @ResponseBody
     public String read() {
@@ -130,7 +142,7 @@ public class IndexController {
     }
 
     /**
-     * 信号量也可以用来做分布式的限流
+     * 信号量也可以用来做分布式的限流（测试接口，无实际意义）
      */
     @GetMapping("/park")
     @ResponseBody
@@ -140,6 +152,9 @@ public class IndexController {
         return "ok";
     }
 
+    /**
+     * 测试接口，无实际意义
+     */
     @GetMapping("/go")
     @ResponseBody
     public String go() {
@@ -149,7 +164,7 @@ public class IndexController {
     }
 
     /**
-     * 分布式闭锁
+     * 分布式闭锁(测试接口，无实际意义)
      */
     @GetMapping("/lockDoor")
     @ResponseBody
@@ -160,6 +175,9 @@ public class IndexController {
         return "全部完成";
     }
 
+    /**
+     * 测试接口，无实际意义
+     */
     @GetMapping("/finish/{id}")
     @ResponseBody
     public String finish(@PathVariable("id") Long id) {

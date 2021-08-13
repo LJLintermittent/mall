@@ -131,7 +131,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
-     * spring cache 原理：
+     * 查询二级分类和三级分类
      */
     @Override
     @Cacheable(value = {"category"}, key = "'CatalogJson'", sync = true)
@@ -175,7 +175,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     /**
-     * TODO 产生堆外内存溢出：io.netty.util.internal.OutOfDirectMemoryError
+     * ps:  产生堆外内存溢出：io.netty.util.internal.OutOfDirectMemoryError
      * Redis缓存实现查询三级分类方法
      * springboot2.0以后默认使用lettuce作为操作Redis的客户端，他使用netty进行网络通信
      * lettuce的bug导致netty堆外内存溢出，-Xmx300m netty如果没有指定堆外内存，默认使用-Xmx300m
@@ -287,9 +287,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      */
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBWithLocalLock() {
         /**
-         * 本地缓存 伪代码
-         */
-        /**
+         * 本地缓存伪代码:
+         *
          *  Map<String, List<Catelog2Vo>> catalogJson = (Map<String, List<Catelog2Vo>>) cache.get("CatalogJson");
          *  if (catalogJson == null){
          *  业务逻辑
@@ -300,13 +299,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
          * return catalogJson;
          */
 
-        /**
-         * 将数据库的多次查询变为一次
-         */
-
-        /**
-         * TODO 加本地锁(本地锁只能锁住当前进程，需要使用分布式锁)
-         */
+        // 加本地锁(本地锁只能锁住当前进程，需要使用分布式锁)
         synchronized (this) {
             return getDataFromDB();
         }

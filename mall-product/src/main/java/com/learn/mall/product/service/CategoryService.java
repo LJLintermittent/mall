@@ -44,10 +44,13 @@ public interface CategoryService extends IService<CategoryEntity> {
     void updateDetails(CategoryEntity category);
 
     /**
-     * 获取所有的一级分类
+     * 获取所有的一级分类,作为刚进入商城首页以后展示的数据，当鼠标放到一级分类上时，才会打开所有的分类
      */
     List<CategoryEntity> getLevel1Categorys();
 
+    /**
+     * 查询二级分类和三级分类
+     */
     Map<String, List<Catelog2Vo>> getCatalogJson();
 
 }
