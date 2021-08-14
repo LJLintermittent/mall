@@ -46,12 +46,15 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     /**
      * 根据分类ID来进行分页查询
-     * TODO:建立索引（未压测 2021/8/11）
      * SQL语句如下
      * SELECT attr_group_id,icon,catelog_id,sort,descript,attr_group_name FROM pms_attr_group
      * WHERE (( (attr_group_id = ? OR attr_group_name LIKE ?) ) AND catelog_id = ?) LIMIT ?,?
      * 在catelog_id和attr_group_name字段建立普通索引
      * 加索引前后压测分析：
+     * 加完索引以后使用1000线程 ramp-up：1s 循环次数永远 最大堆内存512M,样本数30000,吞吐量是781.8/sec
+     * 去掉索引以后使用1000线程 ramp-up：1s 循环次数永远 最大堆内存512M 样本数30000,吞吐量是843.5/sec
+     * 对于数据量较少的业务，加索引反而降低了吞吐量
+     *
      */
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long catelogId) {

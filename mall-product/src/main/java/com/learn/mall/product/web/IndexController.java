@@ -51,6 +51,13 @@ public class IndexController {
 
     /**
      * 查询二级分类和三级分类
+     * 请求接口：localhost:10001/index/catalog.json 单压接口，不过网关和nginx
+     * 最大堆内存512M，线程数1000，ramp-up：1s，循环次数：永远，样本：10000
+     * 数据库不加索引:吞吐量为：104/sec
+     * 数据库加索引:吞吐量为：111/sec
+     * 由于数据量过少，加索引优化效果不是特别明显，然后尝试取消JVM参数设置，直接默认压测
+     *
+     *
      */
     @ResponseBody
     @GetMapping("/index/catalog.json")
