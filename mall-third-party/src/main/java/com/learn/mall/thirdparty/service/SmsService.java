@@ -10,5 +10,8 @@ package com.learn.mall.thirdparty.service;
  */
 public interface SmsService {
 
-    public void  sendSms(String phone,String code);
+    /**
+     * 调用阿里云SDK发送短信验证码
+     */
+    void sendSms(String phone, String code);
 }

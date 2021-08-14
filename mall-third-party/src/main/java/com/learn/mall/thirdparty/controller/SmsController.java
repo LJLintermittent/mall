@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/thirdParty")
+@SuppressWarnings("all")
 public class SmsController {
 
     @Autowired

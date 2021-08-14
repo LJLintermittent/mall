@@ -24,13 +24,13 @@ import java.util.HashMap;
  * @version 1.0
  */
 @Service
+@SuppressWarnings("all")
 public class SmsServiceImpl implements SmsService {
 
     @Autowired
     private SmsConfigProperties properties;
 
     /**
-     * TODO:接口防刷
      * 验证码再次校验 （存Redis）
      * 防止同一个手机号在60s内通过postman绕过前端校验再次发送验证码
      * <p>

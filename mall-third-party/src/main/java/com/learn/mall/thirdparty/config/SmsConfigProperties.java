@@ -15,11 +15,17 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.cloud.alicloud.mysms")
 @Data
 @Component
+@SuppressWarnings("all")
 public class SmsConfigProperties {
+
     private String regionId;
+
     private String accessKeyId;
+
     private String secret;
+
     private String signName;
+
     private String TemplateCode;
 
 }
