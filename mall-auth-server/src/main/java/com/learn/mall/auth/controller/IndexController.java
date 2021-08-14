@@ -63,7 +63,6 @@ public class IndexController {
      */
 
     /**
-     * TODO:接口防刷
      * 验证码再次校验 （存Redis）
      * <p>
      * key： sms:code:18066550996   value:  998176

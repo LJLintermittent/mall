@@ -34,6 +34,7 @@ import java.util.Map;
  */
 @Controller
 @Slf4j
+@SuppressWarnings("all")
 public class OAuth2Controller {
 
     @Autowired

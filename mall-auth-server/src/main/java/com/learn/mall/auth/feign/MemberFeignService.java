@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface MemberFeignService {
 
     @PostMapping("/member/member/register")
-    public R register(@RequestBody UserRegisterVo vo);
+    R register(@RequestBody UserRegisterVo vo);
 
     @PostMapping("/member/member/login")
-    public R login(@RequestBody UserLoginVo vo);
+    R login(@RequestBody UserLoginVo vo);
 
     @PostMapping("/member/member/oauth2/login")
-    public R oauth2LoginAndRegister(@RequestBody SocialUser socialUser) throws Exception;
+    R oauth2LoginAndRegister(@RequestBody SocialUser socialUser) throws Exception;
 
 }
