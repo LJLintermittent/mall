@@ -7,7 +7,6 @@ import com.learn.mall.product.service.CategoryBrandRelationService;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -134,8 +133,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     /**
      * 查询二级分类和三级分类
      */
-    @Override
     @Cacheable(value = {"category"}, key = "'CatalogJson'", sync = true)
+    @Override
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
         System.out.println("getCatalogJson 查询了数据库");
         List<CategoryEntity> selectList = baseMapper.selectList(null);
