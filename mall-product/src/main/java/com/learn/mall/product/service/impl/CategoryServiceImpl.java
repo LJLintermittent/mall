@@ -7,6 +7,7 @@ import com.learn.mall.product.service.CategoryBrandRelationService;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -182,9 +183,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * netty堆外内存可以通过-Dio.netty.maxDirectMemory进行设置
      * 解决方案： 不能使用 -Dio.netty.maxDirectMemory进行设置
      * 1.升级luttuce客户端版本
-     * 2.切换使用jedis
+     * 2.切换使用jedis getCatalogJsonDemo
      */
-    public Map<String, List<Catelog2Vo>> getCatalogJsonDemo() {
+    public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBOrRedisWithWithRedissonLock() {
         /**
          * 1.空结果缓存: 解决缓存穿透（大量请求查找一个或多个不存在的key） （布隆过滤器）
          * 2.设置随机过期时间: 解决缓存雪崩（许多key同时过期，这时有大量请求进来）
@@ -193,11 +194,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
         //缓存中存放的都是对象的JSON字符串
         if (StringUtils.isEmpty(catalogJSON)) {
-            System.out.println("缓存没命中，查询数据库************************************");
+            System.out.println("缓存没命中，查询数据库");
             Map<String, List<Catelog2Vo>> catalogJsonFromDB = getCatalogJsonFromDBWithRedissonLock();
             return catalogJsonFromDB;
         }
-        System.out.println("缓存命中，查询缓存************************************");
+        System.out.println("缓存命中，查询缓存");
         Map<String, List<Catelog2Vo>> result = JSON.parseObject(catalogJSON,
                 new TypeReference<Map<String, List<Catelog2Vo>>>() {
                 });
@@ -318,7 +319,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     });
             return result;
         }
-        System.out.println("查询了数据库***************************************************");
+        System.out.println("查询了数据库");
         List<CategoryEntity> selectList = baseMapper.selectList(null);
 
         //查出所有一级分类
@@ -369,8 +370,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * @param parent_cid 指定的一个父分类Id
      */
     private List<CategoryEntity> getChildrenCategoryByParentId(List<CategoryEntity> selectList, Long parent_cid) {
-//        return baseMapper.selectList(
-//                new QueryWrapper<CategoryEntity>().eq("parent_cid", v.getCatId()));
         List<CategoryEntity> collect = selectList.stream().filter(
                 item -> item.getParentCid() == parent_cid).collect(Collectors.toList());
         return collect;
