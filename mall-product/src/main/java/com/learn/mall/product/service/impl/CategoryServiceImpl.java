@@ -212,12 +212,20 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 业务代码 -> 更新DB -> binlog -> canal -> 更新
      */
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBWithRedissonLock() {
-
+        /*
+           调用getlock方法会在redis数据库中存储一个Hash数据结构的键值，
+           键的名字就是getlock()方法中指定的名字，由于是hash数据结构，除了本身的名字key以外，
+           内部还有一个key和value，key是一串字符串+线程id，值是1。
+           所以不用疑问为什么没有显示地往redis里面先设置一个把锁key，然后其他线程进来了再获取那把锁
+         */
         RLock lock = redissonClient.getLock("CatalogJson-lock");
         lock.lock();
-        Map<String, List<Catelog2Vo>> dataFromDB;
+        Map<String, List<Catelog2Vo>> dataFromDB = null;
         try {
+            TimeUnit.SECONDS.sleep(3000);
             dataFromDB = getDataFromDB();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
