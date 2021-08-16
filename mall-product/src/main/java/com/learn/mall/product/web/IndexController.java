@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Description:
@@ -88,7 +86,8 @@ public class IndexController {
          * 只要占锁成功，就会启动一个定时任务（重新给锁设置过期时间，新的过期时间就是看门狗的默认时间）
          * internalLockLeaseTime / 3  三分之一看门狗时间后续一次期
          */
-        lock.lock(1, TimeUnit.SECONDS);
+//        lock.lock(1, TimeUnit.SECONDS);
+        lock.lock();
         try {
             System.out.println("加锁成功，执行业务" + Thread.currentThread().getId());
             Thread.sleep(15000);
@@ -152,6 +151,10 @@ public class IndexController {
 
     /**
      * 信号量也可以用来做分布式的限流（测试接口，无实际意义）
+     * 当流量很大时，为了保护服务的可用性，可以在redis中设置一个信号量，然后调用acquire方法或者tryacquire方法
+     * 每当一个线程调用成功后，就站一个名额，当信号量减为0时，其他线程获取到了后看到是0，那么阻塞等待。
+     * 可以避免一次进来过大流量，在秒杀限流业务场景中非常有用
+     * 以及秒杀业务的redis信号量减库存，防止超卖
      */
     @GetMapping("/park")
     @ResponseBody

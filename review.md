@@ -235,3 +235,59 @@ Redisson框架实现分布式锁的原理与上面描述的基本一致，它更
 注意，如果使用redisson的lock方法中添加参数指定key的过期时间，那么会走到上面的方法中，然后执行lua脚本。那么在这个lua脚本中可以看到直接将我们传入的过期时间加了进去，并没有自动续期的代码实现，所以如果用了lock的带参方法，那么看门狗机制不生效。
 
 上述代码从tryAcquireAsync方法中进入tryLockInnerAsync
+
+如果lock方法用空参实现，那么看门狗机制的实现在scheduleExpirationRenewal中
+
+```java
+private void scheduleExpirationRenewal(long threadId) {
+    ExpirationEntry entry = new ExpirationEntry();
+    ExpirationEntry oldEntry = EXPIRATION_RENEWAL_MAP.putIfAbsent(getEntryName(), entry);
+    if (oldEntry != null) {
+        oldEntry.addThreadId(threadId);
+    } else {
+        entry.addThreadId(threadId);
+        renewExpiration();
+    }
+}
+```
+
+renewExpiration方法重新设置过期时间：
+
+```java
+Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask() {
+```
+
+会启动一个定时任务
+
+~~~java
+Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask() {
+            @Override
+            public void run(Timeout timeout) throws Exception {
+                ExpirationEntry ent = EXPIRATION_RENEWAL_MAP.get(getEntryName());
+                if (ent == null) {
+                    return;
+                }
+                Long threadId = ent.getFirstThreadId();
+                if (threadId == null) {
+                    return;
+                }
+                
+                RFuture<Boolean> future = renewExpirationAsync(threadId);
+                future.onComplete((res, e) -> {
+                    if (e != null) {
+                        log.error("Can't update lock " + getName() + " expiration", e);
+                        return;
+                    }
+                    
+                    if (res) {
+                        // reschedule itself
+                        // 续期成功以后，再次调用自己，相当于每十秒调用一次定时任务，进行续期
+                        renewExpiration();
+                    }
+                });
+            }
+        //	internalLockLeaseTime：看门狗时间除以3，发送定时任务，任务里面包含一个lua脚本带expira的设置过期时间操作
+        }, internalLockLeaseTime / 3, TimeUnit.MILLISECONDS);
+~~~
+
+其实严谨来说，不叫续期，叫重置过期时间，每十秒一次定时任务，发送lua脚本，重新设置过期时间，新的过期时间还是默认看门狗时间，也就是三十秒。
