@@ -182,7 +182,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * netty堆外内存可以通过-Dio.netty.maxDirectMemory进行设置
      * 解决方案： 不能使用 -Dio.netty.maxDirectMemory进行设置
      * 1.升级luttuce客户端版本
-     * 2.切换使用jedis getCatalogJsonDemo
+     * 2.切换使用jedis
      */
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBOrRedisWithWithRedissonLock() {
         /**
@@ -286,7 +286,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 使用本地锁（已被改为分布式锁）
      */
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBWithLocalLock() {
-        /**
+        /*
          * 本地缓存伪代码:
          *
          *  Map<String, List<Catelog2Vo>> catalogJson = (Map<String, List<Catelog2Vo>>) cache.get("CatalogJson");
@@ -298,9 +298,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
          * }
          * return catalogJson;
          */
-
-        // 加本地锁(本地锁只能锁住当前进程，需要使用分布式锁)
+        /*
+           加本地锁(本地锁只能锁住当前进程，需要使用分布式锁)
+           在本项目中，使用分布式锁更大的意义仅是一个分布式锁的演示，实际如果一个微服务部署了10台机器，那么就算使用
+           本地锁，每个机器微服务机器放进去一个线程去请求数据库，也不会对数据库造成什么压力
+           而且分布式锁相比于本地锁的消耗更大，所以注意根据实际场合来使用分布式锁
+         */
         synchronized (this) {
+            // 线程拿到锁以后，进入方法还要判断缓存中是否有值，如果有值，直接返回缓存中的值
             return getDataFromDB();
         }
 
@@ -354,6 +359,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     }
                     return catelog2Vos;
                 }));
+        /*
+            此方法整体被锁住，因此不会出现一个线程释放了锁，正在去添加缓存结果到redis中的这个延迟时，其他线程
+            拿到了锁，判断redis没有，去查库，造成没锁住的现象
+         */
         String s = JSON.toJSONString(catelog2VoList);
         redisTemplate.opsForValue().set("catalogJSON", s, 1, TimeUnit.DAYS);
         return catelog2VoList;
