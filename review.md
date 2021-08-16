@@ -209,3 +209,29 @@ Redis分布式锁的演进过程：
 
 8.综上所述，redis分布式锁的原理就是加锁保证原子性和解锁保证原子性。
 
+Redisson框架实现分布式锁的原理与上面描述的基本一致，它更优秀的一个点在于它的自动续期机制，避免死锁问题，并且因为自动续期机制，可以在业务超长的情况下，不会出现过期机制的删锁操作，如果它检测到你程序代码还没执行完，过期时间到了，它会自动续期，这就是看门狗机制。并且redisson在加锁的时候会默认加上一个30秒的自动过期时间。业务超时会自动续期
+
+在redisson源码中的config类中有一个成员变量private long lockWatchdogTimeout = 30 * 1000;并且在创建redisclient这个bean的时候，我们会new一个config来配置进去，那么这个值已经被初始化默认好了是30s
+
+```java
+<T> RFuture<T> tryLockInnerAsync(long leaseTime, TimeUnit unit, long threadId, RedisStrictCommand<T> command) {
+    internalLockLeaseTime = unit.toMillis(leaseTime);
+
+    return commandExecutor.evalWriteAsync(getName(), LongCodec.INSTANCE, command,
+              "if (redis.call('exists', KEYS[1]) == 0) then " +
+                  "redis.call('hset', KEYS[1], ARGV[2], 1); " +
+                  "redis.call('pexpire', KEYS[1], ARGV[1]); " +
+                  "return nil; " +
+              "end; " +
+              "if (redis.call('hexists', KEYS[1], ARGV[2]) == 1) then " +
+                  "redis.call('hincrby', KEYS[1], ARGV[2], 1); " +
+                  "redis.call('pexpire', KEYS[1], ARGV[1]); " +
+                  "return nil; " +
+              "end; " +
+              "return redis.call('pttl', KEYS[1]);",
+                Collections.<Object>singletonList(getName()), internalLockLeaseTime, getLockName(threadId));
+```
+
+注意，如果使用redisson的lock方法中添加参数指定key的过期时间，那么会走到上面的方法中，然后执行lua脚本。那么在这个lua脚本中可以看到直接将我们传入的过期时间加了进去，并没有自动续期的代码实现，所以如果用了lock的带参方法，那么看门狗机制不生效。
+
+上述代码从tryAcquireAsync方法中进入tryLockInnerAsync

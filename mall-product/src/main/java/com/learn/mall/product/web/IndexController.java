@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Description:
@@ -73,8 +74,10 @@ public class IndexController {
     @GetMapping("/hello")
     public String hello() {
         RLock lock = redissonClient.getLock("my-lock");
-        //看门狗机制：如果业务超长，锁会自动续期 默认加的锁是30s 阻塞等待锁
-        //加锁业务只要完成，就不会给当前锁续期，即使不手动解锁，锁默认在30s后自动删除
+        /*
+           看门狗机制：如果业务超长，锁会自动续期 默认加的锁是30s 阻塞等待锁
+           加锁业务只要完成，就不会给当前锁续期，即使不手动解锁，锁默认在30s后自动删除
+         */
         /**
          * 如果我们指定了锁的超时时间，就会发送给redis执行脚本，进行占锁，默认超时就是我们指定的时间
          * lock.lock(10, TimeUnit.SECONDS);
@@ -85,8 +88,7 @@ public class IndexController {
          * 只要占锁成功，就会启动一个定时任务（重新给锁设置过期时间，新的过期时间就是看门狗的默认时间）
          * internalLockLeaseTime / 3  三分之一看门狗时间后续一次期
          */
-
-        lock.lock();
+        lock.lock(1, TimeUnit.SECONDS);
         try {
             System.out.println("加锁成功，执行业务" + Thread.currentThread().getId());
             Thread.sleep(15000);
