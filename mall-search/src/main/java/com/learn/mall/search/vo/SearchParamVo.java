@@ -1,5 +1,9 @@
 package com.learn.mall.search.vo;
 
+import lombok.Data;
+
+import java.util.List;
+
 /**
  * Description:
  * date: 2021/4/29 14:14
@@ -8,15 +12,8 @@ package com.learn.mall.search.vo;
  * @author 李佳乐
  * @version 1.0
  */
-
-import lombok.Data;
-
-import java.util.List;
-
-/**
- * 封装页面所有可能传过来的关键字
- */
 @Data
+//封装页面所有可能传进来的数据参数，通过springMVC转换成我们构建好的对象
 public class SearchParamVo {
 
     private String keyword;//页面传递进来的全文匹配关键字

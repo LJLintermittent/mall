@@ -11,7 +11,9 @@ import lombok.Data;
  * @version 1.0
  */
 @Data
+@SuppressWarnings("all")
 public class AttrResponseVo {
+
     private Long attrId;
     /**
      * 属性名
@@ -50,6 +52,9 @@ public class AttrResponseVo {
      */
     private Integer showDesc;
 
+    /**
+     * 属性分组ID
+     */
     private Long attrGroupId;
 
     /**

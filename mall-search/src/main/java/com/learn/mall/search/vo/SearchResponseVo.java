@@ -15,9 +15,11 @@ import java.util.List;
  * @version 1.0
  */
 @Data
+//封装从ES中查询到的所有数据，构建成一个对象给前端页面返回，前端可以拿到经过ResponseBody注解转换成的JSON格式的数据进行展示
 public class SearchResponseVo {
 
     private List<SkuEsModel> products;//查询到的所有商品信息
+
     /**
      * 分页信息
      */
@@ -37,7 +39,7 @@ public class SearchResponseVo {
     private List<attrVo> attrs;
 
     /**
-     * 当前查询到的结果，所有涉及到的所有属性
+     * 当前查询到的结果，所有涉及到的分类信息，封装成了分类Vo，有分类id和分类名称
      */
     private List<CatalogVo> catalogs;
 

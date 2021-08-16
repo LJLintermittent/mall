@@ -1,4 +1,3 @@
-//PUT mall_product
 {
   "mappings": {
     "properties": {
