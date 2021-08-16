@@ -277,6 +277,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 Thread.sleep(200);
             } catch (Exception e) {
             }
+            //线程休眠一会后再递归调用，相当于自旋操作，如果不休眠，会将栈撑爆
             return getCatalogJsonFromDBWithRedisLock();
         }
     }
