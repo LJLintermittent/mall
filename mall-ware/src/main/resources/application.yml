@@ -22,4 +22,6 @@ server:
   port: 11000
 logging:
   level:
-    com.learn: debug
+    com.learn.mall: debug
+    com.alibaba.nacos.client.naming: WARN
+    com.alibaba.nacos.client.config.impl: WARN

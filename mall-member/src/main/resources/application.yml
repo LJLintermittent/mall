@@ -19,4 +19,4 @@ server:
   port: 8002
 logging:
   level:
-    com.learn.mall: dubug
+    com.learn.mall: info
