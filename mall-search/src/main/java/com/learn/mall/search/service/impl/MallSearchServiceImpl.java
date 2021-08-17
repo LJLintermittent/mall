@@ -91,8 +91,21 @@ public class MallSearchServiceImpl implements MallSearchService {
     private SearchRequest buildSearchRequest(SearchParamVo paramVo) {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         /**
-         *查询：模糊匹配，过滤（按
-         *照属性，分类，品牌，价格区间,库存）
+         *查询：模糊匹配，过滤 属性，分类，品牌，价格区间,库存
+         */
+        /*
+           TODO:Elasticsearch查询：
+           Bool查询对应Lucene中的BooleanQuery，它由一个或多个子句组成，每个子句都有特定的类型
+           must：返回的文档必须满足must子句的条件，并且参与计算分值
+           filter：返回的文档必须满足filter子句的条件。但是不会像Must一样，参与计算分值
+           should：返回的文档可能满足should子句的条件。在一个Bool查询中，如果没有must或者filter，
+           有一个或者多个should子句，那么只要满足一个就可以返回。minimum_should_match参数定义了至少满足几个子句。
+           must_not：返回的文档必须不满足must_not中的定义
+           ES中的常用查询：
+           TermQuery：精确查询，在搜索时会整体匹配关键字，而不会将关键字进行一个分词再去匹配
+           MatchQuery：全文检索，先将搜索词进行分词，再使用分词词条去索引中搜索
+           MultiQuery：一次可以匹配多个字段
+           boolQuery：全程对应的是lucene中的BooleanQuery
          */
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
         if (!StringUtils.isEmpty(paramVo.getKeyword())) {
@@ -102,9 +115,11 @@ public class MallSearchServiceImpl implements MallSearchService {
             builder.preTags("<b style='color:red'>");
             builder.postTags("</b>");
             sourceBuilder.highlighter(builder);
+            // 注意skuTitle是商城首页进行商品名称全文检索的字段，所以用了matchQuery，它可以对skutitle进行分词，然后倒排索引进行全文检索
             boolQuery.must(QueryBuilders.matchQuery("skuTitle", paramVo.getKeyword()));
         }
         if (paramVo.getCatalog3Id() != null) {
+            // termQuery：精确查询，不分词直接进行检索
             boolQuery.filter(QueryBuilders.termQuery("catalogId", paramVo.getCatalog3Id()));
         }
         if (paramVo.getBrandId() != null && paramVo.getBrandId().size() > 0) {
@@ -115,6 +130,7 @@ public class MallSearchServiceImpl implements MallSearchService {
         }
         //按照价格区间
         if (!StringUtils.isEmpty(paramVo.getSkuPrice())) {
+            // rangeQuery根据字段进行范围匹配
             RangeQueryBuilder rangeQuery = QueryBuilders.rangeQuery("skuPrice");
             String[] s = paramVo.getSkuPrice().split("_");
             //200_500  //  _600  // 1200_
@@ -128,9 +144,10 @@ public class MallSearchServiceImpl implements MallSearchService {
                     rangeQuery.gte(s[0]);
                 }
             }
+            // filter对文档进行条件过滤，与must不同的是他没有分数机制
             boolQuery.filter(rangeQuery);
         }
-        //按照所有指定的属性进行查询
+        // 按照所有指定的属性进行查询
         if (paramVo.getAttrs() != null && paramVo.getAttrs().size() > 0) {
             for (String attrStr : paramVo.getAttrs()) {
                 //attrs=1_5寸:8寸&attrs=2_8G:16G
@@ -327,7 +344,6 @@ public class MallSearchServiceImpl implements MallSearchService {
         }
         return searchResponseVo;
     }
-
 
     private String replaceQueryString(SearchParamVo paramVo, String value, String key) {
         String encode = null;
