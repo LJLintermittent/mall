@@ -1,7 +1,6 @@
 package com.learn.common.constant;
 
 
-
 /**
  * Description:
  * date: 2021/4/22 11:46
@@ -10,16 +9,26 @@ package com.learn.common.constant;
  * @author 李佳乐
  * @version 1.0
  */
+@SuppressWarnings("all")
 public class WareConstant {
 
+    /**
+     * 采购单状态枚举
+     */
     public enum PurchaseStatusEnum {
+
         CREATED(0, "新建"),
+
         ASSIGNED(1, "已分配"),
+
         RECEIVED(2, "已领取"),
+
         FINISHED(3, "已完成"),
+
         HASERROR(4, "有异常");
 
         private int code;
+
         private String msg;
 
         PurchaseStatusEnum(int code, String msg) {
@@ -36,14 +45,23 @@ public class WareConstant {
         }
     }
 
+    /**
+     * 采购需求项状态枚举
+     */
     public enum PurchaseDetailsStatusEnum {
+
         CREATED(0, "新建"),
+
         ASSIGNED(1, "已分配"),
+
         BUYING(2, "正在采购"),
+
         FINISHED(3, "已完成"),
+
         BUYERROR(4, "采购失败");
 
         private int code;
+
         private String msg;
 
         PurchaseDetailsStatusEnum(int code, String msg) {
@@ -60,10 +78,17 @@ public class WareConstant {
         }
     }
 
+    /**
+     * 采购业务异常信息异常码枚举
+     */
     public enum PurchaseDetailExceptionEnum {
+
         ERROR(996, "您输入的商品ID不存在"),
-        MERGE(1024,"该采购需求状态不是新建状态，无法合并");
+
+        MERGE(1024, "该采购需求状态不是新建状态，无法合并");
+
         private int code;
+
         private String msg;
 
         PurchaseDetailExceptionEnum(int code, String msg) {

@@ -10,10 +10,9 @@ package com.learn.common.utils;
 
 /**
  * 自定义异常
- *
- * @author Mark sunlightcs@gmail.com
  */
 public class RRException extends RuntimeException {
+
 	private static final long serialVersionUID = 1L;
 	
     private String msg;
