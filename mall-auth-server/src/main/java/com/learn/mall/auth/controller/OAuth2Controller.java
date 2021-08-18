@@ -52,7 +52,6 @@ public class OAuth2Controller {
     public String weibo(@RequestParam("code") String code, HttpSession session) throws Exception {
         Map<String, String> query = new HashMap<>();
         Map<String, String> headers = new HashMap<>();
-
         Map<String, String> map = new HashMap<>();
         map.put("client_id", "");
         map.put("client_secret", "");

@@ -21,7 +21,6 @@ public class MallWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/auth/login.html").setViewName("login");
         registry.addViewController("/auth/reg.html").setViewName("reg");
     }
 

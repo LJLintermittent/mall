@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient("mall-third-party")
 public interface ThirdPartyFeignService {
 
+    /**
+     * 调用第三方服务发送短信验证码
+     */
     @GetMapping("/thirdParty/sendCode")
     R sendCode(@RequestParam("phone") String phone, @RequestParam("code") String code);
 
