@@ -28,9 +28,16 @@ public interface CouponFeignService {
      * .(@RequestBody SpuBoundsEntity spuBounds) 将请求体里的json转换为SpuBoundsEntity对象
      * 只要 json数据模型是兼容的，双方服务无需使用同一个 TO对象
      */
+
+    /**
+     * 让优惠券服务保存spu的积分信息
+     */
     @PostMapping("/coupon/spubounds/save")
     R saveSpuBounds(@RequestBody SpuBoundsTo spuBoundsTo);
 
+    /**
+     * 让优惠券服务保存sku的满减信息
+     */
     @PostMapping("coupon/skufullreduction/saveInfo")
     R saveSkuReduction(@RequestBody SkuReductionTo skuReductionTo);
 

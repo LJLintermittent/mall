@@ -19,6 +19,9 @@ import java.util.List;
 @FeignClient("mall-search")
 public interface SearchFeignService {
 
+    /**
+     * 让检索服务保存上架的商品信息，保存在ES中
+     */
     @PostMapping("/search/save/product")
     R productStatusUp(@RequestBody List<SkuEsModel> skuEsModels);
 

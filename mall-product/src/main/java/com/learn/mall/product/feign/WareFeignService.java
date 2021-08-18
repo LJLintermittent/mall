@@ -18,10 +18,14 @@ import java.util.List;
 @FeignClient("mall-ware")
 public interface WareFeignService {
 
-    /**
+    /*
      * 1.R对象设计的时候可以加上泛型
      * 2.直接返回我们想要的结果
      * 3.自己封装解析的结果
+     */
+
+    /**
+     * 根据skuID来获取这些商品是否有库存
      */
     @PostMapping("/ware/waresku/hasstock")
     R getSkuHasStock(@RequestBody List<Long> skuIds);

@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @version 1.0
  */
 @FeignClient(value = "mall-seckill",fallback = SecKillFeignServiceFallback.class)
+@SuppressWarnings("all")
 public interface SecKillFeignService {
 
+    /**
+     * 获取秒杀的商品信息
+     */
     @GetMapping("/sku/secKill/{skuId}")
     R getSecKillSkuInfo(@PathVariable("skuId") Long skuId);
 
