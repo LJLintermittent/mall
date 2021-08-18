@@ -156,34 +156,40 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         SkuItemVo skuItemVo = new SkuItemVo();
 
         CompletableFuture<SkuInfoEntity> infoFuture = CompletableFuture.supplyAsync(() -> {
+            //1.获取sku的基本信息 pms_sku_info,这个结果需要被其他接口引用，所以使用supplyAsync，带返回值的编排
             SkuInfoEntity skuInfoEntity = getById(skuId);
             skuItemVo.setInfo(skuInfoEntity);
             return skuInfoEntity;
         }, threadPoolExecutor);
 
         CompletableFuture<Void> saleAttrFuture = infoFuture.thenAcceptAsync((res) -> {
+            // 获取spu的销售属性组合，thenAcceptAsync接收上一步的结果，但是自己不返回结果
             List<SkuItemVo.SkuItemSaleAttrVo> saleAttrVos = skuSaleAttrValueService.getSaleAttrsBySpuId(res.getSpuId());
             skuItemVo.setSaleAttr(saleAttrVos);
         }, threadPoolExecutor);
 
         CompletableFuture<Void> descFuture = infoFuture.thenAcceptAsync((res) -> {
+            // 获取spu的介绍，thenAcceptAsync接收上一步的结果，但是自己不返回结果
             SpuInfoDescEntity spuInfoDescEntity = spuInfoDescService.getById(res.getSpuId());
             skuItemVo.setDescEntity(spuInfoDescEntity);
         }, threadPoolExecutor);
 
         CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync((res) -> {
+            // 获取spu的规格参数，也就是分组名字和这个分组中对应的属性，这是规格参数属性，跟spu绑定
+            // thenAcceptAsync接收上一步的结果，但是自己不返回结果
             List<SkuItemVo.SpuItemAttrGroupVo> attrGroupVos = attrGroupService
                     .getAttrGroupWithAttrBySpuId(res.getSpuId(), res.getCatalogId());
             skuItemVo.setGroupAttrs(attrGroupVos);
         }, threadPoolExecutor);
 
         CompletableFuture<Void> imageFuture = CompletableFuture.runAsync(() -> {
+            // 获取sku的图片信息 pms_sku_images,runAsync传入runnable，无返回值
             List<SkuImagesEntity> images = skuImagesService.getImagesBySkuId(skuId);
             skuItemVo.setImages(images);
         }, threadPoolExecutor);
 
-        //查询当前sku是否参与秒杀
         CompletableFuture<Void> secKillFuture = CompletableFuture.runAsync(() -> {
+            // 查询当前sku是否参与秒杀，runAsync传入runnable，无返回值
             R result = secKillFeignService.getSecKillSkuInfo(skuId);
             if (result.getCode() == 0) {
                 SecKillInfoVo data = result.getData(new TypeReference<SecKillInfoVo>() {
@@ -192,6 +198,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             }
         }, threadPoolExecutor);
 
+        // 阻塞等待所有异步任务完成以后，统一返回最终结果
         CompletableFuture.allOf(saleAttrFuture, descFuture, baseAttrFuture, imageFuture, secKillFuture).get();
         return skuItemVo;
     }
