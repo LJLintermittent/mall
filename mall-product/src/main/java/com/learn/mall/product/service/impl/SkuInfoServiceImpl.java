@@ -133,7 +133,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         //第一步和第二步操作之间没有依赖关系,第三第四第五步需要依赖第一步返回的结果
         Long catalogId = skuInfoEntity.getCatalogId();
         Long spuId = skuInfoEntity.getSpuId();
-        //2.获取sku的图片信息 pms_sku_images
+        //2.获取sku的图片信息 pms_sku_images，skuid在这张表中不是主键，要加普通索引
         List<SkuImagesEntity> images = skuImagesService.getImagesBySkuId(skuId);
         skuItemVo.setImages(images);
         //3.获取spu的销售属性组合
