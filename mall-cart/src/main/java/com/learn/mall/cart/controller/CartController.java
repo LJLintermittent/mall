@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("all")
 public class CartController {
 
     @Autowired

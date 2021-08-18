@@ -20,12 +20,21 @@ import java.util.List;
 @FeignClient("mall-product")
 public interface ProductFeignService {
 
+    /**
+     * 根据skuID来获取sku详细信息
+     */
     @RequestMapping("/product/skuinfo/info/{skuId}")
     R getSkuInfo(@PathVariable("skuId") Long skuId);
 
+    /**
+     * 根据skuID来获取sku的销售属性信息
+     */
     @GetMapping("/product/skusaleattrvalue/stringlist/{skuId}")
     List<String> getSkuSaleAttrValues(@PathVariable("skuId") Long skuId);
 
+    /**
+     * 根据skuID来获取商品价格
+     */
     @GetMapping("/product/skuinfo/{skuId}/price")
     R getPrice(@PathVariable("skuId") Long skuId);
 

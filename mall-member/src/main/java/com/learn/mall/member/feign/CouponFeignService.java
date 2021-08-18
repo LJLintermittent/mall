@@ -19,6 +19,6 @@ public interface CouponFeignService {
      * 查询当前用户的优惠券列表
      */
     @RequestMapping("/coupon/coupon/member/list")
-    public R memberCoupon();
+    R memberCoupon();
 
 }

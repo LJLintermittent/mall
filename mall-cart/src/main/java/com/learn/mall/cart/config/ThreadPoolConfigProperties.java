@@ -16,8 +16,20 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class ThreadPoolConfigProperties {
+
+    /**
+     * 核心线程数
+     */
     private Integer coreSize;
+
+    /**
+     * 最大线程数
+     */
     private Integer maxSize;
+
+    /**
+     * 线程存活时间
+     */
     private Integer keepAliveTime;
 
 }

@@ -21,10 +21,6 @@ import reactor.core.publisher.Mono;
 @Configuration
 public class SentinelConfig {
 
-    /**
-     * TODO 响应式编程
-     * 天然支持高并发系统
-     */
     public SentinelConfig() {
         GatewayCallbackManager.setBlockHandler(new BlockRequestHandler() {
             //网关限流了请求，就会调用此回调方法
