@@ -46,7 +46,6 @@ public class SkuFullReductionController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuFullReductionService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 

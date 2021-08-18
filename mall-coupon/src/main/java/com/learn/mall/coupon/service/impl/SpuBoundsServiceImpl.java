@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.SpuBoundsService;
 @Service("spuBoundsService")
 public class SpuBoundsServiceImpl extends ServiceImpl<SpuBoundsDao, SpuBoundsEntity> implements SpuBoundsService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuBoundsEntity> page = this.page(

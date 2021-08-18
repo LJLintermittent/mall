@@ -30,6 +30,9 @@ public class SeckillSessionServiceImpl extends ServiceImpl<SeckillSessionDao, Se
     @Autowired
     private SeckillSkuRelationService seckillSkuRelationService;
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SeckillSessionEntity> page = this.page(

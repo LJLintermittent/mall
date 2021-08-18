@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.CouponSpuCategoryRelationService;
 @Service("couponSpuCategoryRelationService")
 public class CouponSpuCategoryRelationServiceImpl extends ServiceImpl<CouponSpuCategoryRelationDao, CouponSpuCategoryRelationEntity> implements CouponSpuCategoryRelationService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CouponSpuCategoryRelationEntity> page = this.page(

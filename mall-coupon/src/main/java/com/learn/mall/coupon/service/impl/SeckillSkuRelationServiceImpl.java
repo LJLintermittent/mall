@@ -17,8 +17,12 @@ import org.springframework.util.StringUtils;
 
 
 @Service("seckillSkuRelationService")
+@SuppressWarnings("all")
 public class SeckillSkuRelationServiceImpl extends ServiceImpl<SeckillSkuRelationDao, SeckillSkuRelationEntity> implements SeckillSkuRelationService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         QueryWrapper<SeckillSkuRelationEntity> queryWrapper = new QueryWrapper<>();

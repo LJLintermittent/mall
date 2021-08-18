@@ -14,8 +14,12 @@ import com.learn.mall.coupon.service.SeckillSkuNoticeService;
 
 
 @Service("seckillSkuNoticeService")
+@SuppressWarnings("all")
 public class SeckillSkuNoticeServiceImpl extends ServiceImpl<SeckillSkuNoticeDao, SeckillSkuNoticeEntity> implements SeckillSkuNoticeService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SeckillSkuNoticeEntity> page = this.page(

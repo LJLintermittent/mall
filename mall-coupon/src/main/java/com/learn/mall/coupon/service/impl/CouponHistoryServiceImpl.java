@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.CouponHistoryService;
 @Service("couponHistoryService")
 public class CouponHistoryServiceImpl extends ServiceImpl<CouponHistoryDao, CouponHistoryEntity> implements CouponHistoryService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CouponHistoryEntity> page = this.page(

@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.SeckillPromotionService;
 @Service("seckillPromotionService")
 public class SeckillPromotionServiceImpl extends ServiceImpl<SeckillPromotionDao, SeckillPromotionEntity> implements SeckillPromotionService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SeckillPromotionEntity> page = this.page(

@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.HomeAdvService;
 @Service("homeAdvService")
 public class HomeAdvServiceImpl extends ServiceImpl<HomeAdvDao, HomeAdvEntity> implements HomeAdvService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<HomeAdvEntity> page = this.page(

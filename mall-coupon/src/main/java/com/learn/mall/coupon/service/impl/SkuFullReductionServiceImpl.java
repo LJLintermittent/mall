@@ -36,6 +36,9 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
     @Autowired
     private MemberPriceService memberPriceService;
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuFullReductionEntity> page = this.page(

@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.HomeSubjectSpuService;
 @Service("homeSubjectSpuService")
 public class HomeSubjectSpuServiceImpl extends ServiceImpl<HomeSubjectSpuDao, HomeSubjectSpuEntity> implements HomeSubjectSpuService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<HomeSubjectSpuEntity> page = this.page(

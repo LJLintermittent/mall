@@ -16,6 +16,9 @@ import com.learn.mall.coupon.service.SkuLadderService;
 @Service("skuLadderService")
 public class SkuLadderServiceImpl extends ServiceImpl<SkuLadderDao, SkuLadderEntity> implements SkuLadderService {
 
+    /**
+     * 基本分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuLadderEntity> page = this.page(
