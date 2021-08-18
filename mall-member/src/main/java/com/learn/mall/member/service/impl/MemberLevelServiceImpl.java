@@ -17,18 +17,21 @@ import com.learn.mall.member.service.MemberLevelService;
 
 
 @Service("memberLevelService")
+@SuppressWarnings("all")
 public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelDao, MemberLevelEntity> implements MemberLevelService {
 
     @Autowired
     private MemberLevelDao memberLevelDao;
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberLevelEntity> page = this.page(
                 new Query<MemberLevelEntity>().getPage(params),
                 new QueryWrapper<MemberLevelEntity>()
         );
-
         return new PageUtils(page);
     }
 

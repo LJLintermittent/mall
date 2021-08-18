@@ -9,7 +9,9 @@ package com.learn.mall.member.exception;
  * @version 1.0
  */
 public class PhoneExistException extends RuntimeException {
+
     public PhoneExistException() {
         super("手机号已存在");
     }
+
 }

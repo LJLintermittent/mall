@@ -16,13 +16,15 @@ import com.learn.mall.member.service.MemberCollectSpuService;
 @Service("memberCollectSpuService")
 public class MemberCollectSpuServiceImpl extends ServiceImpl<MemberCollectSpuDao, MemberCollectSpuEntity> implements MemberCollectSpuService {
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberCollectSpuEntity> page = this.page(
                 new Query<MemberCollectSpuEntity>().getPage(params),
                 new QueryWrapper<MemberCollectSpuEntity>()
         );
-
         return new PageUtils(page);
     }
 

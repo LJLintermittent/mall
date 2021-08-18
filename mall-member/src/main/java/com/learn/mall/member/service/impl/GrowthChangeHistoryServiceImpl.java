@@ -16,13 +16,15 @@ import com.learn.mall.member.service.GrowthChangeHistoryService;
 @Service("growthChangeHistoryService")
 public class GrowthChangeHistoryServiceImpl extends ServiceImpl<GrowthChangeHistoryDao, GrowthChangeHistoryEntity> implements GrowthChangeHistoryService {
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<GrowthChangeHistoryEntity> page = this.page(
                 new Query<GrowthChangeHistoryEntity>().getPage(params),
                 new QueryWrapper<GrowthChangeHistoryEntity>()
         );
-
         return new PageUtils(page);
     }
 

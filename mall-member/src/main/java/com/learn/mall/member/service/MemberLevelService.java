@@ -13,10 +13,17 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:55:02
  */
+@SuppressWarnings("all")
 public interface MemberLevelService extends IService<MemberLevelEntity> {
 
+    /**
+     * 基础分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 获取默认用户等级
+     */
     MemberLevelEntity getDefaultLevelInfo();
 
 }

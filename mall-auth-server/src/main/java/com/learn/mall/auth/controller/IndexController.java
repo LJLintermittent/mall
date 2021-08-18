@@ -76,8 +76,8 @@ public class IndexController {
         String redisCode = stringRedisTemplate.opsForValue().get(AuthConstant.SMS_CODE_CACHE_PREFIX + phone);
         if (!StringUtils.isEmpty(redisCode)) {
             long l = Long.parseLong(redisCode.split("_")[1]);
-            //阻止在一分钟以内用户恶意通过postman等工具刷短信验证码
-            if (System.currentTimeMillis() - l < 600000) {
+            //阻止在一分钟以内用户恶意通过postman等工具刷短信验证码 60*1000
+            if (System.currentTimeMillis() - l < 60000) {
                 return R.error(StatusCodeEnum.SMS_CODE_EXCEPTION.getCode(),
                         StatusCodeEnum.SMS_CODE_EXCEPTION.getMsg());
             }
@@ -91,6 +91,9 @@ public class IndexController {
         return R.ok();
     }
 
+    /**
+     * 用户注册
+     */
     @PostMapping("/register")
     public String register(@Valid UserRegisterVo vo, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
@@ -135,6 +138,9 @@ public class IndexController {
         }
     }
 
+    /**
+     * 用户登录
+     */
     @PostMapping("/login")
     public String login(UserLoginVo vo, RedirectAttributes attributes,
                         HttpSession session) {

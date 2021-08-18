@@ -19,6 +19,9 @@ import com.learn.mall.member.service.MemberReceiveAddressService;
 @Service("memberReceiveAddressService")
 public class MemberReceiveAddressServiceImpl extends ServiceImpl<MemberReceiveAddressDao, MemberReceiveAddressEntity> implements MemberReceiveAddressService {
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberReceiveAddressEntity> page = this.page(

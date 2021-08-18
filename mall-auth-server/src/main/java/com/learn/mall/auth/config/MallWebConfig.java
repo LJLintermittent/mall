@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 
 /**
- * 页面跳转请求映射
+ * 页面跳转请求映射，省去了写专门的只用于跳转的空controller方法
  */
 @Configuration
 public class MallWebConfig implements WebMvcConfigurer {

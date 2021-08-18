@@ -16,13 +16,15 @@ import com.learn.mall.member.service.IntegrationChangeHistoryService;
 @Service("integrationChangeHistoryService")
 public class IntegrationChangeHistoryServiceImpl extends ServiceImpl<IntegrationChangeHistoryDao, IntegrationChangeHistoryEntity> implements IntegrationChangeHistoryService {
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<IntegrationChangeHistoryEntity> page = this.page(
                 new Query<IntegrationChangeHistoryEntity>().getPage(params),
                 new QueryWrapper<IntegrationChangeHistoryEntity>()
         );
-
         return new PageUtils(page);
     }
 

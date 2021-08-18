@@ -9,7 +9,9 @@ package com.learn.mall.member.exception;
  * @version 1.0
  */
 public class UsernameExistException extends RuntimeException{
+
     public UsernameExistException() {
         super("用户名已存在");
     }
+
 }

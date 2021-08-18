@@ -16,13 +16,15 @@ import com.learn.mall.member.service.MemberLoginLogService;
 @Service("memberLoginLogService")
 public class MemberLoginLogServiceImpl extends ServiceImpl<MemberLoginLogDao, MemberLoginLogEntity> implements MemberLoginLogService {
 
+    /**
+     * 基础分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberLoginLogEntity> page = this.page(
                 new Query<MemberLoginLogEntity>().getPage(params),
                 new QueryWrapper<MemberLoginLogEntity>()
         );
-
         return new PageUtils(page);
     }
 
