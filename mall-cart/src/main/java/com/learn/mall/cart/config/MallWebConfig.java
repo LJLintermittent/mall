@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class MallWebConfig implements WebMvcConfigurer {
+
     /**
      * 添加拦截器
      */

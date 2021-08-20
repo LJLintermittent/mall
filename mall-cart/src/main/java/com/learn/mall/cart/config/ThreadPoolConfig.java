@@ -26,9 +26,9 @@ public class ThreadPoolConfig {
                 , properties.getMaxSize()
                 , properties.getKeepAliveTime()
                 , TimeUnit.SECONDS
-                , new LinkedBlockingQueue<>(10000)
+                , new LinkedBlockingQueue<>(200)
                 , Executors.defaultThreadFactory()
-                , new ThreadPoolExecutor.AbortPolicy());
+                , new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
 }
