@@ -2,9 +2,9 @@
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBf49d43562091220a57af5fbcac7526c4?method=download&shareKey=b989898ff1d12286b642c0697caa06a8)
 
-![image](https://note.youdao.com/yws/api/personal/file/WEBfee07438362708d88e2b89d1f5cae61a?method=download&shareKey=445f25122540e93dcc6c42c3c5034e9b)
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821014933847.png)
 
-![image](https://note.youdao.com/yws/api/personal/file/WEB327c5a8ad19b2aec24c2cd46c8dd3811?method=download&shareKey=7312fbbc5fcdfdf0f5cfb9543f985b66)
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015010012.png)
 
 ## 介绍
 
@@ -109,51 +109,77 @@
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBf49d43562091220a57af5fbcac7526c4?method=download&shareKey=b989898ff1d12286b642c0697caa06a8)
 
-![image](https://note.youdao.com/yws/api/personal/file/WEBd99b4e3cfa32133787c03de2fe39e5c5?method=download&shareKey=2afa20e682cc807410dbe3ac753db0c0)
+* 商品上架
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015158928.png)
+
+* 商品管理
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%95%86%E5%93%81%E7%AE%A1%E7%90%86%E9%A1%B5.png)
 
+* 规格参数(spu的基本属性)
+
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E8%A7%84%E6%A0%BC%E5%8F%82%E6%95%B0%E9%A1%B5.png)
+
+* 采购单
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEB4b500524b5e0384176c1a811dc044b35?method=download&shareKey=3a536cc3bd9d260f8ef8ee9fd35e309b)
 
+* 采购项
+
 ![image](https://note.youdao.com/yws/api/personal/file/WEBfbff1d912387ef9ae789bb06682cc3da?method=download&shareKey=0d570b3922a6c90608646a56311af787)
 
-* 商城前台系统首页
+* 会员等级
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%9F%8E%E9%A6%96%E9%A1%B5.png)
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015238945.png)
 
-![image](https://note.youdao.com/yws/api/personal/file/WEB327c5a8ad19b2aec24c2cd46c8dd3811?method=download&shareKey=7312fbbc5fcdfdf0f5cfb9543f985b66)
+* 商品发布
 
-* 商品检索页
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015334396.png)
 
-![image](https://note.youdao.com/yws/api/personal/file/WEB15985f4584a260ac31da914c102ad6d1?method=download&shareKey=7c8ca378c06abc4e4c0022b0310bc583)
+* 商品库存信息
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015403848.png)
+
+* 前台商城系统
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015436885.png)
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015504449.png)
+
+* 微博社交登录
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821020601699.png)
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821020624763.png)
+
+* 商品检索
+
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015552889.png)
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%93%81%E6%A3%80%E7%B4%A2%E9%A1%B5%28%E4%B8%8B%29.png)
 
-* 商品详情页
+* 商品详情展示
 
 ![image](https://note.youdao.com/yws/api/personal/file/WEBbd5d3a46933d4ce2ddb1e4d0378a7c9f?method=download&shareKey=02741fd5bc0c1322ef28e0479e293db5)
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E5%95%86%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%28%E4%B8%8B%29.png)
 
-* 购物车
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015631452.png)
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E8%B4%AD%E7%89%A9%E8%BD%A6.png)
+* 购物车列表
 
-* 添加购物车成功后的展示
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015736150.png)
 
-<img src="https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E6%B7%BB%E5%8A%A0%E8%B4%AD%E7%89%A9%E8%BD%A6%E6%88%90%E5%8A%9F%E9%A1%B5.png" alt="image" style="zoom:50%;" />
+* 添加购物车成功
 
-* 购物车列表页
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821015930362.png)
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E8%B4%AD%E7%89%A9%E8%BD%A6%E5%88%97%E8%A1%A8%E9%A1%B5.png)
+* 确认收货地址
 
-* 确认收货地址页
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821020011820.png)
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E9%80%89%E6%8B%A9%E6%94%B6%E8%B4%A7%E5%9C%B0%E5%9D%80%E9%A1%B5.png)
-
-* 支付方式选择页
+* 支付方式选择
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E9%80%89%E6%8B%A9%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98%E9%A1%B5.png)
 
@@ -165,9 +191,9 @@
 
 ![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E7%AD%89%E5%BE%85%E8%B7%B3%E8%BD%AC%E9%A1%B5.png)
 
-* 用户历史订单列表页
+* 用户订单列表
 
-![image](https://mall-ljl.oss-cn-beijing.aliyuncs.com/mall/mallp/%E8%AE%A2%E5%8D%95%E9%A1%B5.png)
+![image](https://cdn.jsdelivr.net/gh/chen-xing/figure_bed_02/cdn/20210821020207884.png)
 
 * 秒杀商品详情页(如果此商品为秒杀商品，在价格后面会带上秒杀价，并且加入购物车按钮会变为立即抢购)
 
