@@ -53,13 +53,13 @@ public class OAuth2Controller {
         Map<String, String> query = new HashMap<>();
         Map<String, String> headers = new HashMap<>();
         Map<String, String> map = new HashMap<>();
-        map.put("client_id", "");
-        map.put("client_secret", "");
+        map.put("client_id", "4093990418");
+        map.put("client_secret", "4cd20c854c5a01f0c03de09da36a8e47");
         map.put("grand_type", "authorization_code");
         map.put("redirect_uri", "http://auth.mall.com/oauth2.0/weibo/success");
         map.put("code", code);
         //根据code换取accessToken
-        HttpResponse response = HttpUtils.doPost("api.weibo.com", "/oauth2/access_token", "post",
+        HttpResponse response = HttpUtils.doPost("https://api.weibo.com", "/oauth2/access_token", "post",
                 headers, query, map);
         //处理
         if (response.getStatusLine().getStatusCode() == 200) {
@@ -83,10 +83,10 @@ public class OAuth2Controller {
                 return "redirect:http://mall.com";
             } else {
                 //失败就跳回登录页面
-                return "redirect:http://auth.mall.com/login.html";
+                return "redirect:http://auth.mall.com/auth/login.html";
             }
         } else {
-            return "redirect:http://auth.mall.com/login.html";
+            return "redirect:http://auth.mall.com/auth/login.html";
         }
     }
 

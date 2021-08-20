@@ -140,9 +140,8 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
             updateMemberEntity.setId(memberEntity.getId());
             updateMemberEntity.setAccessToken(socialUser.getAccess_token());
             updateMemberEntity.setExpiresIn(socialUser.getExpires_in());
-
+            //由于每次登录用code换来的accesstoken都不一样，所以需要更新数据库
             baseMapper.updateById(updateMemberEntity);
-
             memberEntity.setAccessToken(socialUser.getAccess_token());
             memberEntity.setExpiresIn(socialUser.getExpires_in());
             return memberEntity;
@@ -155,7 +154,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
                 Map<String, String> queryMap = new HashMap<>();
                 queryMap.put("access_token", socialUser.getAccess_token());
                 queryMap.put("uid", socialUser.getUid());
-                HttpResponse response = HttpUtils.doGet("http://api.weibo.com"
+                HttpResponse response = HttpUtils.doGet("https://api.weibo.com"
                         , "/2/users/show.json", "get",
                         new HashMap<String, String>(), queryMap);
                 if (response.getStatusLine().getStatusCode() == 200) {
