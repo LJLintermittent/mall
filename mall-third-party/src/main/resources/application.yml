@@ -21,7 +21,7 @@ spring:
     host: 192.168.190.132
     port: 6379
 server:
-  port: 30000
+  port: 40000
 
 
 
