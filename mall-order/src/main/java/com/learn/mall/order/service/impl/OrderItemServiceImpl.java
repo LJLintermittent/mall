@@ -63,6 +63,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
         long deliveryTag = message.getMessageProperties().getDeliveryTag();
         //签收货物，非批量模式
         try {
+            // 手动ack
             channel.basicAck(deliveryTag, false);
         } catch (IOException e) {
             //网络中断

@@ -157,7 +157,7 @@ public class MyRabbitMQConfig {
         //1.设置生产者发送给broker的确认回调机制
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
             /**
-             *MQ的代理 也就是broker收到了消息，那么这个方法会自动回调
+             * MQ的代理 也就是broker收到了消息，那么这个方法会自动回调
              * 只要消息抵达服务器代理 broker 就ack=true
              * @param correlationData 当前消息唯一关联的数据（唯一ID）
              * @param ack 消息是否成功送到
