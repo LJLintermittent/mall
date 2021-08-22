@@ -1,14 +1,5 @@
 package com.learn.mall.order.vo;
 
-/**
- * Description:
- * date: 2021/5/12 20:31
- * Package: com.learn.mall.order.vo
- *
- * @author 李佳乐
- * @version 1.0
- */
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,14 +30,14 @@ public class OrderConfirmVo {
     //封装每一个sku是否有库存
     @Setter
     @Getter
-    Map<Long,Boolean> stock;
+    Map<Long, Boolean> stock;
 
     //订单防重令牌
     @Setter
     @Getter
     String orderToken;
-    
-    public Integer getCount(){
+
+    public Integer getCount() {
         return items.size();
     }
 

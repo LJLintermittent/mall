@@ -121,8 +121,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         CompletableFuture<Void> getCartItemsTask = CompletableFuture.runAsync(() -> {
             //远程查询购物车中所有选中的购物项(购物车服务)
             /**
-             * feign远程调用丢失请求头的问题
+             * feign远程调用丢失请求头的问题：
+             * feign构建了一个新的请求模板，这个请求模板没有任何请求头
+             *
              *解决：加上feign远程调用的请求拦截器
+             * feign远程调用：
+             * ReflectiveFeign.invoke方法，先判断方法名字是不是equlas，hashcode，tostring这些方法，
+             * 如果是的话，直接调用对应的方法
+             * 否则进入dispatch.get(method).invoke(args);
+             * 通过invoke方法进入SynchronousMethodHandler实现类实现的invoke方法
+             * 首先构建请求模板，RequestTemplate template = buildTemplateFromArgs.create(argv);
+             * 然后调用真正执行的方法：return executeAndDecode(template);
+             * 然后执行targetRequest方法，传入构建好的模板
+             *   Request targetRequest(RequestTemplate template) {
+             *     for (RequestInterceptor interceptor : requestInterceptors) {
+             *       interceptor.apply(template);
+             *     }
+             *  重点：它会一个一个遍历拦截器，调用apply方法，所以我们可以通过这个机制来把请求头再设置进去
+             *  装饰器？
              */
             //每一个线程都来共享之前的请求数据
             RequestContextHolder.setRequestAttributes(requestAttributes);
