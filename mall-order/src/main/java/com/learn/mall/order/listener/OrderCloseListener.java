@@ -20,6 +20,7 @@ import java.io.IOException;
  * @version 1.0
  */
 @Component
+@SuppressWarnings("all")
 @RabbitListener(queues = "order.release.order.queue")
 public class OrderCloseListener {
 

@@ -13,8 +13,12 @@ import java.util.Map;
  * @email 18066550996@163.com
  * @date 2021-04-09 21:11:13
  */
+@SuppressWarnings("all")
 public interface PaymentInfoService extends IService<PaymentInfoEntity> {
 
+    /**
+     * 通用分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 }
 

@@ -25,8 +25,8 @@ import com.learn.common.utils.R;
  * @date 2021-04-09 21:18:51
  */
 @RestController
-@RequestMapping("ware/waresku")
 @SuppressWarnings("all")
+@RequestMapping("ware/waresku")
 public class WareSkuController {
 
     @Autowired
@@ -34,7 +34,6 @@ public class WareSkuController {
 
     /**
      * 订单业务锁定库存需求
-     * <p>
      * 返回哪个sku锁定了几件，锁定成功了还是失败了
      */
     @PostMapping("/lock/order")

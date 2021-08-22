@@ -16,6 +16,9 @@ import com.learn.mall.order.service.OrderReturnApplyService;
 @Service("orderReturnApplyService")
 public class OrderReturnApplyServiceImpl extends ServiceImpl<OrderReturnApplyDao, OrderReturnApplyEntity> implements OrderReturnApplyService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderReturnApplyEntity> page = this.page(

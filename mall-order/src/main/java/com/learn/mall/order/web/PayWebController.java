@@ -27,6 +27,7 @@ import java.util.Map;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("all")
 public class PayWebController {
 
     @Autowired

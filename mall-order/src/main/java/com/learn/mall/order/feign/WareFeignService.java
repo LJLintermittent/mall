@@ -21,12 +21,21 @@ import java.util.List;
 @FeignClient("mall-ware")
 public interface WareFeignService {
 
+    /**
+     * 根据这批skuID来查看是否有库存
+     */
     @PostMapping("/ware/waresku/hasstock")
     R getSkuHasStock(@RequestBody List<Long> skuIds);
 
+    /**
+     * 根据收货地址来计算运费
+     */
     @GetMapping("/ware/wareinfo/fare")
     R getFare(@RequestParam("addrId") Long addrId);
 
+    /**
+     * 根据订单号和锁住的库存信息，返回哪个sku锁定了几件，锁定成功了还是失败了
+     */
     @PostMapping("/ware/waresku/lock/order")
     R orderLockStock(@RequestBody WareSkuLockVo vo);
 

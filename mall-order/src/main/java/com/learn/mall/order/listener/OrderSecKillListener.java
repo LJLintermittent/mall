@@ -22,6 +22,7 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
+@SuppressWarnings("all")
 @RabbitListener(queues = "order.seckill.order.queue")
 public class OrderSecKillListener {
 

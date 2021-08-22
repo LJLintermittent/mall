@@ -84,7 +84,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderEntity> page = this.page(
@@ -354,7 +356,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     /**
-     * TODO 创建秒杀订单
+     * 创建秒杀订单
      * 只完成了基本的订单表和订单项表的部分数据的填充
      */
     @Override

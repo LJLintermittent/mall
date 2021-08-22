@@ -16,6 +16,9 @@ import com.learn.mall.order.service.OrderOperateHistoryService;
 @Service("orderOperateHistoryService")
 public class OrderOperateHistoryServiceImpl extends ServiceImpl<OrderOperateHistoryDao, OrderOperateHistoryEntity> implements OrderOperateHistoryService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderOperateHistoryEntity> page = this.page(

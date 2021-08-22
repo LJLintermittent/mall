@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient("mall-product")
 public interface ProductFeignService {
 
+    /**
+     * 通过skuID来获取spu的详细信息
+     */
     @GetMapping("/product/spuinfo/skuId/{id}")
     R getSpuInfoBySkuId(@PathVariable("id") Long skuId);
 

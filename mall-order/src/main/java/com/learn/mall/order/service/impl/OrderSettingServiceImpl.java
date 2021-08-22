@@ -16,6 +16,9 @@ import com.learn.mall.order.service.OrderSettingService;
 @Service("orderSettingService")
 public class OrderSettingServiceImpl extends ServiceImpl<OrderSettingDao, OrderSettingEntity> implements OrderSettingService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderSettingEntity> page = this.page(

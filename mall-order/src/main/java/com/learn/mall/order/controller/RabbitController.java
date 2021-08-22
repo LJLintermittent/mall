@@ -20,12 +20,17 @@ import java.util.UUID;
  * @version 1.0
  */
 
+@SuppressWarnings("all")
 @RestController
 public class RabbitController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    /**
+     * 测试rabbithandler与rabbitlistener注解作用的接口
+     * 无实际调用
+     */
     @GetMapping("/sendMq")
     public String sendMq(@RequestParam(value = "num", defaultValue = "10") Integer num) {
         for (int i = 0; i < num; i++) {

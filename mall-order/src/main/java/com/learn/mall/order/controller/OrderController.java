@@ -11,7 +11,6 @@ import com.learn.mall.order.service.OrderService;
 import com.learn.common.utils.PageUtils;
 import com.learn.common.utils.R;
 
-
 /**
  * 订单
  *
@@ -20,22 +19,23 @@ import com.learn.common.utils.R;
  * @date 2021-04-09 21:11:13
  */
 @RestController
+@SuppressWarnings("all")
 @RequestMapping("order/order")
 public class OrderController {
+
     @Autowired
     private OrderService orderService;
 
     /**
      * 支付成功以后的回调页面
      * 需要查出当前登录用户的所有订单列表数据
-     *
-     * ps：课程中此接口为member服务远程调用接口
+     * 测试接口，无实际调用
      */
-//    @GetMapping("/listWithItem")
-//    public R OrderSuccessReturnPage(@RequestParam Map<String, Object> params) {
-//        PageUtils page = orderService.queryPageWithItem(params);
-//        return R.ok().put("page",page);
-//    }
+    @GetMapping("/listWithItem")
+    public R OrderSuccessReturnPage(@RequestParam Map<String, Object> params) {
+        PageUtils page = orderService.queryPageWithItem(params);
+        return R.ok().put("page", page);
+    }
 
     /**
      * 根据订单号获取订单状态，远程调用接口
@@ -50,22 +50,17 @@ public class OrderController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("order:order:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = orderService.queryPage(params);
-
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("order:order:info")
     public R info(@PathVariable("id") Long id) {
         OrderEntity order = orderService.getById(id);
-
         return R.ok().put("order", order);
     }
 
@@ -73,10 +68,8 @@ public class OrderController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("order:order:save")
     public R save(@RequestBody OrderEntity order) {
         orderService.save(order);
-
         return R.ok();
     }
 
@@ -84,10 +77,8 @@ public class OrderController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("order:order:update")
     public R update(@RequestBody OrderEntity order) {
         orderService.updateById(order);
-
         return R.ok();
     }
 
@@ -95,10 +86,8 @@ public class OrderController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("order:order:delete")
     public R delete(@RequestBody Long[] ids) {
         orderService.removeByIds(Arrays.asList(ids));
-
         return R.ok();
     }
 

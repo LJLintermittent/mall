@@ -15,6 +15,9 @@ import java.util.Map;
  */
 public interface OrderReturnReasonService extends IService<OrderReturnReasonEntity> {
 
+    /**
+     * 通用分页查询
+     */
     PageUtils queryPage(Map<String, Object> params);
 }
 

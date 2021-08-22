@@ -16,6 +16,9 @@ import com.learn.mall.order.service.RefundInfoService;
 @Service("refundInfoService")
 public class RefundInfoServiceImpl extends ServiceImpl<RefundInfoDao, RefundInfoEntity> implements RefundInfoService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<RefundInfoEntity> page = this.page(

@@ -17,6 +17,9 @@ import java.util.List;
 @FeignClient("mall-cart")
 public interface CartFeignService {
 
+    /**
+     * 获取当前用户的购物车中的购物项
+     */
     @GetMapping("/currentUserCartItems")
     List<OrderItemVo> getCurrentUserCartItems();
 

@@ -16,6 +16,9 @@ import com.learn.mall.order.service.PaymentInfoService;
 @Service("paymentInfoService")
 public class PaymentInfoServiceImpl extends ServiceImpl<PaymentInfoDao, PaymentInfoEntity> implements PaymentInfoService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<PaymentInfoEntity> page = this.page(

@@ -16,6 +16,9 @@ import com.learn.mall.order.service.OrderReturnReasonService;
 @Service("orderReturnReasonService")
 public class OrderReturnReasonServiceImpl extends ServiceImpl<OrderReturnReasonDao, OrderReturnReasonEntity> implements OrderReturnReasonService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderReturnReasonEntity> page = this.page(

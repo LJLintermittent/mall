@@ -23,12 +23,18 @@ import com.learn.mall.order.service.OrderItemService;
 
 /**
  * @RabbitListener(queues = {"hello-java-queue"}) 标在类上，代表要去哪个队列去获取消息 监听队列
- * @RabbitHandler 标在方法上，重载区分不同的消息
+ * @RabbitHandler 标在方法上，表示可以接收这个类上标注的队列中的消息，然后在具体的方法上标注这个注解后，在方法的参数中写好接受来的数据类型
+ * RabbitHandler主要就是用来重载区分不同的方法
+ * RabbitListener标在类上表示接收哪些队列的消息就ok了
  */
+@SuppressWarnings("all")
 @Service("orderItemService")
 @RabbitListener(queues = {"hello-java-queue"})
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEntity> implements OrderItemService {
 
+    /**
+     * 通用分页查询
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderItemEntity> page = this.page(
@@ -65,7 +71,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemDao, OrderItemEnt
     }
 
     @RabbitHandler
-    public void receiveMessage2(OrderEntity orderEntity) {
+    public void receiveMessage(OrderEntity orderEntity) {
         System.out.println("接收到的消息：" + orderEntity);
     }
 
