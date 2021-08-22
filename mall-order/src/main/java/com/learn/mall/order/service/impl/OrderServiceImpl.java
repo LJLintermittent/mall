@@ -104,43 +104,47 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException {
         OrderConfirmVo orderConfirmVo = new OrderConfirmVo();
         MemberRespVo memberRespVo = LoginUserInterceptor.threadLocal.get();
-        /**
+        /*
          * feign在异步调用丢失应用上下文问题
          * 原因 threadLocal只在当前线程执行中共享数据，而异步任务开了多个线程
          * 解决：获取之前的请求域，在每一异步任务中共享
+         * 获取之前的请求 requestAttributesHolder ---> threadlocal
+         * 因为这个获取上下文保持器的底层是threadlocal，只在线程内共享数据
+         * 所以当feign使用了多线程的时候，上下文保持器就没办法保持住共享信息，所以需要在异步之前，先统一获取
+         * 异步开了以后，在将统一获取的信息requestAttributes设置进去
          */
-        //获取之前的请求
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         CompletableFuture<Void> getAddressTask = CompletableFuture.runAsync(() -> {
-            //远程查询当前会员所有的收获地址列表(会员服务)
-            //每一个线程都来共享之前的请求数据
+            /*
+              远程查询当前会员所有的收获地址列表(会员服务)
+              每一个线程都来共享之前的请求数据
+             */
             RequestContextHolder.setRequestAttributes(requestAttributes);
             List<MemberAddressVo> address = memberFeignService.getAddress(memberRespVo.getId());
             orderConfirmVo.setAddress(address);
         }, threadPoolExecutor);
+        /*
+         * 远程查询购物车中所有选中的购物项(购物车服务)
+         * feign远程调用丢失请求头的问题：
+         * feign构建了一个新的请求模板，这个请求模板没有任何请求头
+         *
+         * 解决：加上feign远程调用的请求拦截器
+         * feign远程调用：
+         * ReflectiveFeign.invoke方法，先判断方法名字是不是equlas，hashcode，tostring这些方法，
+         * 如果是的话，直接调用对应的方法
+         * 否则进入dispatch.get(method).invoke(args);
+         * 通过invoke方法进入SynchronousMethodHandler实现类实现的invoke方法
+         * 首先构建请求模板，RequestTemplate template = buildTemplateFromArgs.create(argv);
+         * 然后调用真正执行的方法：return executeAndDecode(template);
+         * 然后执行targetRequest方法，传入构建好的模板
+         *   Request targetRequest(RequestTemplate template) {
+         *     for (RequestInterceptor interceptor : requestInterceptors) {
+         *       interceptor.apply(template);
+         *     }
+         *  重点：它会一个一个遍历拦截器，调用apply方法，所以我们可以通过这个机制来把请求头再设置进去
+         *  装饰器？
+         */
         CompletableFuture<Void> getCartItemsTask = CompletableFuture.runAsync(() -> {
-            //远程查询购物车中所有选中的购物项(购物车服务)
-            /**
-             * feign远程调用丢失请求头的问题：
-             * feign构建了一个新的请求模板，这个请求模板没有任何请求头
-             *
-             *解决：加上feign远程调用的请求拦截器
-             * feign远程调用：
-             * ReflectiveFeign.invoke方法，先判断方法名字是不是equlas，hashcode，tostring这些方法，
-             * 如果是的话，直接调用对应的方法
-             * 否则进入dispatch.get(method).invoke(args);
-             * 通过invoke方法进入SynchronousMethodHandler实现类实现的invoke方法
-             * 首先构建请求模板，RequestTemplate template = buildTemplateFromArgs.create(argv);
-             * 然后调用真正执行的方法：return executeAndDecode(template);
-             * 然后执行targetRequest方法，传入构建好的模板
-             *   Request targetRequest(RequestTemplate template) {
-             *     for (RequestInterceptor interceptor : requestInterceptors) {
-             *       interceptor.apply(template);
-             *     }
-             *  重点：它会一个一个遍历拦截器，调用apply方法，所以我们可以通过这个机制来把请求头再设置进去
-             *  装饰器？
-             */
-            //每一个线程都来共享之前的请求数据
             RequestContextHolder.setRequestAttributes(requestAttributes);
             List<OrderItemVo> items = cartFeignService.getCurrentUserCartItems();
             orderConfirmVo.setItems(items);
