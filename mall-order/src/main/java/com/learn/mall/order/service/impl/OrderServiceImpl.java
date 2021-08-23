@@ -179,7 +179,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      * 本地事务的失效问题
      * 同一个对象内事务方法的互相调用，事务方法会默认失效，原因：绕过了代理对象
      * 事务是使用代理对象来控制的
-     * <p>
      * 解决：使用代理对象来调用事务方法 aop
      * AspectJ动态代理
      */
@@ -190,6 +189,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         orderService.c();
     }
 
+    /**
+     * 事务的传播行为：
+     * REQUIRED：此事务方法会受到调用此方法的方法 它的事务的传播
+     * REQUIRES_NEW：此事务方法会另外开启一个属于自己的事务，不会受到传播
+     */
     @Transactional(propagation = Propagation.REQUIRED, timeout = 2)
     public void b() {
 
