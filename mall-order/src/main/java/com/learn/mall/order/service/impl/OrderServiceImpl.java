@@ -203,16 +203,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     /**
      * 下单
      * 创建订单，验证防重令牌，验证价格，锁库存。。
-     * <p>
      * 本地事务在分布式环境下的问题：
      * 1.订单服务异常，库存锁定不运行，全部回滚，撤销操作
      * 2.库存服务自治，锁定失败全部回滚，订单感受到，继续回滚（订单服务也回滚）
      * 3.库存服务锁定成功，但是网络原因返回数据中途出现问题，出现库存服务假异常，导致订单回滚，从而锁了库存但是没有生成订单
      * 4.库存服务锁定成功，库存服务下面的逻辑发生故障，订单回滚，但是库存服务不会回滚，已执行的远程请求，不能回滚
-     * <p>
      * 解决：
      * 分布式事务seata
-     * <p>
      * 下单 高并发场景 不适合使用AT模式的seata做分布式事务
      * 为了在订单回滚后库存也能回滚 使用消息队列给库存服务发送一个消息来回滚
      * MQ用途：1.保证事务的最终一致性，延时队列
@@ -267,7 +264,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                     //锁成功
                     responseVo.setOrder(order.getOrder());
                     //模拟远程积分服务异常，如果使用本地事务会导致订单回滚，库存不回滚
-//                    int i = 10 / 0;
                     //订单创建成功就发送消息给MQ
                     rabbitTemplate.convertAndSend("order-event-exchange",
                             "order.create.order", order.getOrder());

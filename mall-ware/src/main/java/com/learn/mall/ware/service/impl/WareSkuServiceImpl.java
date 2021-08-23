@@ -170,7 +170,6 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
      *
      * @Transactional(rollbackFor = NoStockException.class)
      * 默认只要是运行时异常，都会回滚
-     * <p>
      * 库存解锁的场景：
      * 1.下订单成功，订单过期没有支付被系统自动取消
      * 2.下订单成功，用户又手动取消了订单
@@ -205,7 +204,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             Long skuId = hasStock.getSkuId();
             List<Long> wareIds = hasStock.getWareId();
             if (wareIds == null || wareIds.size() == 0) {
-                //没有任务仓库有这个商品的库存
+                //没有任何一个仓库有这个商品的库存
                 throw new NoStockException(skuId);
             }
             for (Long wareId : wareIds) {

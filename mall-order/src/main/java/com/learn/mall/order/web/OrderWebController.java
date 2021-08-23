@@ -44,20 +44,18 @@ public class OrderWebController {
 
     /**
      * 提交订单接口（真正创建订单/下单功能）
+     * 下单：创建订单，验证防重令牌，验证价格，锁库存
      */
     @PostMapping("/submitOrder")
     public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes redirectAttributes) {
-        /**
-         * 下单：创建订单，验证防重令牌，验证价格，锁库存。。
-         */
         try {
             SubmitOrderResponseVo responseVo = orderService.submitOrder(vo);
             if (responseVo.getCode() == 0) {
-                //下单成功来到支付选择页面
+                // 下单成功来到支付选择页面
                 model.addAttribute("submitOrderResp", responseVo);
                 return "pay";
             } else {
-                //下单失败重新回到订单确认页面 再次确认订单信息
+                // 下单失败重新回到订单确认页面 再次确认订单信息
                 String msg = "下单失败,原因是:";
                 switch (responseVo.getCode()) {
                     case 1:
