@@ -57,25 +57,27 @@ public class OrderWebController {
             } else {
                 // 下单失败重新回到订单确认页面 再次确认订单信息
                 String msg = "下单失败,原因是:";
+                StringBuffer stringBuffer = new StringBuffer(msg);
                 switch (responseVo.getCode()) {
                     case 1:
-                        msg += "订单信息过期,请刷新后再次提交";
+                        stringBuffer.append("订单信息过期,请刷新后再次提交");
                         break;
                     case 2:
-                        msg += "订单价格发生变化,请确认后再次提交";
+                        stringBuffer.append("订单价格发生变化,请确认后再次提交");
                         break;
                     case 3:
-                        msg += "库存锁定失败,商品库存不足";
+                        stringBuffer.append("库存锁定失败,商品库存不足");
                         break;
                 }
-                redirectAttributes.addFlashAttribute("message", msg);
+                redirectAttributes.addFlashAttribute("message", stringBuffer);
                 return "redirect:http://order.mall.com/toTrade";
             }
         } catch (Exception e) {
             if (e instanceof NoStockException) {
-                String message =  e.getMessage();
-                e.printStackTrace();
-                redirectAttributes.addFlashAttribute("message", message);
+                String message = e.getMessage();
+                StringBuffer stringBuffer = new StringBuffer("下单失败，异常原因是：");
+                stringBuffer.append(message);
+                redirectAttributes.addFlashAttribute("message", stringBuffer);
             }
             return "redirect:http://order.mall.com/toTrade";
         }

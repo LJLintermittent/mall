@@ -37,12 +37,11 @@
     <img style="margin-left: 230px" src="/static/order/confirm/img/08.png" class="img2"/>
 </div>
 <!--主体部分-->
-<p class="p1"><span style="color: red" th:if="${session.message != null}" th:text="${session.message}"></span></p>
 <div class="section" style="margin-left: 270px;height: 1000px">
     <!--收货人信息-->
     <div class="top-2">
         <span>收货人信息</span>
-
+        <span style="color: red" th:if="${message != null}" th:text="${message}"></span>
         <span>新增收货地址</span>
     </div>
     <!--地址-->

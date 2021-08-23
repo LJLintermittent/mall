@@ -4,7 +4,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.learn.common.constant.OrderConstant;
+import com.learn.mall.order.constant.OrderConstant;
 import com.learn.mall.order.vo.PayVo;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

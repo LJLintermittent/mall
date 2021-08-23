@@ -73,7 +73,7 @@
 MapperScan注解被MapperScannerRegistrar的registerBeanDefinitions方法所引用，目的是将basePackages定义的所有包下的所有接口生成一个org.apache.ibatis.binding.MapperProxy代理bean，,无论这个接口你是用来干嘛的，他都会生成一个Bean，这样就可以用@Autowired注解进行装配使用了。
 添加位置：是在Springboot启动类上面添加
 
-~~~java
+~~~wiki
  public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
     AnnotationAttributes mapperScanAttrs = AnnotationAttributes
         .fromMap(importingClassMetadata.getAnnotationAttributes(MapperScan.class.getName()));
@@ -149,7 +149,7 @@ MapperScan用来扫描定义包下的所有的接口，无论这个接口你的�
 
 那么它的作用是什么？
 
-```java
+```wiki
 @MapperScan(value = "com.learn.mall.product.dao", annotationClass = Mapper.class)
 ```
 
@@ -213,7 +213,7 @@ Redisson框架实现分布式锁的原理与上面描述的基本一致，它更
 
 在redisson源码中的config类中有一个成员变量private long lockWatchdogTimeout = 30 * 1000;并且在创建redisclient这个bean的时候，我们会new一个config来配置进去，那么这个值已经被初始化默认好了是30s
 
-```java
+```wiki
 <T> RFuture<T> tryLockInnerAsync(long leaseTime, TimeUnit unit, long threadId, RedisStrictCommand<T> command) {
     internalLockLeaseTime = unit.toMillis(leaseTime);
 
@@ -238,7 +238,7 @@ Redisson框架实现分布式锁的原理与上面描述的基本一致，它更
 
 如果lock方法用空参实现，那么看门狗机制的实现在scheduleExpirationRenewal中
 
-```java
+```wiki
 private void scheduleExpirationRenewal(long threadId) {
     ExpirationEntry entry = new ExpirationEntry();
     ExpirationEntry oldEntry = EXPIRATION_RENEWAL_MAP.putIfAbsent(getEntryName(), entry);
@@ -253,13 +253,13 @@ private void scheduleExpirationRenewal(long threadId) {
 
 renewExpiration方法重新设置过期时间：
 
-```java
+```wiki
 Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask() {
 ```
 
 会启动一个定时任务
 
-~~~java
+~~~wiki
 Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask() {
             @Override
             public void run(Timeout timeout) throws Exception {
@@ -312,7 +312,7 @@ Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask()
 
 这里的乐观锁指的是使用乐观锁的思想去解决问题，并没有显示地去加任何锁，有点类似于CAS比较并交换
 
-~~~sql
+~~~wiki
 select version from tablename where xxx
 
 update tablename set count=count+1,version=version+1 where version=#{version}
@@ -323,3 +323,6 @@ update tablename set count=count+1,version=version+1 where version=#{version}
 4.分布式锁：在分布式环境下，锁定一个全局唯一资源，使请求串行化，实际表现为互斥锁，防止重复，解决接口幂等
 
 5.token机制：token机制的核心思想是为每一次操作生成一个唯一性凭证，一个token在一个操作中只有一次执行权，拿到token后比对成功后需要立即删除，而不是等业务执行完再删除，同时也要注意获取token，比对token，删除token这三个操作一定是一个原子性的操作
+
+### 分布式事务
+

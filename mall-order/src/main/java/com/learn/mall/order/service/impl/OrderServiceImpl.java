@@ -270,6 +270,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                     return responseVo;
                 } else {
                     //锁失败,msg:商品库存不足
+                    responseVo.setCode(3);
                     String msg = (String) r.get("msg");
                     throw new NoStockException(msg);
                 }
