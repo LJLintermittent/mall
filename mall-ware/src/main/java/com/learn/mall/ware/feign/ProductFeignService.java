@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ProductFeignService {
 
     @RequestMapping("/product/skuinfo/info/{skuId}")
-    public R info(@PathVariable("skuId") Long skuId);
+    R info(@PathVariable("skuId") Long skuId);
 
 
 }

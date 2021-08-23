@@ -46,10 +46,20 @@ public interface WareSkuService extends IService<WareSkuEntity> {
      */
     List<SkuHasStockVo> getSkuHasStock(List<Long> skuIds);
 
+    /**
+     * 为某个订单锁定库存
+     */
     Boolean orderLockStock(WareSkuLockVo vo);
 
+    /**
+     * 库存自动解锁，到期关单的解锁或者出现异常回滚的解锁
+     */
     void unlockStockRelease(StockLockedTo to);
 
+    /**
+     * 此方法是防止订单服务卡顿，导致订单消息一直改不了，库存消息优先到期，查询到订单状态一直为新建状态，于是什么都不做
+     * 导致卡顿的订单永远不能解锁库存
+     */
     void unlockStockRelease(OrderTo orderTo);
 
 }

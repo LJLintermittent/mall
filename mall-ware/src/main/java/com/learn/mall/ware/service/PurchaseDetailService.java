@@ -32,8 +32,14 @@ public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
      */
     List<PurchaseDetailEntity> listDetailByPurchaseId(Long id);
 
+    /**
+     * 保存采购需求并计算采购价格
+     */
     void saveAll(PurchaseDetailEntity purchaseDetail);
 
+    /**
+     * 加入了新的采购需求后，更新采购金额
+=     */
     void updateAllById(PurchaseDetailEntity purchaseDetail);
 
 }

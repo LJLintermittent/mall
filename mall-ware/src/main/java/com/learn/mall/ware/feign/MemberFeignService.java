@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient("mall-member")
 public interface MemberFeignService {
 
+    /**
+     * 根据ID来查询会员的收货地址详细信息
+     */
     @RequestMapping("/member/memberreceiveaddress/info/{id}")
     R addrInfo(@PathVariable("id") Long id);
 
