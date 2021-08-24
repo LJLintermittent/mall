@@ -105,9 +105,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         OrderConfirmVo orderConfirmVo = new OrderConfirmVo();
         MemberRespVo memberRespVo = LoginUserInterceptor.threadLocal.get();
         /*
+         * TODO Feign的两个问题
          * feign在异步调用丢失应用上下文问题
          * 原因 threadLocal只在当前线程执行中共享数据，而异步任务开了多个线程
-         * 解决：获取之前的请求域，在每一异步任务中共享
+         * 解决：获取之前的请求域，在每一个异步任务中共享
          * 获取之前的请求 requestAttributesHolder ---> threadlocal
          * 因为这个获取上下文保持器的底层是threadlocal，只在线程内共享数据
          * 所以当feign使用了多线程的时候，上下文保持器就没办法保持住共享信息，所以需要在异步之前，先统一获取
@@ -176,7 +177,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     }
 
     /**
-     * 本地事务的失效问题
+     * TODO 在同一个对象中一个事务方法调用另一个事务方法，会导致第二个事务方法的事务传播行为失效
      * 同一个对象内事务方法的互相调用，事务方法会默认失效，原因：绕过了代理对象
      * 事务是使用代理对象来控制的
      * 解决：使用代理对象来调用事务方法 aop

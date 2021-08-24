@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class MallGatewayApplication {
 
     /**
-     * TODO: GateWay笔记：
+     * TODO: GateWay笔记
      * 请求发给API网关，到底要不要路由到某个地方，得有一个条件判断，这个条件判断就叫 断言
      * 比如，请求发给网关，网关可以根据请求头，请求参数的不同来路由到哪个服务，这个判断就叫断言
      * 所有请求如果满足了断言的要求，那么才可以到底URI地址，当然，如果有过滤器

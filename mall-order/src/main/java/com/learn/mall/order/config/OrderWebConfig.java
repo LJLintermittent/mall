@@ -21,6 +21,11 @@ public class OrderWebConfig implements WebMvcConfigurer {
     @Autowired
     LoginUserInterceptor interceptor;
 
+    /**
+     * 注册一个登录拦截器，拦截订单服务的所有请求
+     * 在所有的订单服务请求之前，先执行拦截器中的方法，获取session中的登录信息
+     * 然后放到threadlocal中，其他业务可以从threadlocal中拿到登录用户的一些基本信息
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**");

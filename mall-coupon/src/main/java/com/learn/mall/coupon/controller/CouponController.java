@@ -35,7 +35,7 @@ public class CouponController {
     private CouponService couponService;
 
     /**
-     * TODO：配置中心的使用说明：
+     * TODO：配置中心的使用说明
      *
      * @RefreshScope：配置自动刷新注解 使用Nacos配置中心的步骤：
      * 首先建立一个bootstrap.properties文件，这个配置文件的在spingboot的加载顺序中早于application.properties
