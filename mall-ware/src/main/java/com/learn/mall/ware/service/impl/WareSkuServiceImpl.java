@@ -271,26 +271,30 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
          * 2。有这个订单，根据订单状态来判断，如果订单已取消，那么解锁库存，如果订单没取消，不能解锁库存
          * 如果没有：库存锁定失败了，库存回滚了，这种情况无需解锁
          */
-        WareOrderTaskDetailEntity byId = wareOrderTaskDetailService.getById(detailId);
+        WareOrderTaskDetailEntity wareOrderTaskDetailEntity = wareOrderTaskDetailService.getById(detailId);
         //有工作单信息
-        if (byId != null) {
+        if (wareOrderTaskDetailEntity != null) {
             //解锁
             Long id = to.getId();//库存工作单的ID
             WareOrderTaskEntity taskEntity = wareOrderTaskService.getById(id);
-            String orderSn = taskEntity.getOrderSn();//根据订单号查询订单的状态
+            String orderSn = taskEntity.getOrderSn();
+            //根据订单号查询订单的状态
             R orderFeignResult = orderFeignService.getOrderStatusByOrderSn(orderSn);
             if (orderFeignResult.getCode() == 0) {
                 OrderVo data = orderFeignResult.getData(new TypeReference<OrderVo>() {
                 });
+                //订单不存在或者订单已经被取消了,接下来需要进行解锁操作
                 if (data == null || data.getStatus() == 4) {
-                    //订单不存在或者订单已经被取消了,接下来需要进行解锁操作
-                    if (byId.getLockStatus() == 1) {
-                        //当前库存工作单的锁定状态为1 表示已锁定但是未解锁状态，才可以进行解锁
+                    //当前库存工作单的锁定状态为1 表示已锁定但是未解锁状态，才可以进行解锁
+                    if (wareOrderTaskDetailEntity.getLockStatus() == 1) {
                         unLockStock(detail.getSkuId(), detail.getWareId(), detail.getSkuNum(), detailId);
                     }
                 }
             } else {
-                //requeue: 消息拒绝后我让你重新返回队列
+                //这行代码进来表示feign远程调用失败了，也就是说我这个接口，收到了解锁库存的消息，
+                //然后我执行自己的解锁库存的逻辑代码，但是我自己的代码又出现了异常，但是消息我已经拿到了，相当于消费了
+                //那么这样子业务逻辑就出现了bug，所以如果自己的代码出现问题，一定要trycatch向外抛出
+                //外面的listener代码感知到异常以后直接basicReject，并且将消息重新入对
                 throw new RuntimeException("远程服务失败");
             }
         } else {

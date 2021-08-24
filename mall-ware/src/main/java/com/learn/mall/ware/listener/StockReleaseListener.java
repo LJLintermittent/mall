@@ -39,12 +39,14 @@ public class StockReleaseListener {
             wareSkuService.unlockStockRelease(to);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
+            // 消息拒绝以后重新方法消息队里，让别人继续进行消费，比如说解锁库存的代码里还需要RPC调用
+            // 由于RPC的问题，导致消息消费失败以后直接丢失，库存没有解锁，所以应该把处理失败的消息重新加入队列
             channel.basicReject(message.getMessageProperties().getDeliveryTag(), true);
         }
     }
 
     /**
-     *这个监听作用是如果一切服务都正常，但是订单长时间不付款已经过期了，属于正常情况
+     * 这个监听作用是如果一切服务都正常，但是订单长时间不付款已经过期了，属于正常情况
      * 这时订单状态为已经取消状态了，那么需要让库存服务感知，来快速解锁库存
      * 与上面的监听做一个双重保证
      * 因为如果订单服务卡顿，导致没有来得及给库存通知，那么库存解锁消息到时了，没人通知，就会永远解不了库存
