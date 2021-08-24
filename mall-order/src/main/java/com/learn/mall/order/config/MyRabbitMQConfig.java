@@ -104,7 +104,7 @@ public class MyRabbitMQConfig {
      * 模拟定时关单测试
      * @RabbitListener(queues = "order.release.order.queue")
      * public void listener(OrderEntity entity, Channel channel, Message message) throws IOException {
-     *        ystem.out.println("收到过期的订单消息，准备关闭订单" + entity.getOrderSn());
+     *        System.out.println("收到过期的订单消息，准备关闭订单" + entity.getOrderSn());
      *        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
      * }
      */

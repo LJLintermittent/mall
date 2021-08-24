@@ -211,7 +211,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
                 //一行受到了影响，所以成功更新就返回1 否则返回0
                 Long count = wareSkuDao.lockSkuStock(skuId, wareId, hasStock.getNum());
                 if (count == 1) {
-                    //当前仓库锁定成功，应该给MQ发送消息
+                    //当前仓库锁定成功，应该给MQ发送消息,告诉MQ库存锁定成功，接下来需要用MQ来确保库存系统即使出现异常
+                    //对于分布式微服务情况而言，也要能回滚
+                    //如果业务正常执行，订单正常支付成功，那么锁定的库存应该被释放，然后扣减真正的库存
                     skuStocked = true;
                     //1.如果每一个商品都锁定成功，将当前商品锁定了几件的工作单记录发送给MQ
                     //2.锁定失败，前面保存的工作单就回滚。
