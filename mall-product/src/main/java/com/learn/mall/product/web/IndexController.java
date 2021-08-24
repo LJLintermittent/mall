@@ -73,6 +73,7 @@ public class IndexController {
     public String hello() {
         RLock lock = redissonClient.getLock("my-lock");
         /*
+           TODO 看门狗机制
            看门狗机制：如果业务超长，锁会自动续期 默认加的锁是30s 阻塞等待锁
            加锁业务只要完成，就不会给当前锁续期，即使不手动解锁，锁默认在30s后自动删除
          */

@@ -86,15 +86,11 @@ public class MallSearchServiceImpl implements MallSearchService {
     /**
      * 构建检索请求
      * 模糊匹配，过滤（按照属性，分类，品牌，价格区间,库存）
-     * 排序，分页，高亮，聚合分析
      */
     private SearchRequest buildSearchRequest(SearchParamVo paramVo) {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-        /**
-         *查询：模糊匹配，过滤 属性，分类，品牌，价格区间,库存
-         */
         /*
-           TODO:Elasticsearch查询
+           TODO:Elasticsearch检索
            Bool查询对应Lucene中的BooleanQuery，它由一个或多个子句组成，每个子句都有特定的类型
            must：返回的文档必须满足must子句的条件，并且参与计算分值
            filter：返回的文档必须满足filter子句的条件。但是不会像Must一样，参与计算分值

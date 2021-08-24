@@ -26,9 +26,8 @@ import java.util.Map;
 public class MallExceptionControllerAdvice {
 
     /**
-     * @RestControllerAdvice与@ExceptionHandler注解是SprngMVC中与异常捕获与处理相关的注解
+     * @RestControllerAdvice与@ExceptionHandler注解是SprngMVC中用于异常捕获与处理相关的注解
      */
-
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public R handleValidException(MethodArgumentNotValidException e) {
         log.error("数据校验出现异常{},异常类型{}" + e.getMessage(), e.getClass());

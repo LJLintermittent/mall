@@ -26,6 +26,7 @@ public class ItemController {
     private SkuInfoService skuInfoService;
 
     /**
+     * TODO 商品详情信息大查询 异步 线程池 优化 压测
      * 跳转并展示当前sku的详细信息
      * 异步 + 线程池优化接口
      * 压测：JVM参数：-Xmx512m -Xms512m 所有涉及到的sql查询语句都添加了适合的索引，使用exlain分析后也都使用到了索引
