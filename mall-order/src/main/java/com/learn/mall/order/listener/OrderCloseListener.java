@@ -28,8 +28,8 @@ public class OrderCloseListener {
     private OrderService orderService;
 
     /**
-     * 监听订单服务的消息，如果订单超过系统设置的时间，比如60s还没有被买家付款完成，那么订单为失效状态
-     * 这个订单就过期了，会将订单工作单状态关闭
+     * 监听订单服务的消息，如果订单超过系统设置的时间，比如用户在半小时内没有付款，那么订单为失效状态
+     * 这个订单就过期了，会将订单工作单状态设置为过期状态
      */
     @RabbitHandler
     public void listener(OrderEntity orderEntity, Channel channel, Message message) throws IOException {

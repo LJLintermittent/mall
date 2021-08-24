@@ -57,8 +57,8 @@ public interface WareSkuService extends IService<WareSkuEntity> {
     void unlockStockRelease(StockLockedTo to);
 
     /**
-     * 此方法是防止订单服务卡顿，导致订单消息一直改不了，库存消息优先到期，查询到订单状态一直为新建状态，于是什么都不做
-     * 导致卡顿的订单永远不能解锁库存
+     * 此方法是防止订单服务卡顿，导致订单消息一直改不了，库存消息优先到期
+     * 查询到订单状态一直为新建状态，于是什么都不做,导致卡顿的订单永远不能解锁库存
      */
     void unlockStockRelease(OrderTo orderTo);
 

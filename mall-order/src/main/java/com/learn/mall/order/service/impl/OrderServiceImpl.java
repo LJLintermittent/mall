@@ -298,6 +298,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     /**
      * 定时关单 rabbitMQ监听器调用
+     * 收到了过期订单的消息，将订单状态改为过期以后，需要立即发送解锁库存的消息
      */
     @Override
     public void closeOrder(OrderEntity entity) {
@@ -311,7 +312,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             this.updateById(update);
             OrderTo orderTo = new OrderTo();
             BeanUtils.copyProperties(orderEntity, orderTo);
-            //给MQ发送消息，通知库存服务解锁库存
+            //只要订单状态变为取消，那么就给MQ发送一个消息，库存服务消费这个消息
+            //这样做避免了因为网络抖动等原因，如果只是设置了库存解锁的死信时间长于订单关单的死信时间
+            //那么网络抖动，订单还没关单，库存却解锁了
             rabbitTemplate.convertAndSend("order-event-exchange"
                     , "order.release.other", orderTo);
         }

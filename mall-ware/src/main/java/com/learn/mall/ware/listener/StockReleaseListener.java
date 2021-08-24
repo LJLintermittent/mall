@@ -34,7 +34,7 @@ public class StockReleaseListener {
      */
     @RabbitHandler
     public void handleStockLockedRelease(StockLockedTo to, Message message, Channel channel) throws IOException {
-        System.out.println("收到解锁库存的消息");
+        System.out.println("无论如何都会执行的解锁库存方法，做最终一致性解锁");
         try {
             wareSkuService.unlockStockRelease(to);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
