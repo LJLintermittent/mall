@@ -25,7 +25,6 @@ import java.util.Map;
 @Configuration
 public class MyRabbitMQConfig {
 
-    //    @Autowired
     RabbitTemplate rabbitTemplate;
 
     /**
@@ -45,10 +44,12 @@ public class MyRabbitMQConfig {
      * ↑     ↓
      * |  myRabbitMQConfig (field org.springframework.amqp.rabbit.core.RabbitTemplate com.learn.mall.order.config.MyRabbitMQConfig.rabbitTemplate)
      */
-    //TODO 循环依赖
     @Primary
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        /*
+          定制rabbitTemplate，增加消息序列化为JSON的组件，以及配置手动ack确保消息的可靠投递
+         */
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         this.rabbitTemplate = rabbitTemplate;
         rabbitTemplate.setMessageConverter(messageConverter());
@@ -57,102 +58,8 @@ public class MyRabbitMQConfig {
     }
 
     /**
-     * 模拟定时关单测试
-     */
-//    @RabbitListener(queues = "order.release.order.queue")
-//    public void listener(OrderEntity entity, Channel channel, Message message) throws IOException {
-//        System.out.println("收到过期的订单消息，准备关闭订单" + entity.getOrderSn());
-//        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-//    }
-
-    /**
-     * 创建队列 交换机 绑定关系
-     * 容器中的Binding Queue Exchange 都会自动创建（在RabbitMQ没有的情况下）
-     */
-    @Bean
-    public Queue orderDelayQueue() {
-        //String name, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
-        Map<String, Object> arguments = new HashMap<>();
-        arguments.put("x-dead-letter-exchange", "order-event-exchange");
-        arguments.put("x-dead-letter-routing-key", "order.release.order");
-        arguments.put("x-message-ttl", 60000);
-        Queue queue = new Queue("order.delay.queue", true, false
-                , false, arguments);
-        return queue;
-    }
-
-    @Bean
-    public Queue orderReleaseOrderQueue() {
-        Queue queue = new Queue("order.release.order.queue", true, false
-                , false);
-        return queue;
-    }
-
-    @Bean
-    public Exchange orderEventExchange() {
-        //String name, boolean durable, boolean autoDelete, Map<String, Object> arguments
-        TopicExchange exchange = new TopicExchange("order-event-exchange", true, false);
-        return exchange;
-    }
-
-    @Bean
-    public Binding orderCreateOrderBinding() {
-        //String destination, DestinationType destinationType, String exchange, String routingKey,
-        //			Map<String, Object> arguments
-        Binding binding = new Binding("order.delay.queue", Binding.DestinationType.QUEUE,
-                "order-event-exchange", "order.create.order", null);
-        return binding;
-    }
-
-    @Bean
-    public Binding orderReleaseOrderBinding() {
-        Binding binding = new Binding("order.release.order.queue", Binding.DestinationType.QUEUE,
-                "order-event-exchange", "order.release.order", null);
-        return binding;
-    }
-
-    /**
-     * 订单释放直接和库存释放进行绑定
-     */
-    @Bean
-    public Binding orderReleaseOtherBinding() {
-        Binding binding = new Binding("stock.release.stock.queue", Binding.DestinationType.QUEUE,
-                "order-event-exchange", "order.release.other.#", null);
-        return binding;
-    }
-
-    /**
-     * 秒杀服务的MQ业务（主要作用是削峰）
-     */
-    @Bean
-    public Queue orderSeckillOrderQueue() {
-        Queue queue = new Queue("order.seckill.order.queue", true, false, false);
-        return queue;
-    }
-
-    @Bean
-    public Binding orderSeckillOrderQueueBinding() {
-        Binding binding = new Binding("order.seckill.order.queue",
-                Binding.DestinationType.QUEUE,
-                "order-event-exchange",
-                "order.seckill.order",
-                null);
-        return binding;
-    }
-
-    /**
-     * 给容器中放一个消息转换器
-     * 使用json序列化机制，进行消息转换
-     */
-    @Bean
-    public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
-
-    /**
      * 定制RabbitTemplate
      */
-//    @PostConstruct//MyRabbitMQConfig对象创建完成以后，执行这个方法
     public void initRabbitTemplate() {
         //1.设置生产者发送给broker的确认回调机制
         rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
@@ -184,13 +91,123 @@ public class MyRabbitMQConfig {
                         + "exchange::" + exchange + "routingKey::" + routingKey);
             }
         });
-        /**
-         *  3.消费端确认(保证每个消息被正确消费，此时broker才会删除这个消息)
-         *  默认是自动确认的，只要消息接收到了，客户端会自动确认，服务器就会移除这个消息
-         *  这种默认机制是有问题的: 我们收到很多消息，自动回复给服务器ack，只有一个消息处理成功，宕机了，消息丢失
-         *  解决： 消费者手动确认模式，只要我们没有明确告诉MQ，货物被签收，没有ack，消息就一直是ack状态
-         *  即使consumer宕机了，消息也不会丢失，会重新变为ready状态，下一次有新的consumer连接进来，就发给它
-         */
+    }
+    /*
+     *  3.消费端确认(保证每个消息被正确消费，此时broker才会删除这个消息)
+     *  默认是自动确认的，只要消息接收到了，客户端会自动确认，服务器就会移除这个消息
+     *  这种默认机制是有问题的: 我们收到很多消息，自动回复给服务器ack，只有一个消息处理成功，宕机了，消息丢失
+     *  解决： 消费者手动确认模式，只要我们没有明确告诉MQ，货物被签收，没有ack，消息就一直是ack状态
+     *  即使consumer宕机了，消息也不会丢失，会重新变为ready状态，下一次有新的consumer连接进来，就发给它
+     */
+
+    /**
+     * 模拟定时关单测试
+     * @RabbitListener(queues = "order.release.order.queue")
+     * public void listener(OrderEntity entity, Channel channel, Message message) throws IOException {
+     *        ystem.out.println("收到过期的订单消息，准备关闭订单" + entity.getOrderSn());
+     *        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+     * }
+     */
+
+    /**
+     * 延时队列，设置消息的过期时间，以及过期以后不要让系统删除，而是交给指定的交换机
+     * 然后再按照设置好的路由键发送到指定的队列，这个指定的队列才是消费者真正消费的队列
+     * 由于做了延时，那么消费者取出来的消息都是设置的好的时间过后的消息
+     * 模拟了延迟队列
+     */
+    @Bean
+    public Queue orderDelayQueue() {
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("x-dead-letter-exchange", "order-event-exchange");
+        arguments.put("x-dead-letter-routing-key", "order.release.order");
+        arguments.put("x-message-ttl", 60000);
+        Queue queue = new Queue("order.delay.queue", true, false
+                , false, arguments);
+        return queue;
     }
 
+    /**
+     * 释放订单的队列，前面做了延时处理，这里面的消息都是过期消息
+     * 用来做定时关单，关单后的解锁库存的操作
+     * 事务的最终一致性
+     */
+    @Bean
+    public Queue orderReleaseOrderQueue() {
+        Queue queue = new Queue("order.release.order.queue", true, false
+                , false);
+        return queue;
+    }
+
+    /**
+     * 一般在一个微服务对应一个交换机的情况下
+     * 一个交换机通过不同的路由键匹配不同的队列
+     * 应该将交换机设置为topic交换机
+     */
+    @Bean
+    public Exchange orderEventExchange() {
+        //String name, boolean durable, boolean autoDelete, Map<String, Object> arguments
+        TopicExchange exchange = new TopicExchange("order-event-exchange", true, false);
+        return exchange;
+    }
+
+    /**
+     * 创建完订单后要将消息发至死信队列的绑定路由键
+     */
+    @Bean
+    public Binding orderCreateOrderBinding() {
+        Binding binding = new Binding("order.delay.queue", Binding.DestinationType.QUEUE,
+                "order-event-exchange", "order.create.order", null);
+        return binding;
+    }
+
+    /**
+     * 释放消息的队列的路由键
+     */
+    @Bean
+    public Binding orderReleaseOrderBinding() {
+        Binding binding = new Binding("order.release.order.queue", Binding.DestinationType.QUEUE,
+                "order-event-exchange", "order.release.order", null);
+        return binding;
+    }
+
+    /**
+     * 订单释放直接和库存释放进行绑定
+     */
+    @Bean
+    public Binding orderReleaseOtherBinding() {
+        Binding binding = new Binding("stock.release.stock.queue", Binding.DestinationType.QUEUE,
+                "order-event-exchange", "order.release.other.#", null);
+        return binding;
+    }
+
+    /**
+     * 秒杀服务的MQ业务（主要作用是削峰）
+     */
+    @Bean
+    public Queue orderSeckillOrderQueue() {
+        Queue queue = new Queue("order.seckill.order.queue", true, false, false);
+        return queue;
+    }
+
+    /**
+     * 秒杀订单路由键
+     */
+    @Bean
+    public Binding orderSeckillOrderQueueBinding() {
+        Binding binding = new Binding("order.seckill.order.queue",
+                Binding.DestinationType.QUEUE,
+                "order-event-exchange",
+                "order.seckill.order",
+                null);
+        return binding;
+    }
+
+    /**
+     * 给容器中放一个消息转换器
+     * 使用json序列化机制，进行消息转换
+     */
+    @Bean
+    public MessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
 }
