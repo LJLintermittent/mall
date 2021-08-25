@@ -16,6 +16,7 @@ import org.springframework.session.web.http.DefaultCookieSerializer;
  * @version 1.0
  */
 @Configuration
+@SuppressWarnings("all")
 public class MallSessionConfig {
 
     @Bean

@@ -270,6 +270,7 @@ public class SecKillServiceImpl implements SecKillService {
             long startTime = session.getStartTime().getTime();
             long endTime = session.getEndTime().getTime();
             String key = SESSIONS_CACHE_PREFIX + startTime + "_" + endTime;
+            //定时上架任务的幂等性处理，如果已经存在这个key，则不用再次上架了
             Boolean hasKey = redisTemplate.hasKey(key);
             if (!hasKey) {
                 List<String> collect = session.getRelationEntities().stream()
@@ -309,6 +310,7 @@ public class SecKillServiceImpl implements SecKillService {
                     //3.设置当前秒杀商品的时间信息
                     secKillSkuRedisTo.setStartTime(session.getStartTime().getTime());
                     secKillSkuRedisTo.setEndTime(session.getEndTime().getTime());
+                    //设置当前商品的秒杀随机码
                     secKillSkuRedisTo.setRandomCode(randomCode);
                     String s = JSON.toJSONString(secKillSkuRedisTo);
                     operations.put(secKillSkuVo.getPromotionSessionId().toString() + "_"

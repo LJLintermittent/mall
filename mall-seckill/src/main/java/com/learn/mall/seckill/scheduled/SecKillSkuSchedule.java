@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @version 1.0
  */
 
-/**
+/*
  * 秒杀商品的定时上架
  * 例如：每天凌晨三点，上架最近三天需要参与秒杀的商品
  * 当天 00:00:00 -- 23:59:59
@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
+@SuppressWarnings("all")
 public class SecKillSkuSchedule {
 
     @Autowired
@@ -36,14 +37,16 @@ public class SecKillSkuSchedule {
     @Autowired
     private RedissonClient redissonClient;
 
-    //秒杀商品上架的定时任务的分布式锁
+    // 秒杀商品上架的定时任务的分布式锁
     private static final String PUT_ON_LOCK = "secKill:putOn:lock";
 
     /**
+     * 秒杀商品的定时上架
      * 例如：每天凌晨三点整，上架今天需要参与秒杀的商品
      * 秒分时日月周
+     *
+     * @Scheduled(cron = "*10 * * * * ?")
      */
-//    @Scheduled(cron = "*/10 * * * * ?")
     public void putOnSecKillSkuLatest3Days() {
         log.info("上架秒杀的商品信息");
         RLock lock = redissonClient.getLock(PUT_ON_LOCK);

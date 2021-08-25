@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient("mall-product")
 public interface ProductFeignService {
 
+    /**
+     * 根据秒杀商品ID查询秒杀商品详情
+     */
     @RequestMapping("/product/skuinfo/info/{skuId}")
     R GetSkuInfo(@PathVariable("skuId") Long skuId);
 

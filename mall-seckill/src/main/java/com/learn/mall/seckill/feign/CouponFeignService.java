@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient("mall-coupon")
 public interface CouponFeignService {
 
+    /**
+     * 获取最近三天需要参与秒杀的商品
+     */
     @GetMapping("/coupon/seckillsession/getLatest3DaysSession")
     R getLatest3DaysSession();
 

@@ -22,6 +22,7 @@ import java.util.List;
  * @version 1.0
  */
 @Controller
+@SuppressWarnings("all")
 public class SecKillController {
 
     @Autowired

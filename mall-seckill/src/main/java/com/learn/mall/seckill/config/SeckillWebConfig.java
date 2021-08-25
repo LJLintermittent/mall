@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @version 1.0
  */
 @Configuration
+@SuppressWarnings("all")
 public class SeckillWebConfig implements WebMvcConfigurer {
 
     @Autowired

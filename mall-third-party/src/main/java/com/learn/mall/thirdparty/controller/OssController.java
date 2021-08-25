@@ -32,8 +32,10 @@ public class OssController {
 
     @Value("${spring.cloud.alicloud.oss.endpoint}")
     private String endpoint;
+
     @Value("${spring.cloud.alicloud.oss.bucket}")
     private String bucket;
+
     @Value("${spring.cloud.alicloud.access-key}")
     private String accessId;
 
