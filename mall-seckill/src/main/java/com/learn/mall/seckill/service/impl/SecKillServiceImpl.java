@@ -198,55 +198,55 @@ public class SecKillServiceImpl implements SecKillService {
         MemberRespVo respVo = LoginUserInterceptor.threadLocal.get();
         //1、获取当前秒杀商品的详细信息
         BoundHashOperations<String, String, String> operations = redisTemplate.boundHashOps(SECKILLSKU_CACHE_PREFIX);
-        String json = operations.get(killId);
-        if (StringUtils.isEmpty(json)) {
+        //获取到了redis中的秒杀场次与秒杀商品信息
+        String secKillSkuInfo = operations.get(killId);
+        if (StringUtils.isEmpty(secKillSkuInfo)) {
             return null;
         } else {
-            SecKillSkuRedisTo redis = JSON.parseObject(json, SecKillSkuRedisTo.class);
+            SecKillSkuRedisTo secKillSkuRedisTo = JSON.parseObject(secKillSkuInfo, SecKillSkuRedisTo.class);
             //校验合法性
-            Long startTime = redis.getStartTime();
-            Long endTime = redis.getEndTime();
+            Long startTime = secKillSkuRedisTo.getStartTime();
+            Long endTime = secKillSkuRedisTo.getEndTime();
             long nowTime = new Date().getTime();
             long ttl = endTime - nowTime;
             //1、校验时间的合法性
             if (nowTime >= startTime && nowTime <= endTime) {
                 //2、校验随机码和商品id
-                String randomCode = redis.getRandomCode();
-                String skuId = redis.getPromotionSessionId() + "_" + redis.getSkuId();
+                String randomCode = secKillSkuRedisTo.getRandomCode();
+                String skuId = secKillSkuRedisTo.getPromotionSessionId() + "_" + secKillSkuRedisTo.getSkuId();
                 if (randomCode.equals(key) && killId.equals(skuId)) {
                     //3、验证购物数量是否合理
-                    if (num <= redis.getSeckillLimit()) {
+                    if (num <= secKillSkuRedisTo.getSeckillLimit()) {
                         //4、验证这个人是否已经购买过。幂等性; 如果只要秒杀成功，就去占位。  userId_SessionId_skuId
-                        //SETNX
                         String redisKey = respVo.getId() + "_" + skuId;
-                        //自动过期
-                        Boolean aBoolean = redisTemplate.opsForValue().setIfAbsent(redisKey, num.toString()
+                        //设置用户秒杀完毕以后的占位变量，并且要设置自动过期时间
+                        Boolean notBuy = redisTemplate.opsForValue().setIfAbsent(redisKey, num.toString()
                                 , ttl, TimeUnit.MILLISECONDS);
-                        if (aBoolean) {
+                        //如果在redis中setnx成功，说明这个用户没有购买过，才可以参与秒杀
+                        if (notBuy) {
                             //占位成功说明从来没有买过
+                            //走到这一步相当于前面的校验全部同步，然后尝试获取分布式信号量，也就是库存
                             RSemaphore semaphore = redissonClient.getSemaphore(SKU_STOCK_SEMAPHORE + randomCode);
-                            //120  20ms
-                            boolean b = semaphore.tryAcquire(num);
-                            if (b) {
-                                //秒杀成功;
-                                //快速下单。发送MQ消息  10ms
-                                String timeId = IdWorker.getTimeId();
+                            boolean getSemaphoreFlag = semaphore.tryAcquire(num);
+                            if (getSemaphoreFlag) {
+                                //分布式信号量获取成功以后，相当于具备了秒杀的所有条件
+                                //然后快速构造一个秒杀订单数据，发送给MQ，让订单服务来监听这个队列，订单服务慢慢创建订单，扣减真实库存等等业务
+                                String snowflakeId = IdWorker.getTimeId();
                                 SeckillOrderTo orderTo = new SeckillOrderTo();
-                                orderTo.setOrderSn(timeId);
+                                orderTo.setOrderSn(snowflakeId);
                                 orderTo.setMemberId(respVo.getId());
                                 orderTo.setNum(num);
-                                orderTo.setPromotionSessionId(redis.getPromotionSessionId());
-                                orderTo.setSkuId(redis.getSkuId());
-                                orderTo.setSeckillPrice(redis.getSeckillPrice());
+                                orderTo.setPromotionSessionId(secKillSkuRedisTo.getPromotionSessionId());
+                                orderTo.setSkuId(secKillSkuRedisTo.getSkuId());
+                                orderTo.setSeckillPrice(secKillSkuRedisTo.getSeckillPrice());
                                 rabbitTemplate.convertAndSend("order-event-exchange"
                                         , "order.seckill.order", orderTo);
                                 long s2 = System.currentTimeMillis();
-                                log.info("耗时...{}", (s2 - s1));
-                                return timeId;
+                                log.info("秒杀耗时...{}", (s2 - s1));
+                                return snowflakeId;
                             }
                             return null;
                         } else {
-                            //说明已经买过了
                             return null;
                         }
                     }

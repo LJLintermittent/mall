@@ -383,6 +383,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     /**
      * 创建秒杀订单
      * 只完成了基本的订单表和订单项表的部分数据的填充
+     * 真正的秒杀业务：
+     * 在订单服务收到秒杀服务发来的消息后，需要创建真实订单，扣减真实库存，（秒杀的库存是用分布式信号量来快速扣减）
+     * 同时在创建订单减库存的时候同样需要MQ来发送消息，做一个延迟的库存解锁，比如说订单服务异常，创建订单失败，回滚了
+     * 库存服务也需要回滚扣减的库存等等注意事项
      */
     @Override
     public void createSecKillOrder(SeckillOrderTo seckillOrderTo) {
