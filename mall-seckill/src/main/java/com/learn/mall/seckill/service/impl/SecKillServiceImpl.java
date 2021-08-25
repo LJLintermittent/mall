@@ -170,11 +170,12 @@ public class SecKillServiceImpl implements SecKillService {
                 if (Pattern.matches(regx, key)) {
                     String json = operations.get(key);
                     SecKillSkuRedisTo skuRedisTo = JSON.parseObject(json, SecKillSkuRedisTo.class);
-                    //随机码
+                    // 当前时间
                     long currentTime = new Date().getTime();
                     if (currentTime >= skuRedisTo.getStartTime() && currentTime <= skuRedisTo.getEndTime()) {
-
+                        // 如果当前时间到了秒杀时间，那么随机码会正常存在，因为购买商品需要带上随机码，防止开发人员知道接口进行提前秒杀
                     } else {
+                        // 如果当前时间不是秒杀时间，把随机码置空
                         skuRedisTo.setRandomCode(null);
                     }
                     return skuRedisTo;
@@ -187,7 +188,7 @@ public class SecKillServiceImpl implements SecKillService {
     /**
      * 秒杀
      *
-     * @param killId : 秒杀的商品id 例如：4_16 表示4号秒杀活动下的16号商品
+     * @param killId : 秒杀的商品id 例如：4_16 表示4号秒杀活动的16号商品
      * @param key    : 秒杀的商品的随机码
      * @param num    : 购买的商品数量
      */
@@ -289,11 +290,13 @@ public class SecKillServiceImpl implements SecKillService {
      * 里面包含sku的基本信息以及sku的秒杀信息
      */
     private void saveSessionSkusInfos(List<SecKillSessionsWithSkus> list) {
+        //对所有的秒杀场次做一个遍历
         list.stream().forEach(session -> {
             //绑定hash操作
             BoundHashOperations<String, Object, Object> operations = redisTemplate.boundHashOps(SECKILLSKU_CACHE_PREFIX);
+            //获取当前秒杀场次中的每一个秒杀商品
             session.getRelationEntities().stream().forEach(secKillSkuVo -> {
-                //4.商品的随机码  seckill?skuId=1&key=xxxxsdewfwef 防止接口名称的暴露
+                //4.商品的随机码  seckill?skuId=1&key=xxxxsdewfwef 防止接口名称的暴露，每一个秒杀商品对应一个随机码code
                 String randomCode = UUID.randomUUID().toString().replaceAll("-", "");
                 if (!operations.hasKey(secKillSkuVo.getPromotionSessionId().toString() + "_"
                         + secKillSkuVo.getSkuId().toString())) {

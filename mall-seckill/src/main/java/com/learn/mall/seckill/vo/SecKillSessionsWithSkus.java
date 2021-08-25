@@ -37,7 +37,9 @@ public class SecKillSessionsWithSkus {
      * 创建时间
      */
     private Date createTime;
-
+    /**
+     * 当前秒杀场次对应的秒杀商品
+     */
     private List<SecKillSkuVo> relationEntities;
 
 }

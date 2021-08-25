@@ -30,6 +30,7 @@ public class SecKillController {
 
     /**
      * 获取当前时间要参与秒杀的商品
+     * 高并发接口，需要在前端展示当前时间段的秒杀商品
      */
     @ResponseBody
     @GetMapping("/CurrentTimeSecKillSkus")

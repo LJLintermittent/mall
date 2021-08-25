@@ -25,9 +25,6 @@ public class LoginUserInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        /**
-         * 库存服务远程调用这个订单服务的接口，会出现登录拦截问题
-         */
         String uri = request.getRequestURI();
         AntPathMatcher antPathMatcher = new AntPathMatcher();
         boolean match = antPathMatcher.match("/kill", uri);
