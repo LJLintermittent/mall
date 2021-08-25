@@ -38,6 +38,7 @@ public class PayWebController {
 
     /**
      * 点击支付宝支付后跳转到支付宝支付页面 提交支付页面需要的数据
+     * 这个接口拿到的是支付宝过来的支付页面，所以需要通过produces = "text/html"来让前端直接渲染html页面
      */
     @ResponseBody
     @GetMapping(value = "/payOrder", produces = "text/html")

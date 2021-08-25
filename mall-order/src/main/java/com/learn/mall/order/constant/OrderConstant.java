@@ -8,7 +8,9 @@ package com.learn.mall.order.constant;
  * @author 李佳乐
  * @version 1.0
  */
+@SuppressWarnings("all")
 public class OrderConstant {
+
     /**
      * 订单令牌（redis中存放的令牌键的前缀）
      */
