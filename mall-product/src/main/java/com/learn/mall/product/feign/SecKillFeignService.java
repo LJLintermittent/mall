@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author 李佳乐
  * @version 1.0
  */
-@FeignClient(value = "mall-seckill",fallback = SecKillFeignServiceFallback.class)
 @SuppressWarnings("all")
+@FeignClient(value = "mall-seckill",fallback = SecKillFeignServiceFallback.class)
 public interface SecKillFeignService {
 
     /**
