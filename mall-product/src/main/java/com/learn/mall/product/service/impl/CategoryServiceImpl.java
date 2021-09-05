@@ -184,6 +184,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 1.升级luttuce客户端版本
      * 2.切换使用jedis
      */
+    @Override
     public Map<String, List<Catelog2Vo>> getCatalogJsonFromDBOrRedisWithWithRedissonLock() {
         /**
          * 1.空结果缓存: 解决缓存穿透（大量请求查找一个或多个不存在的key） （布隆过滤器）
@@ -323,7 +324,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     /**
      * 查询三级分类，如果缓存没有，需要在数据库中查询，并将结果放入缓存
      */
-    private Map<String, List<Catelog2Vo>> getDataFromDB() {
+    @Override
+    public Map<String, List<Catelog2Vo>> getDataFromDB() {
 
         String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
         if (!StringUtils.isEmpty(catalogJSON)) {

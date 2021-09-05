@@ -53,5 +53,14 @@ public interface CategoryService extends IService<CategoryEntity> {
      */
     Map<String, List<Catelog2Vo>> getCatalogJson();
 
+    /**
+     * 不使用spring cache，只使用原生的redis查询策略进行压测
+     */
+    Map<String, List<Catelog2Vo>> getDataFromDB();
+
+    /**
+     * 不使用spring cache，使用Redisson分布锁+普通缓存读写策略
+     */
+    Map<String, List<Catelog2Vo>> getCatalogJsonFromDBOrRedisWithWithRedissonLock();
 }
 

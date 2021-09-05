@@ -49,19 +49,20 @@ public class IndexController {
     }
 
     /**
+     * TODO 首页分类查询压测
      * 查询二级分类和三级分类
      * 请求接口：localhost:10001/index/catalog.json 单压接口，不过网关和nginx
-     * 最大堆内存512M，线程数1000，ramp-up：1s，循环次数：永远，样本：10000
-     * 数据库不加索引:吞吐量为：104/sec
-     * 数据库加索引:吞吐量为：111/sec
-     * 由于数据量过少，加索引优化效果不是特别明显，然后尝试取消JVM参数设置，直接默认压测
-     * 在之前的基础上，最大堆内存依然为512M，初始堆内存也为512M，线程数200，ramp-up：1s，循环次数：永远
-     * 样本数：20000，吞吐量为：830/sec
+     * -Xms512m -Xmx512m -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70
+     * -XX:+UseCMSInitiatingOccupancyOnly
+     * jmeter线程数500，加压到500所用时间，ramp-up为5s，循环次数：永久
+     * 使用上面的参数，CMS+parnew组合的测试结果：测试样本27000，吞吐量 503/sec
+     * 使用默认垃圾回收器，ps+po组合的测试结果：测试样本30000，吞吐量 520/sec
+     * 使用G1垃圾回收器，测试样本：51000，吞吐量 492/sec
      */
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
-        Map<String, List<Catelog2Vo>> map = categoryService.getCatalogJson();
+        Map<String, List<Catelog2Vo>> map = categoryService.getCatalogJsonFromDBOrRedisWithWithRedissonLock();
         return map;
     }
 
