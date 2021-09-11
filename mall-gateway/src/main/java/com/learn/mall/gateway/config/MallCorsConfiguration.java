@@ -61,4 +61,19 @@ public class MallCorsConfiguration {
 
         return new CorsWebFilter(source);
     }
+
+    /*
+      对那些可能对浏览器产生副作用的请求，特别是除了get请求以外的请求，或者搭配某些MIME类型的POST请求，浏览器会先使用一格options
+      预检请求发送给服务器，从服务器那尝试获知服务器对复杂请求的一个是否允许跨域的响应
+      这个时候服务端返回的内容一般是：
+      Access-control-allow-origin：*
+      这种服务器的响应的内容具体在代码里面配置的话就是使用CorsWebFilter来配置服务器对预检请求的响应
+      真正的请求拿到了响应了才会进行发送
+      什么时候会发送预检请求：（预检请求就是会对服务器有影响的请求会先发送预检请求）
+      1.使用了下面任何一种请求方法：put delete connect patch trace options等
+      2.content-type不属于下列之一的：
+        application/x-www-form-urlencoded
+        multipart/form-data
+        text/plain
+     */
 }
