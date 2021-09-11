@@ -66,6 +66,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      * private static final int HASH_INCREMENT = 0x61c88647;
      * 这是斐波那契散列法
      * 0x61c88647是黄金分割点：0.618
+     * <p>
+     * 通过源码发现，只要实例化一个threadlocal，就会获取一个相应的哈希值
+     * 这个值的获取，也就是计算threadlocalmap，存储数据时，数组的下标位置，只要是这同一个对象
+     * 在set和get的时候就可以设置和获取对应的值
+     * set流程：
+     * 情况1：待插入的下标位置为空，直接插入
+     * 情况2. 待插入的位置不为空，key相同，直接更新
+     * 情况3. 待插入的位置不为空，key不相同，开放定址法
+     * 情况4. 待插入的位置不为空，key不相同，但是是过期key，这种情况是弱引用发生GC产生的情况，
+     * 碰到这种情况threadlocal会进行探测清理过期key
      */
     private ThreadLocal<OrderSubmitVo> submitVoThreadLocal = new ThreadLocal<>();
 
