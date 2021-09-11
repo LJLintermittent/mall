@@ -55,6 +55,18 @@ import org.springframework.web.context.request.RequestContextHolder;
 @Service("orderService")
 public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> implements OrderService {
 
+    /**
+     * TODO ThreadLocal
+     * ThreadLocal底层数据是一个数组结构
+     * 是一个entry类型的数组，在threadlocalmap中创建了静态内部类entry，并且继承了WeakReference，表示他是一个弱引用
+     * 只有发生GC就会回收
+     * 数据元素采用哈希散列的方式进行存储 ，这里面的散列方法采用的是斐波那契散列法
+     * 另外它的哈希碰撞的处理方法也不像hashmap一样那样链地址法，用链表或者红黑树来存储，他是开放定址法，这个位置冲突了，+1向后寻址
+     * 直到找到空位置为止
+     * private static final int HASH_INCREMENT = 0x61c88647;
+     * 这是斐波那契散列法
+     * 0x61c88647是黄金分割点：0.618
+     */
     private ThreadLocal<OrderSubmitVo> submitVoThreadLocal = new ThreadLocal<>();
 
     @Autowired
