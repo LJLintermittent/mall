@@ -57,7 +57,7 @@ public class CouponController {
      * 3）.配置集ID
      * DataID 类似于springboot项目中的配置文件名
      * 4）.配置分组
-     * 在真实开发中：可以使用名称空间来划分微服务，每个微服务在用配置分组来区分dev，test，prod开发环境
+     * 在真实开发中：可以使用名称空间来划分微服务，每个微服务在用配置分组来区分dev，test，prod环境
      */
     @Value("${coupon.user.name}")
     private String name;
