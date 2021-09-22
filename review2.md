@@ -270,5 +270,9 @@ key使用弱引用，引用threadlocal的对象被回收了，由于thradlocalma
 remove方法是将整个entry对象和map的引用关系移除，从而让整个entry对象在下一次gc之前从gcroots不可达，从而被回收掉
 ~~~
 
+### 关于threadlocal的补充
 
+threadlocal其实可以看做是一个工具类一样，为用户提供get，set，remove等方法，而实际在线程中存放内容的是threadlocals这个成员变量，这个成员变量在thread类中，它的类型就是threadlocal.threadlocalmap
+
+所以真正的数据存放在threadlocalmap中，他是threadlocal的静态内部类
 
