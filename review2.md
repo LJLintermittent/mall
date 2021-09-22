@@ -258,3 +258,17 @@ jdk中的直接内存的回收就使用到了虚引用，由于jvm的内存管�
 
 接着说threadlocal，它底层是数组，数据元素会按照哈希散列的方式来进行存放，不过这里的散列法用的是斐波那契散列，另外不同于hashmap的结构，发生哈希碰撞的时候不会变成链表或者红黑树，而是使用一个叫做线性探测的方法，也就是如果发生哈希冲突的话，那么会把当前下标位置+1向后寻址，直到找到一个空位置进行存储，这种方式虽然设计简单，不需要维护next指针以及红黑树等，但是如果发生冲突的话，效率是非常低的，以及如果有大量的threadlocal对象放入map中，效率也是非常低的。
 
+threadlocal其实通过get方法返回的是一个threadlocalmap，然后再从map中getentry，所以threadlocal在**ThreadLocalMap**中是以一个弱引用的身份被entry中的key所持有
+
+由于entry的key是弱引用，entry的key是threadlocal，而threadlocal是一个弱引用，value是一个强引用，threadlocal在没有外部对象强引用的时候，发生gc时弱引用的key就会被回收，而value不会被回收，从而导致内存泄露
+
+这里说一下为什么使用弱引用？
+
+~~~wiki
+假设key使用强引用，引用threadlocal的对象回收了，但是threadlocalmap还持有threadlocal的强引用，如果没有手动删除，threadlocal不会被回收，导致entry内存泄露
+key使用弱引用，引用threadlocal的对象被回收了，由于thradlocalmap持有threadlocal的弱引用，即使没有手动删除，threadlocal也会被回收，而这个value是强引用，一直得不到回收，如果不remove的话，其实在下一次set或者get的时候会有探测式清理，但是这个清理是非常耗时的，还是有可能发生内存泄露，所以在使用完以后，最终在finally代码块中应该手动remove
+remove方法是将整个entry对象和map的引用关系移除，从而让整个entry对象在下一次gc之前从gcroots不可达，从而被回收掉
+~~~
+
+
+
