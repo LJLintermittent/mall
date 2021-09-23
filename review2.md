@@ -276,3 +276,5 @@ threadlocal其实可以看做是一个工具类一样，为用户提供get，set
 
 所以真正的数据存放在threadlocalmap中，他是threadlocal的静态内部类
 
+观察entry这个静态内部类，可以发现它的key是一个threadlocal，其实是一个指向threadlocal的弱引用，而value还是一个强引用，也就是set方法传进来的对象。如果当前线程一直存在的话，并且没有调用remove方法，如果这个时候threadlocal变量没有其他引用了，当前线程还存在，由于threadlocalmap中的key是弱引用，会在gc的时候回收，但是相应的value不会被回收，造成内存泄露
+

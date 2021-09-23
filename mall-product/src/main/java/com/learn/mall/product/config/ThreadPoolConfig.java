@@ -27,7 +27,7 @@ public class ThreadPoolConfig {
                 , properties.getKeepAliveTime()
                 , TimeUnit.SECONDS
                 , new LinkedBlockingQueue<>(10)
-                , Executors.defaultThreadFactory()
+                , new NamingThreadFactory(Executors.defaultThreadFactory(), "电商-商品服务线程池")
                 , new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
