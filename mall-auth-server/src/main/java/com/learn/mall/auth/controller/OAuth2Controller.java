@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Description:
@@ -50,9 +50,9 @@ public class OAuth2Controller {
      */
     @GetMapping("/oauth2.0/weibo/success")
     public String weibo(@RequestParam("code") String code, HttpSession session) throws Exception {
-        Map<String, String> query = new HashMap<>();
-        Map<String, String> headers = new HashMap<>();
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> query = new ConcurrentHashMap<>(16);
+        Map<String, String> headers = new ConcurrentHashMap<>(16);
+        Map<String, String> map = new ConcurrentHashMap<>(16);
         map.put("client_id", "4093990418");
         map.put("client_secret", "4cd20c854c5a01f0c03de09da36a8e47");
         map.put("grand_type", "authorization_code");
