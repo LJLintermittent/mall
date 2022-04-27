@@ -98,3 +98,8 @@ spring:
     name: mall-gateway
 server:
   port: 88
+logging:
+  level:
+    com.learn.mall: debug
+    com.alibaba.nacos.client.naming: WARN
+    com.alibaba.nacos.client.config.impl: WARN

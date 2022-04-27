@@ -64,7 +64,6 @@ public class IndexController {
 
     /**
      * 验证码再次校验 （存Redis）
-     * <p>
      * key： sms:code:18066550996   value:  998176
      */
     @ResponseBody

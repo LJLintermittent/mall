@@ -340,7 +340,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
                     //根据这个一级分类，查到每一个一级分类所对应的二级分类
                     List<CategoryEntity> categoryEntities = getChildrenCategoryByParentId(selectList, v.getCatId());
-                     List<Catelog2Vo> catelog2Vos= null;
+                    List<Catelog2Vo> catelog2Vos = null;
                     if (categoryEntities != null) {
                         catelog2Vos = categoryEntities.stream().map(l2 -> {
                             Catelog2Vo catelog2Vo = new Catelog2Vo(v.getCatId().toString()

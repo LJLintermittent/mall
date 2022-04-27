@@ -46,7 +46,6 @@ spring:
 #  resources:
 #    add-mappings: false
 
-
 #mybatis
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml
@@ -67,6 +66,11 @@ mybatis-plus:
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
 
+logging:
+  level:
+    com.learn.mall: debug
+    com.alibaba.nacos.client.naming: WARN
+    com.alibaba.nacos.client.config.impl: WARN
 
 renren:
   redis:

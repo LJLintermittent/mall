@@ -20,7 +20,7 @@
     </div>
 </header>
 <section>
-    <form action="/auth/register" method="post" class="one">
+    <form action="/auth/register" method="post" class="one" style="width: 500px;height: 550px;margin: auto;margin-top: 80px;float: left;margin-left: 370px;padding: 0px 100px 0px 0px;border-right: 0px">
         <div class="tips" style="color:red"
              th:text="${errors!=null?(#maps.containsKey(errors, 'msg')?errors.msg:''):''}">
 
@@ -84,15 +84,7 @@
         </div>
 
     </form>
-    <div class="two">
-        <div class="right_r">
-            <img style="width: 100%;height: 100%" src="/static/reg/img/lei.png">
-        </div>
-    </div>
 </section>
-<br/><br/>
-<hr>
-<br/><br/>
 <script type="text/javascript" charset="utf-8">
     $(function () {
         var stuList = getStuList(); //设置传送信息：学生的集合
