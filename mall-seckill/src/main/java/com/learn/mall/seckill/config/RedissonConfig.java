@@ -20,7 +20,7 @@ public class RedissonConfig {
     @Bean(destroyMethod = "shutdown")
     public RedissonClient redissonClient() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://192.168.190.132:6379");
+        config.useSingleServer().setAddress("redis://192.168.190.141:6379").setPassword("root");
         RedissonClient redissonClient = Redisson.create(config);
         return redissonClient;
     }

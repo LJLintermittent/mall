@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://192.168.190.132:3307/mall_ums?serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.190.141:3306/mall_ums?serverTimezone=GMT%2B8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
   cloud:
     nacos:

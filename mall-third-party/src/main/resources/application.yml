@@ -18,8 +18,9 @@ spring:
   application:
     name: mall-third-party
   redis:
-    host: 192.168.190.132
+    host: 192.168.190.141
     port: 6379
+    password: root
 server:
   port: 40000
 logging:
