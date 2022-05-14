@@ -2,6 +2,8 @@ package com.learn.mall.product.web;
 
 import com.learn.mall.product.entity.vo.front.SkuItemVo;
 import com.learn.mall.product.service.SkuInfoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import java.util.concurrent.ExecutionException;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "商品详情信息大查询模块")
 @Controller
 @SuppressWarnings("all")
 public class ItemController {
@@ -37,6 +40,7 @@ public class ItemController {
      * 样本数量：20000，测试结果：吞吐量：269.2/sec
      * 这里测试结果发现使用了线程池+异步编排反而不如原来的串行化执行
      */
+    @ApiOperation(value = "跳转并展示当前sku的详细信息，商品详情信息大查询")
     @GetMapping("/{skuId}.html")
     public String skuItem(@PathVariable("skuId") Long skuId, Model model) throws ExecutionException, InterruptedException {
         SkuItemVo skuItemVo = skuInfoService.searchSkuVoInfoBySkuId(skuId);

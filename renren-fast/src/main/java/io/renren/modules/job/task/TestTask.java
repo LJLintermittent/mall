@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -21,10 +21,11 @@ import org.springframework.stereotype.Component;
  */
 @Component("testTask")
 public class TestTask implements ITask {
-	private Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Override
-	public void run(String params){
-		logger.debug("TestTask定时任务正在执行，参数为：{}", params);
-	}
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Override
+    public void run(String params) {
+        logger.debug("TestTask定时任务正在执行，参数为：{}", params);
+    }
 }

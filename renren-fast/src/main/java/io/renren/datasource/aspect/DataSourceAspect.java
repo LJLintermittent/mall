@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2018 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -32,7 +32,9 @@ import java.lang.reflect.Method;
 @Aspect
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@SuppressWarnings("All")
 public class DataSourceAspect {
+
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
     @Pointcut("@annotation(io.renren.datasource.annotation.DataSource) " +
@@ -47,20 +49,18 @@ public class DataSourceAspect {
         Class targetClass = point.getTarget().getClass();
         Method method = signature.getMethod();
 
-        DataSource targetDataSource = (DataSource)targetClass.getAnnotation(DataSource.class);
+        DataSource targetDataSource = (DataSource) targetClass.getAnnotation(DataSource.class);
         DataSource methodDataSource = method.getAnnotation(DataSource.class);
-        if(targetDataSource != null || methodDataSource != null){
+        if (targetDataSource != null || methodDataSource != null) {
             String value;
-            if(methodDataSource != null){
+            if (methodDataSource != null) {
                 value = methodDataSource.value();
-            }else {
+            } else {
                 value = targetDataSource.value();
             }
-
             DynamicContextHolder.push(value);
             logger.debug("set datasource is {}", value);
         }
-
         try {
             return point.proceed();
         } finally {

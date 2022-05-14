@@ -10,7 +10,11 @@ import com.learn.mall.auth.feign.ThirdPartyFeignService;
 import com.learn.mall.auth.utils.RandomUtil;
 import com.learn.mall.auth.vo.UserLoginVo;
 import com.learn.mall.auth.vo.UserRegisterVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundSetOperations;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -19,10 +23,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -36,6 +40,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 @SuppressWarnings("all")
+@Api(tags = "认证模块")
 @Controller
 @RequestMapping("/auth")
 public class IndexController {
@@ -66,6 +71,7 @@ public class IndexController {
      * 验证码再次校验 （存Redis）
      * key： sms:code:18066550996   value:  998176
      */
+    @ApiOperation(value = "发送短信验证码")
     @ResponseBody
     @GetMapping("/sendSms")
     public R sendCode(@RequestParam("phone") String phone) {
@@ -93,6 +99,7 @@ public class IndexController {
     /**
      * 用户注册
      */
+    @ApiOperation(value = "用户注册")
     @PostMapping("/register")
     public String register(@Valid UserRegisterVo vo, BindingResult result, RedirectAttributes attributes) {
         if (result.hasErrors()) {
@@ -140,6 +147,7 @@ public class IndexController {
     /**
      * 用户登录
      */
+    @ApiOperation(value = "用户登录")
     @PostMapping("/login")
     public String login(UserLoginVo vo, RedirectAttributes attributes,
                         HttpSession session) {
@@ -163,6 +171,8 @@ public class IndexController {
      * 发送登录请求，加入一个逻辑判断，如果用户已经登录了
      * 那就跳转到首页，如果没登录才可以通过登录请求跳转到登录页
      */
+    @ApiOperation(value = "登录跳转接口(发送登录请求，加入一个逻辑判断，如果用户已经登录了," +
+            "那就跳转到首页，如果没登录才可以通过登录请求跳转到登录页)")
     @GetMapping("/login.html")
     public String loginPage(HttpSession session) {
         Object data = session.getAttribute(AuthConstant.LOGIN_USER);
@@ -174,4 +184,28 @@ public class IndexController {
             return "redirect:http://mall.com";
         }
     }
+
+    /**
+     * TODO 用户注销
+     */
+    @ApiOperation(value = "用户注销")
+    @ResponseBody
+    @GetMapping("/logout")
+    public R logout() {
+        Set<String> keys = stringRedisTemplate.keys("*");
+        System.out.println("----------------Redis中的所有key------------------");
+        System.out.println(keys);
+        for (String key : keys) {
+            if (key.contains("spring")) {
+                System.out.println("------------------将要被删除的key------------------");
+                System.out.println(key);
+                stringRedisTemplate.delete(key);
+            }
+        }
+        System.out.println("------------------此时redis中剩下的key-------------------");
+        Set<String> nowKeys = stringRedisTemplate.keys("*");
+        System.out.println(nowKeys);
+        return R.ok().put("data", "注销成功");
+    }
+
 }

@@ -6,6 +6,8 @@ import com.learn.common.utils.PageUtils;
 import com.learn.mall.order.config.AlipayTemplate;
 import com.learn.mall.order.service.OrderService;
 import com.learn.mall.order.vo.PayVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,7 @@ import java.util.Map;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "支付宝支付跳转模块")
 @Controller
 @SuppressWarnings("all")
 public class PayWebController {
@@ -40,6 +43,7 @@ public class PayWebController {
      * 点击支付宝支付后跳转到支付宝支付页面 提交支付页面需要的数据
      * 这个接口拿到的是支付宝过来的支付页面，所以需要通过produces = "text/html"来让前端直接渲染html页面
      */
+    @ApiOperation(value = "击支付宝支付后跳转到支付宝支付页面 提交支付页面需要的数据")
     @ResponseBody
     @GetMapping(value = "/payOrder", produces = "text/html")
     public String payOrder(@RequestParam("orderSn") String orderSn) throws AlipayApiException {
@@ -52,6 +56,7 @@ public class PayWebController {
     /**
      * 支付完成以后跳转到当前用户的所有订单列表页
      */
+    @ApiOperation(value = "支付完成以后跳转到当前用户的所有订单列表页")
     @GetMapping("/list.html")
     public String listWithItem(@RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum
             , Model model, HttpServletRequest request) {

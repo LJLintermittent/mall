@@ -5,9 +5,12 @@ import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.PolicyConditions;
 import com.learn.common.utils.R;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -23,6 +26,7 @@ import java.util.Map;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "OSS模块")
 @RestController
 @SuppressWarnings("all")
 public class OssController {
@@ -47,7 +51,8 @@ public class OssController {
      * 客户端会拿着从服务端获得的签名数据和要上传的文件，一起去请求以下这个地址，准备上传，注意：这里也有跨域问题！！！
      * 例如：http://LJL-mall.oss-cn-beijing.aliyuncs.com/
      */
-    @RequestMapping("/oss/policy")
+    @ApiOperation(value = "OSS对象存储，服务端签名后直传")
+    @RequestMapping(value = "/oss/policy", method = RequestMethod.POST)
     public R policy() {
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
         // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。

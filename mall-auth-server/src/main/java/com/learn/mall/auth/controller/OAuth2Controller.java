@@ -8,6 +8,8 @@ import com.learn.common.utils.R;
 import com.learn.common.vo.MemberRespVo;
 import com.learn.mall.auth.feign.MemberFeignService;
 import com.learn.mall.auth.vo.SocialUser;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
@@ -32,9 +34,10 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 处理社交登录请求
  */
+@SuppressWarnings("all")
+@Api(tags = "社交登录回调模块")
 @Controller
 @Slf4j
-@SuppressWarnings("all")
 public class OAuth2Controller {
 
     @Autowired
@@ -48,6 +51,7 @@ public class OAuth2Controller {
      * 然后调用远程服务传入这个socialUser去数据库注册或者登录
      * 无论是注册还是登录都会返回一个数据库的用户信息
      */
+    @ApiOperation(value = "社交登录成功的回调接口")
     @GetMapping("/oauth2.0/weibo/success")
     public String weibo(@RequestParam("code") String code, HttpSession session) throws Exception {
         Map<String, String> query = new ConcurrentHashMap<>(16);

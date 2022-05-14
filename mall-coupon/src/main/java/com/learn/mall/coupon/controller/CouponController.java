@@ -3,14 +3,12 @@ package com.learn.mall.coupon.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.learn.mall.coupon.entity.CouponEntity;
 import com.learn.mall.coupon.service.CouponService;
@@ -26,6 +24,7 @@ import com.learn.common.utils.R;
  * @date 2021-04-09 20:34:26
  */
 @SuppressWarnings("all")
+@Api(tags = "优惠券信息模块")
 @RefreshScope
 @RestController
 @RequestMapping("coupon/coupon")
@@ -67,7 +66,8 @@ public class CouponController {
     /**
      * 测试配置中心的接口
      */
-    @RequestMapping("/test")
+    @ApiOperation(value = "测试配置中心的接口,无实际意义")
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
     public R test() {
         return R.ok().put("name", name).put("age", age);
     }
@@ -76,7 +76,8 @@ public class CouponController {
      * 测试优惠券服务与会员服务的远程调用
      * 模拟一个优惠券
      */
-    @RequestMapping("/member/list")
+    @ApiOperation(value = "测试优惠券服务与会员服务的远程调用，无实际意义")
+    @RequestMapping(value = "/member/list", method = RequestMethod.POST)
     public R memberCoupon() {
         CouponEntity couponEntity = new CouponEntity();
         couponEntity.setCouponName("满100减10");
@@ -87,7 +88,8 @@ public class CouponController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation(value = "查询所有优惠券信息")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = couponService.queryPage(params);
         return R.ok().put("page", page);
@@ -96,7 +98,8 @@ public class CouponController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @ApiOperation("根据ID来查询优惠券信息")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id) {
         CouponEntity coupon = couponService.getById(id);
         return R.ok().put("coupon", coupon);
@@ -105,7 +108,8 @@ public class CouponController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @ApiOperation("保存优惠券信息")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody CouponEntity coupon) {
         couponService.save(coupon);
         return R.ok();
@@ -114,7 +118,8 @@ public class CouponController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @ApiOperation("修改优惠券信息")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public R update(@RequestBody CouponEntity coupon) {
         couponService.updateById(coupon);
         return R.ok();
@@ -123,7 +128,8 @@ public class CouponController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @ApiOperation("删除优惠券")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids) {
         couponService.removeByIds(Arrays.asList(ids));
         return R.ok();

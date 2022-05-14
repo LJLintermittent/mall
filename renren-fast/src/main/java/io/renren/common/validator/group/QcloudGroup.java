@@ -13,5 +13,6 @@ package io.renren.common.validator.group;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@SuppressWarnings("all")
 public interface QcloudGroup {
 }

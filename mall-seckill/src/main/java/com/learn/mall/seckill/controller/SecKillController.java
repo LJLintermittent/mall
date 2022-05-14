@@ -3,6 +3,8 @@ package com.learn.mall.seckill.controller;
 import com.learn.common.utils.R;
 import com.learn.mall.seckill.service.SecKillService;
 import com.learn.mall.seckill.to.SecKillSkuRedisTo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import java.util.List;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "秒杀模块")
 @Controller
 @SuppressWarnings("all")
 public class SecKillController {
@@ -32,6 +35,7 @@ public class SecKillController {
      * 获取当前时间要参与秒杀的商品
      * 高并发接口，需要在前端展示当前时间段的秒杀商品
      */
+    @ApiOperation(value = "获取当前时间要参与秒杀的商品")
     @ResponseBody
     @GetMapping("/CurrentTimeSecKillSkus")
     public R getCurrentTimeSecKillSkus() {
@@ -44,6 +48,7 @@ public class SecKillController {
      * 用于给商品服务做远程调用
      * 业务点：如果该商品是秒杀商品，那么在商品详情页会提示该商品为秒杀商品
      */
+    @ApiOperation(value = "根据商品id查询当前商品是否属于秒杀商品")
     @ResponseBody
     @GetMapping("/sku/secKill/{skuId}")
     public R getSecKillSkuInfo(@PathVariable("skuId") Long skuId) {
@@ -54,6 +59,7 @@ public class SecKillController {
     /**
      * 秒杀
      */
+    @ApiOperation(value = "秒杀")
     @GetMapping("/kill")
     public String secKill(@RequestParam("killId") String killId,
                           @RequestParam("key") String key,

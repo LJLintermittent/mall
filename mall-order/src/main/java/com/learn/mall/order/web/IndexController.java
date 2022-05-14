@@ -1,6 +1,8 @@
 package com.learn.mall.order.web;
 
 import com.learn.mall.order.entity.OrderEntity;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import java.util.UUID;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "定时关单，页面跳转模块")
 @Controller
 @SuppressWarnings("all")
 public class IndexController {
@@ -29,6 +32,7 @@ public class IndexController {
     /**
      * 模拟延时队列定时关单
      */
+    @ApiOperation(value = "模拟延时队列定时关单")
     @ResponseBody
     @GetMapping("/test/createOrder")
     public String createOrderTest() {
@@ -44,6 +48,7 @@ public class IndexController {
     /**
      * 页面跳转
      */
+    @ApiOperation(value = "页面跳转")
     @GetMapping("/{page}.html")
     public String listPage(@PathVariable("page") String page) {
         return page;

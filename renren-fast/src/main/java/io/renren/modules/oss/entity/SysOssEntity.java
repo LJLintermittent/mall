@@ -24,6 +24,7 @@ import java.util.Date;
 @Data
 @TableName("sys_oss")
 public class SysOssEntity implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
 	@TableId

@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -13,17 +13,19 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@SuppressWarnings("all")
 public class CorsConfig implements WebMvcConfigurer {
 
     /**
      * 在网关微服务配置了跨域以后，这个就不需要了
+     *     @Override
+     *     public void addCorsMappings(CorsRegistry registry) {
+     *         registry.addMapping("/**")
+     *             .allowedOrigins("*")
+     *             .allowCredentials(true)
+     *             .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+     *             .maxAge(3600);
+     *     }
      */
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//            .allowedOrigins("*")
-//            .allowCredentials(true)
-//            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//            .maxAge(3600);
-//    }
+
 }

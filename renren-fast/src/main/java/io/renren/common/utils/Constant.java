@@ -13,7 +13,9 @@ package io.renren.common.utils;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@SuppressWarnings("all")
 public class Constant {
+
 	/** 超级管理员ID */
 	public static final int SUPER_ADMIN = 1;
     /**

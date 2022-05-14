@@ -21,7 +21,9 @@ import org.springframework.stereotype.Component;
  * @author Mark sunlightcs@gmail.com
  */
 @Component
+@SuppressWarnings("all")
 public class SysConfigRedis {
+
     @Autowired
     private RedisUtils redisUtils;
 

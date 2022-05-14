@@ -3,6 +3,8 @@ package com.learn.mall.cart.controller;
 import com.learn.mall.cart.service.CartService;
 import com.learn.mall.cart.vo.Cart;
 import com.learn.mall.cart.vo.CartItem;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import java.util.concurrent.ExecutionException;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "购物车模块")
 @Controller
 @SuppressWarnings("all")
 public class CartController {
@@ -32,6 +35,7 @@ public class CartController {
     /**
      * 获取当前用户的购物车中所有被选中的购物项，用于订单服务用来生成订单确认数据
      */
+    @ApiOperation(value = "获取当前用户的购物车中所有被选中的购物项，用于订单服务用来生成订单确认数据")
     @GetMapping("/currentUserCartItems")
     @ResponseBody
     public List<CartItem> getCurrentUserCartItems() {
@@ -41,6 +45,7 @@ public class CartController {
     /**
      * 删除某一个购物项
      */
+    @ApiOperation(value = "删除某一个购物项")
     @GetMapping("/deleteItem")
     public String deleteItem(@RequestParam("skuId") Long skuId) {
         cartService.deleteItem(skuId);
@@ -50,6 +55,7 @@ public class CartController {
     /**
      * 改变商品（购物项）的数量
      */
+    @ApiOperation(value = "改变购物项的数量")
     @GetMapping("/countItem")
     public String countItem(@RequestParam("skuId") Long skuId, @RequestParam("num") Integer num) {
         cartService.changeItemCount(skuId, num);
@@ -58,7 +64,9 @@ public class CartController {
 
     /**
      * 改变商品的选中状态
+     * 根据购物车中购物项的选中状态来更改界面显示的总价
      */
+    @ApiOperation(value = "根据购物车中购物项的选中状态来更改界面显示的总价")
     @GetMapping("/checkItem")
     public String checkItem(@RequestParam("skuId") Long skuId, @RequestParam("check") Integer check) {
         cartService.checkItem(skuId, check);
@@ -78,6 +86,7 @@ public class CartController {
      * 如果没有登录 那就按照cookie里面带来的user-key来做
      * 第一次：没有临时用户，我们需要帮忙创建一个临时用户
      */
+    @ApiOperation(value = "跳转到购物车列表页")
     @GetMapping("cart.html")
     public String cartListPage(Model model) throws ExecutionException, InterruptedException {
         Cart cart = cartService.getCart();
@@ -91,6 +100,7 @@ public class CartController {
      * RedirectAttributes.addFlashAttribute()将数据放在session里面可以在页面取出来，但是只能取一次
      * RedirectAttributes.addAttribute() 将数据放在url后面
      */
+    @ApiOperation(value = "添加商品到购物车")
     @GetMapping("/addToCart")
     public String addToCart(@RequestParam("skuId") Long skuId, @RequestParam("num") Integer num
             , RedirectAttributes redirectAttributes) throws ExecutionException, InterruptedException {
@@ -103,6 +113,7 @@ public class CartController {
      * 跳转到成功页面，如果我们在成功页面刷新，相当于我们总是在这个页面重新获取数据
      * 而不是刷新一次就向购物车添加一次
      */
+    @ApiOperation(value = "跳转到添加购物车成功页面")
     @GetMapping("/addToCartSuccess.html")
     public String addToCartSuccessPage(@RequestParam("skuId") Long skuId, Model model) {
         //重定向到成功页面，重新查出数据即可

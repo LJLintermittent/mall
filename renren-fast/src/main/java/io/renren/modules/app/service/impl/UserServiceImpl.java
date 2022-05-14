@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -24,21 +24,19 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
 
-	@Override
-	public UserEntity queryByMobile(String mobile) {
-		return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
-	}
+    @Override
+    public UserEntity queryByMobile(String mobile) {
+        return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
+    }
 
-	@Override
-	public long login(LoginForm form) {
-		UserEntity user = queryByMobile(form.getMobile());
-		Assert.isNull(user, "手机号或密码错误");
-
-		//密码错误
-		if(!user.getPassword().equals(DigestUtils.sha256Hex(form.getPassword()))){
-			throw new RRException("手机号或密码错误");
-		}
-
-		return user.getUserId();
-	}
+    @Override
+    public long login(LoginForm form) {
+        UserEntity user = queryByMobile(form.getMobile());
+        Assert.isNull(user, "手机号或密码错误");
+        //密码错误
+        if (!user.getPassword().equals(DigestUtils.sha256Hex(form.getPassword()))) {
+            throw new RRException("手机号或密码错误");
+        }
+        return user.getUserId();
+    }
 }

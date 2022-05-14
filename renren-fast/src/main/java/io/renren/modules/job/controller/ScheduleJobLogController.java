@@ -28,7 +28,9 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/scheduleLog")
+@SuppressWarnings("all")
 public class ScheduleJobLogController {
+
 	@Autowired
 	private ScheduleJobLogService scheduleJobLogService;
 	

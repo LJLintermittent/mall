@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import com.learn.common.utils.R;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:38:20
  */
+@Api(tags = "sku信息模块")
 @RestController
 @RequestMapping("product/skuinfo")
 @SuppressWarnings("all")
@@ -32,6 +35,7 @@ public class SkuInfoController {
      * 获取当前商品的最新价格，从而更新redis中存储的购物车中的商品价格
      * 因为购物车的价格可能存的是很久之前的旧的商品价格
      */
+    @ApiOperation(value = "获取当前商品的最新价格")
     @GetMapping("/{skuId}/price")
     public R getPrice(@PathVariable("skuId") Long skuId) {
         SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
@@ -42,7 +46,8 @@ public class SkuInfoController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation(value = "列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
@@ -51,7 +56,8 @@ public class SkuInfoController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{skuId}")
+    @ApiOperation(value = "信息")
+    @RequestMapping(value = "/info/{skuId}", method = RequestMethod.GET)
     public R info(@PathVariable("skuId") Long skuId) {
         SkuInfoEntity skuInfo = skuInfoService.getById(skuId);
         return R.ok().put("skuInfo", skuInfo);
@@ -60,7 +66,8 @@ public class SkuInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @ApiOperation(value = "保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody SkuInfoEntity skuInfo) {
         skuInfoService.save(skuInfo);
         return R.ok();
@@ -69,7 +76,8 @@ public class SkuInfoController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @ApiOperation(value = "修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public R update(@RequestBody SkuInfoEntity skuInfo) {
         skuInfoService.updateById(skuInfo);
         return R.ok();
@@ -78,7 +86,8 @@ public class SkuInfoController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] skuIds) {
         skuInfoService.removeByIds(Arrays.asList(skuIds));
         return R.ok();

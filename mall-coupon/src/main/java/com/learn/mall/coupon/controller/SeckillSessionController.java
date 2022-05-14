@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import com.learn.common.utils.R;
  * @email 18066550996@163.com
  * @date 2021-04-09 20:34:26
  */
+@Api(tags = "秒杀活动场次模块")
 @RestController
 @RequestMapping("coupon/seckillsession")
 @SuppressWarnings("all")
@@ -32,6 +35,7 @@ public class SeckillSessionController {
      * 远程调用接口（供秒杀服务调用）
      * 获取最近三天的秒杀活动
      */
+    @ApiOperation(value = "获取最近三天的秒杀活动（远程调用接口（供秒杀服务调用））")
     @GetMapping("/getLatest3DaysSession")
     public R getLatest3DaysSession() {
         List<SeckillSessionEntity> sessionEntities = seckillSessionService.getLatest3DaysSession();
@@ -41,7 +45,8 @@ public class SeckillSessionController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation(value = "列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = seckillSessionService.queryPage(params);
         return R.ok().put("page", page);
@@ -50,7 +55,8 @@ public class SeckillSessionController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @ApiOperation(value = "信息")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id) {
         SeckillSessionEntity seckillSession = seckillSessionService.getById(id);
         return R.ok().put("seckillSession", seckillSession);
@@ -59,7 +65,8 @@ public class SeckillSessionController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @ApiOperation(value = "保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody SeckillSessionEntity seckillSession) {
         seckillSessionService.save(seckillSession);
         return R.ok();
@@ -68,7 +75,8 @@ public class SeckillSessionController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @ApiOperation(value = "修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public R update(@RequestBody SeckillSessionEntity seckillSession) {
         seckillSessionService.updateById(seckillSession);
         return R.ok();
@@ -77,7 +85,8 @@ public class SeckillSessionController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids) {
         seckillSessionService.removeByIds(Arrays.asList(ids));
         return R.ok();

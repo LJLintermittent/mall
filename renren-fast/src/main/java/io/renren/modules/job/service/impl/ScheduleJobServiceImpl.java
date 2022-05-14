@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -29,103 +29,105 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service("scheduleJobService")
+@SuppressWarnings("all")
 public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobDao, ScheduleJobEntity> implements ScheduleJobService {
-	@Autowired
+
+    @Autowired
     private Scheduler scheduler;
-	
-	/**
-	 * 项目启动时，初始化定时器
-	 */
-	@PostConstruct
-	public void init(){
-		List<ScheduleJobEntity> scheduleJobList = this.list();
-		for(ScheduleJobEntity scheduleJob : scheduleJobList){
-			CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
+
+    /**
+     * 项目启动时，初始化定时器
+     */
+    @PostConstruct
+    public void init() {
+        List<ScheduleJobEntity> scheduleJobList = this.list();
+        for (ScheduleJobEntity scheduleJob : scheduleJobList) {
+            CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, scheduleJob.getJobId());
             //如果不存在，则创建
-            if(cronTrigger == null) {
+            if (cronTrigger == null) {
                 ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
-            }else {
+            } else {
                 ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
             }
-		}
-	}
+        }
+    }
 
-	@Override
-	public PageUtils queryPage(Map<String, Object> params) {
-		String beanName = (String)params.get("beanName");
+    @Override
+    public PageUtils queryPage(Map<String, Object> params) {
+        String beanName = (String) params.get("beanName");
 
-		IPage<ScheduleJobEntity> page = this.page(
-			new Query<ScheduleJobEntity>().getPage(params),
-			new QueryWrapper <ScheduleJobEntity>().like(StringUtils.isNotBlank(beanName),"bean_name", beanName)
-		);
+        IPage<ScheduleJobEntity> page = this.page(
+                new Query<ScheduleJobEntity>().getPage(params),
+                new QueryWrapper<ScheduleJobEntity>().like(StringUtils.isNotBlank(beanName), "bean_name", beanName)
+        );
 
-		return new PageUtils(page);
-	}
+        return new PageUtils(page);
+    }
 
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void saveJob(ScheduleJobEntity scheduleJob) {
-		scheduleJob.setCreateTime(new Date());
-		scheduleJob.setStatus(Constant.ScheduleStatus.NORMAL.getValue());
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveJob(ScheduleJobEntity scheduleJob) {
+        scheduleJob.setCreateTime(new Date());
+        scheduleJob.setStatus(Constant.ScheduleStatus.NORMAL.getValue());
         this.save(scheduleJob);
-        
+
         ScheduleUtils.createScheduleJob(scheduler, scheduleJob);
     }
-	
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public void update(ScheduleJobEntity scheduleJob) {
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(ScheduleJobEntity scheduleJob) {
         ScheduleUtils.updateScheduleJob(scheduler, scheduleJob);
-                
+
         this.updateById(scheduleJob);
     }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(Long[] jobIds) {
-    	for(Long jobId : jobIds){
-    		ScheduleUtils.deleteScheduleJob(scheduler, jobId);
-    	}
-    	
-    	//删除数据
-    	this.removeByIds(Arrays.asList(jobIds));
-	}
+        for (Long jobId : jobIds) {
+            ScheduleUtils.deleteScheduleJob(scheduler, jobId);
+        }
 
-	@Override
-    public int updateBatch(Long[] jobIds, int status){
-    	Map<String, Object> map = new HashMap<>(2);
-    	map.put("list", jobIds);
-    	map.put("status", status);
-    	return baseMapper.updateBatch(map);
+        //删除数据
+        this.removeByIds(Arrays.asList(jobIds));
     }
-    
-	@Override
-	@Transactional(rollbackFor = Exception.class)
+
+    @Override
+    public int updateBatch(Long[] jobIds, int status) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("list", jobIds);
+        map.put("status", status);
+        return baseMapper.updateBatch(map);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void run(Long[] jobIds) {
-    	for(Long jobId : jobIds){
-    		ScheduleUtils.run(scheduler, this.getById(jobId));
-    	}
+        for (Long jobId : jobIds) {
+            ScheduleUtils.run(scheduler, this.getById(jobId));
+        }
     }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void pause(Long[] jobIds) {
-        for(Long jobId : jobIds){
-    		ScheduleUtils.pauseJob(scheduler, jobId);
-    	}
-        
-    	updateBatch(jobIds, Constant.ScheduleStatus.PAUSE.getValue());
+        for (Long jobId : jobIds) {
+            ScheduleUtils.pauseJob(scheduler, jobId);
+        }
+
+        updateBatch(jobIds, Constant.ScheduleStatus.PAUSE.getValue());
     }
 
-	@Override
-	@Transactional(rollbackFor = Exception.class)
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void resume(Long[] jobIds) {
-    	for(Long jobId : jobIds){
-    		ScheduleUtils.resumeJob(scheduler, jobId);
-    	}
+        for (Long jobId : jobIds) {
+            ScheduleUtils.resumeJob(scheduler, jobId);
+        }
 
-    	updateBatch(jobIds, Constant.ScheduleStatus.NORMAL.getValue());
+        updateBatch(jobIds, Constant.ScheduleStatus.NORMAL.getValue());
     }
-    
+
 }

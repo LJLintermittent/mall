@@ -48,7 +48,7 @@ public class SecKillSkuSchedule {
      * @Scheduled(cron = "*10 * * * * ?")
      */
     public void putOnSecKillSkuLatest3Days() {
-        log.info("上架秒杀的商品信息");
+        log.info("上架的秒杀商品信息");
         RLock lock = redissonClient.getLock(PUT_ON_LOCK);
         lock.lock(10, TimeUnit.SECONDS);
         try {

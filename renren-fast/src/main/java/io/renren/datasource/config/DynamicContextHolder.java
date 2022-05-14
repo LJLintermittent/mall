@@ -16,8 +16,9 @@ import java.util.Deque;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@SuppressWarnings("All")
 public class DynamicContextHolder {
-    @SuppressWarnings("unchecked")
+
     private static final ThreadLocal<Deque<String>> CONTEXT_HOLDER = new ThreadLocal() {
         @Override
         protected Object initialValue() {

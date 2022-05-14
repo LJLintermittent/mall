@@ -1,5 +1,6 @@
 package com.learn.mall.auth.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
@@ -10,6 +11,7 @@ import lombok.Data;
  * @author 李佳乐
  * @version 1.0
  */
+@ApiModel(value = "认证模块-社交登录实体类")
 @Data
 public class SocialUser {
 

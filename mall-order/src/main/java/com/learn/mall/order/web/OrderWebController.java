@@ -5,6 +5,8 @@ import com.learn.mall.order.service.OrderService;
 import com.learn.mall.order.vo.OrderConfirmVo;
 import com.learn.mall.order.vo.OrderSubmitVo;
 import com.learn.mall.order.vo.SubmitOrderResponseVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ import java.util.concurrent.ExecutionException;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "提交订单，订单确认页面信息展示模块")
 @Controller
 @SuppressWarnings("all")
 public class OrderWebController {
@@ -34,6 +37,7 @@ public class OrderWebController {
      * 订单确认页面信息展示接口
      * confirm.html
      */
+    @ApiOperation(value = "订单确认页面信息展示接口")
     @GetMapping("/toTrade")
     public String toTrade(Model model, HttpServletRequest request) throws ExecutionException, InterruptedException {
         OrderConfirmVo confirmVo = orderService.confirmOrder();
@@ -46,6 +50,7 @@ public class OrderWebController {
      * 提交订单接口（真正创建订单/下单功能）
      * 下单：创建订单，验证防重令牌，验证价格，锁库存
      */
+    @ApiOperation(value = "提交订单接口")
     @PostMapping("/submitOrder")
     public String submitOrder(OrderSubmitVo vo, Model model, RedirectAttributes redirectAttributes) {
         try {

@@ -90,7 +90,60 @@ spring:
           uri: lb://mall-seckill
           predicates:
             - Host=seckill.mall.com
-    #前端项目过来的请求中前面都带上   /api
+        # 前端项目过来的请求中前面都带上/api
+        # 网关层集成swagger2
+#        - id: mall_auth_swagger_route
+#          uri: lb://localhost:20000
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_cart_swagger_route
+#          uri: lb://localhost:20001
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_coupon_swagger_route
+#          uri: lb://localhost:7000
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_member_swagger_route
+#          uri: lb://localhost:8002
+#          predicates:
+#            - Path=/**
+
+        # 订单服务swagger跳转存在问题
+#        - id: mall_order_swagger_route
+#          uri: lb://localhost:9000
+#          predicates:
+#            - Path=/**
+
+        # 商品服务swagger跳转存在问题
+#        - id: mall_product_swagger_route
+#          uri: lb://localhost:10001
+#          predicates:
+#            - Path=/**
+
+#        - id: mall_search_swagger_route
+#          uri: lb://localhost:12000
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_seckill_swagger_route
+#          uri: lb://localhost:24000
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_third_swagger_route
+#          uri: lb://localhost:40000
+#          predicates:
+#            - Path=/**
+#
+#        - id: mall_ware_swagger_route
+#          uri: lb://localhost:11000
+#          predicates:
+#            - Path=/**
+
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848

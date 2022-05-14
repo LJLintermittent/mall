@@ -21,7 +21,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author Mark sunlightcs@gmail.com
  */
 @Configuration
+@SuppressWarnings("all")
 public class RedisConfig {
+
     @Autowired
     private RedisConnectionFactory factory;
 

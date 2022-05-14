@@ -3,6 +3,8 @@ package com.learn.mall.product.web;
 import com.learn.mall.product.entity.CategoryEntity;
 import com.learn.mall.product.entity.vo.front.Catelog2Vo;
 import com.learn.mall.product.service.CategoryService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,6 +26,7 @@ import java.util.UUID;
  * @author 李佳乐
  * @version 1.0
  */
+@Api(tags = "商城首页获取分类数据模块")
 @Controller
 @SuppressWarnings("all")
 public class IndexController {
@@ -40,6 +43,7 @@ public class IndexController {
     /**
      * 进入商城首页的跳转，顺便查询所有的一级分类数据在首页一进来时显示
      */
+    @ApiOperation(value = "进入商城首页的跳转，顺便查询所有的一级分类数据在首页一进来时显示")
     @GetMapping({"/", "/index.html"})
     public String indexPage(Model model) {
         //查出所有的一级分类
@@ -59,6 +63,7 @@ public class IndexController {
      * 使用默认垃圾回收器，ps+po组合的测试结果：测试样本30000，吞吐量 520/sec
      * 使用G1垃圾回收器，测试样本：51000，吞吐量 492/sec
      */
+    @ApiOperation(value = "查询二级分类和三级分类")
     @ResponseBody
     @GetMapping("/index/catalog.json")
     public Map<String, List<Catelog2Vo>> getCatalogJson() {
@@ -69,6 +74,7 @@ public class IndexController {
     /**
      * 测试Redisson分布式锁（测试接口，无实际意义）
      */
+    @ApiOperation(value = "测试Redisson分布式锁 （测试接口，无实际意义）")
     @ResponseBody
     @GetMapping("/hello")
     public String hello() {
@@ -112,6 +118,7 @@ public class IndexController {
      * 只要有写的存在，都必须等待
      * ps:测试接口，无实际意义
      */
+    @ApiOperation(value = "测试写锁 （测试接口，无实际意义）")
     @GetMapping("/write")
     @ResponseBody
     public String write() {
@@ -134,6 +141,7 @@ public class IndexController {
     /**
      * 分布式锁测试（测试接口，无实际意义）
      */
+    @ApiOperation(value = "测试读锁 （测试接口，无实际意义）")
     @GetMapping("/read")
     @ResponseBody
     public String read() {
@@ -158,6 +166,7 @@ public class IndexController {
      * 可以避免一次进来过大流量，在秒杀限流业务场景中非常有用
      * 以及秒杀业务的redis信号量减库存，防止超卖
      */
+    @ApiOperation(value = "测试信号量获取 （测试接口，无实际意义）")
     @GetMapping("/park")
     @ResponseBody
     public String park() throws InterruptedException {
@@ -169,6 +178,7 @@ public class IndexController {
     /**
      * 测试接口，无实际意义
      */
+    @ApiOperation(value = "测试信号量释放 （测试接口，无实际意义）")
     @GetMapping("/go")
     @ResponseBody
     public String go() {
@@ -180,6 +190,7 @@ public class IndexController {
     /**
      * 分布式闭锁(测试接口，无实际意义)
      */
+    @ApiOperation(value = "测试分布式闭锁-锁门 （测试接口，无实际意义）")
     @GetMapping("/lockDoor")
     @ResponseBody
     public String lockDoor() throws InterruptedException {
@@ -192,6 +203,7 @@ public class IndexController {
     /**
      * 测试接口，无实际意义
      */
+    @ApiOperation(value = "测试分布式闭锁-释放学生 （测试接口，无实际意义）")
     @GetMapping("/finish/{id}")
     @ResponseBody
     public String finish(@PathVariable("id") Long id) {

@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -19,43 +19,44 @@ import org.apache.shiro.subject.Subject;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@SuppressWarnings("all")
 public class ShiroUtils {
 
-	public static Session getSession() {
-		return SecurityUtils.getSubject().getSession();
-	}
+    public static Session getSession() {
+        return SecurityUtils.getSubject().getSession();
+    }
 
-	public static Subject getSubject() {
-		return SecurityUtils.getSubject();
-	}
+    public static Subject getSubject() {
+        return SecurityUtils.getSubject();
+    }
 
-	public static SysUserEntity getUserEntity() {
-		return (SysUserEntity)SecurityUtils.getSubject().getPrincipal();
-	}
+    public static SysUserEntity getUserEntity() {
+        return (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
+    }
 
-	public static Long getUserId() {
-		return getUserEntity().getUserId();
-	}
-	
-	public static void setSessionAttribute(Object key, Object value) {
-		getSession().setAttribute(key, value);
-	}
+    public static Long getUserId() {
+        return getUserEntity().getUserId();
+    }
 
-	public static Object getSessionAttribute(Object key) {
-		return getSession().getAttribute(key);
-	}
+    public static void setSessionAttribute(Object key, Object value) {
+        getSession().setAttribute(key, value);
+    }
 
-	public static boolean isLogin() {
-		return SecurityUtils.getSubject().getPrincipal() != null;
-	}
+    public static Object getSessionAttribute(Object key) {
+        return getSession().getAttribute(key);
+    }
 
-	public static String getKaptcha(String key) {
-		Object kaptcha = getSessionAttribute(key);
-		if(kaptcha == null){
-			throw new RRException("验证码已失效");
-		}
-		getSession().removeAttribute(key);
-		return kaptcha.toString();
-	}
+    public static boolean isLogin() {
+        return SecurityUtils.getSubject().getPrincipal() != null;
+    }
+
+    public static String getKaptcha(String key) {
+        Object kaptcha = getSessionAttribute(key);
+        if (kaptcha == null) {
+            throw new RRException("验证码已失效");
+        }
+        getSession().removeAttribute(key);
+        return kaptcha.toString();
+    }
 
 }

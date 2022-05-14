@@ -33,7 +33,9 @@ import java.util.Date;
 @RestController
 @RequestMapping("/app")
 @Api("APP注册接口")
+@SuppressWarnings("all")
 public class AppRegisterController {
+
     @Autowired
     private UserService userService;
 
@@ -42,14 +44,12 @@ public class AppRegisterController {
     public R register(@RequestBody RegisterForm form){
         //表单校验
         ValidatorUtils.validateEntity(form);
-
         UserEntity user = new UserEntity();
         user.setMobile(form.getMobile());
         user.setUsername(form.getMobile());
         user.setPassword(DigestUtils.sha256Hex(form.getPassword()));
         user.setCreateTime(new Date());
         userService.save(user);
-
         return R.ok();
     }
 }

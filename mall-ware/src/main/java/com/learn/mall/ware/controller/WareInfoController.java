@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.learn.mall.ware.entity.vo.FareVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import com.learn.common.utils.R;
  * @email 18066550996@163.com
  * @date 2021-04-09 21:18:51
  */
+@Api(tags = "仓库信息模块")
 @RestController
 @RequestMapping("ware/wareinfo")
 @SuppressWarnings("all")
@@ -29,8 +32,9 @@ public class WareInfoController {
     private WareInfoService wareInfoService;
 
     /**
-     * 模拟运费服务
+     * 模拟运费计算
      */
+    @ApiOperation(value = "模拟运费计算")
     @GetMapping("fare")
     public R getFare(@RequestParam("addrId") Long addrId) {
         FareVo fare = wareInfoService.getFare(addrId);
@@ -40,7 +44,8 @@ public class WareInfoController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation(value = "列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
@@ -49,7 +54,8 @@ public class WareInfoController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @ApiOperation(value = "信息")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id) {
         WareInfoEntity wareInfo = wareInfoService.getById(id);
         return R.ok().put("wareInfo", wareInfo);
@@ -58,7 +64,8 @@ public class WareInfoController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @ApiOperation(value = "保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody WareInfoEntity wareInfo) {
         wareInfoService.save(wareInfo);
         return R.ok();
@@ -67,7 +74,8 @@ public class WareInfoController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @ApiOperation(value = "修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public R update(@RequestBody WareInfoEntity wareInfo) {
         wareInfoService.updateRelationTableById(wareInfo);
         return R.ok();
@@ -76,7 +84,8 @@ public class WareInfoController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids) {
         wareInfoService.removeByIds(Arrays.asList(ids));
         return R.ok();

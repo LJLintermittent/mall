@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -24,48 +24,49 @@ import java.util.Date;
 @Data
 @TableName("schedule_job_log")
 public class ScheduleJobLogEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * 日志id
-	 */
-	@TableId
-	private Long logId;
-	
-	/**
-	 * 任务id
-	 */
-	private Long jobId;
-	
-	/**
-	 * spring bean名称
-	 */
-	private String beanName;
-	
-	/**
-	 * 参数
-	 */
-	private String params;
-	
-	/**
-	 * 任务状态    0：成功    1：失败
-	 */
-	private Integer status;
-	
-	/**
-	 * 失败信息
-	 */
-	private String error;
-	
-	/**
-	 * 耗时(单位：毫秒)
-	 */
-	private Integer times;
-	
-	/**
-	 * 创建时间
-	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createTime;
-	
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 日志id
+     */
+    @TableId
+    private Long logId;
+
+    /**
+     * 任务id
+     */
+    private Long jobId;
+
+    /**
+     * spring bean名称
+     */
+    private String beanName;
+
+    /**
+     * 参数
+     */
+    private String params;
+
+    /**
+     * 任务状态    0：成功    1：失败
+     */
+    private Integer status;
+
+    /**
+     * 失败信息
+     */
+    private String error;
+
+    /**
+     * 耗时(单位：毫秒)
+     */
+    private Integer times;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+
 }

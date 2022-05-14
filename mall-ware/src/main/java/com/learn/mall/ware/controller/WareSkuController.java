@@ -8,6 +8,8 @@ import com.learn.common.exception.StatusCodeEnum;
 import com.learn.mall.ware.entity.vo.SkuHasStockVo;
 import com.learn.mall.ware.entity.vo.WareSkuLockVo;
 import com.learn.mall.ware.exception.NoStockException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,7 @@ import com.learn.common.utils.R;
  * @email 18066550996@163.com
  * @date 2021-04-09 21:18:51
  */
+@Api(tags = "商品库存模块")
 @RestController
 @SuppressWarnings("all")
 @RequestMapping("ware/waresku")
@@ -36,9 +39,10 @@ public class WareSkuController {
      * 订单业务锁定库存需求
      * 返回哪个sku锁定了几件，锁定成功了还是失败了
      */
+    @ApiOperation(value = "订单业务锁定库存,返回哪个sku锁定了几件，锁定成功了还是失败了")
     @PostMapping("/lock/order")
     public R orderLockStock(@RequestBody WareSkuLockVo vo) {
-        //flag代表锁成功了还是失败了
+        // flag代表锁成功了还是失败了
         try {
             Boolean flag = wareSkuService.orderLockStock(vo);
             return R.ok();
@@ -55,6 +59,7 @@ public class WareSkuController {
      * @param skuIds 要上架的SPU对应的所有SKU的ID （需要检查这些SkuId对应的Sku是否还有库存）
      * @return
      */
+    @ApiOperation(value = "查询这些Sku是否有库存")
     @PostMapping("/hasstock")
     public R getSkuHasStock(@RequestBody List<Long> skuIds) {
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
@@ -64,7 +69,8 @@ public class WareSkuController {
     /**
      * 列表
      */
-    @RequestMapping("/list")
+    @ApiOperation(value = "列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = wareSkuService.queryPageByCondition(params);
         return R.ok().put("page", page);
@@ -73,7 +79,8 @@ public class WareSkuController {
     /**
      * 信息
      */
-    @RequestMapping("/info/{id}")
+    @ApiOperation(value = "信息")
+    @RequestMapping(value = "/info/{id}", method = RequestMethod.GET)
     public R info(@PathVariable("id") Long id) {
         WareSkuEntity wareSku = wareSkuService.getById(id);
         return R.ok().put("wareSku", wareSku);
@@ -82,7 +89,8 @@ public class WareSkuController {
     /**
      * 保存
      */
-    @RequestMapping("/save")
+    @ApiOperation(value = "保存")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public R save(@RequestBody WareSkuEntity wareSku) {
         wareSkuService.save(wareSku);
         return R.ok();
@@ -91,7 +99,8 @@ public class WareSkuController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @ApiOperation(value = "修改")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     public R update(@RequestBody WareSkuEntity wareSku) {
         wareSkuService.updateAllById(wareSku);
         return R.ok();
@@ -100,7 +109,8 @@ public class WareSkuController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
+    @ApiOperation(value = "删除")
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public R delete(@RequestBody Long[] ids) {
         wareSkuService.removeByIds(Arrays.asList(ids));
         return R.ok();

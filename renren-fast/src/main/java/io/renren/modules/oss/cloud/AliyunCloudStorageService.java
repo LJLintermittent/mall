@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
+ * <p>
  * https://www.renren.io
- *
+ * <p>
  * 版权所有，侵权必究！
  */
 
@@ -19,17 +19,19 @@ import java.io.InputStream;
  *
  * @author Mark sunlightcs@gmail.com
  */
+@SuppressWarnings("all")
 public class AliyunCloudStorageService extends CloudStorageService {
+
     private OSSClient client;
 
-    public AliyunCloudStorageService(CloudStorageConfig config){
+    public AliyunCloudStorageService(CloudStorageConfig config) {
         this.config = config;
 
         //初始化
         init();
     }
 
-    private void init(){
+    private void init() {
         client = new OSSClient(config.getAliyunEndPoint(), config.getAliyunAccessKeyId(),
                 config.getAliyunAccessKeySecret());
     }
@@ -43,7 +45,7 @@ public class AliyunCloudStorageService extends CloudStorageService {
     public String upload(InputStream inputStream, String path) {
         try {
             client.putObject(config.getAliyunBucketName(), path, inputStream);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RRException("上传文件失败，请检查配置信息", e);
         }
 

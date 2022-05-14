@@ -2,6 +2,8 @@ package com.learn.mall.order.controller;
 
 import com.learn.mall.order.entity.OrderEntity;
 import com.learn.mall.order.entity.OrderReturnReasonEntity;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import java.util.UUID;
  * @version 1.0
  */
 
+@Api(tags = "RabbitMQ测试接口模块")
 @SuppressWarnings("all")
 @RestController
 public class RabbitController {
@@ -31,6 +34,7 @@ public class RabbitController {
      * 测试rabbithandler与rabbitlistener注解作用的接口
      * 无实际调用
      */
+    @ApiOperation(value = "测试rabbithandler与rabbitlistener注解作用的接口")
     @GetMapping("/sendMq")
     public String sendMq(@RequestParam(value = "num", defaultValue = "10") Integer num) {
         for (int i = 0; i < num; i++) {
