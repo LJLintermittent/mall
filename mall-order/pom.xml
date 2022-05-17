@@ -105,7 +105,6 @@
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.13.50.ALL</version>
         </dependency>
-
     </dependencies>
     <dependencyManagement>
         <dependencies>

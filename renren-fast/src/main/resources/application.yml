@@ -42,7 +42,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 192.168.190.141:8848
 #  resources:
 #    add-mappings: false
 
@@ -68,7 +68,7 @@ mybatis-plus:
 
 logging:
   level:
-    com.learn.mall: debug
+    com.learn.mall: info
     com.alibaba.nacos.client.naming: WARN
     com.alibaba.nacos.client.config.impl: WARN
 

@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>订单列表页</title>
     <link rel="stylesheet" href="/static/order/list/css/index.css">
+    <link rel="icon" href="static/order/list/img/ljl1.ico" type="/image/x-icon"/>
     <style media="screen">
         * {
             font-family: "微软雅黑";
@@ -70,10 +71,10 @@
                                 <li>近三个月订单</li>
                                 <li>今年内订单</li>
                                 <li>今年内订单</li>
-                                <li>2016年订单</li>
-                                <li>2015年订单</li>
-                                <li>2014年订单</li>
-                                <li>2014年以前订单</li>
+                                <li>2022年订单</li>
+                                <li>2021年订单</li>
+                                <li>2019年订单</li>
+                                <li>2019年以前订单</li>
                             </ol>
                         </li>
                         <li class="detailsLi">订单详情</li>
@@ -98,7 +99,7 @@
             <table class="table" th:each="order:${orders.list}">
                 <tr>
                     <td colspan="7" style="background:#F7F7F7">
-                        <span style="color:#AAAAAA">2020.5.20 22.49</span>
+                        <span style="color:#AAAAAA" id="now_time"></span>
                         <span><ruby style="color:#AAAAAA">订单号:</ruby>[[${order.orderSn}]]</span>
                         <span>李佳乐-电商平台<i class="table_i"></i></span>
                         <i class="table_i5 isShow"></i>
@@ -114,9 +115,11 @@
                         </div>
                         <div style="margin-left:15px;">x[[${item.skuQuantity}]]</div>
                         <div style="clear:both"></div>
-                    </td >
-                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">[[${order.receiverName}]]<i><i class="table_i1"></i></i></td>
-                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}" style="padding-left:10px;color:#AAAAB1;">
+                    </td>
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}">[[${order.receiverName}]]<i><i
+                            class="table_i1"></i></i></td>
+                    <td th:if="${itemStat.index==0}" th:rowspan="${itemStat.size}"
+                        style="padding-left:10px;color:#AAAAB1;">
                         <p style="margin-bottom:5px;">总额 ￥[[${order.payAmount}]]</p>
                         <hr style="width:90%;">
                         <p>在线支付</p>
@@ -181,5 +184,12 @@
 </body>
 <script src="/static/order/list/js/jquery-3.1.1.min.js"></script>
 <script src="/static/order/list/js/index.js"></script>
-
+<script>
+    var da = new Date();
+    var year = da.getFullYear() + '-';
+    var month = da.getMonth() + 1 + '-';
+    var date = da.getDate();
+    //以上就完成了当前时间的格式设置，接下来就是给span标签赋值：
+    $('#now_time').text(year + month + date);
+</script>
 </html>

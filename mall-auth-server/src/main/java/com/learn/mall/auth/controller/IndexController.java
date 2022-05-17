@@ -13,8 +13,6 @@ import com.learn.mall.auth.vo.UserRegisterVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundSetOperations;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -23,7 +21,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
@@ -186,12 +183,12 @@ public class IndexController {
     }
 
     /**
-     * TODO 用户注销
+     * 用户注销 测试接口 返回json数据
      */
-    @ApiOperation(value = "用户注销")
+    @ApiOperation(value = "用户注销测试接口")
     @ResponseBody
-    @GetMapping("/logout")
-    public R logout() {
+    @GetMapping("/logoutTest")
+    public R logoutTest() {
         Set<String> keys = stringRedisTemplate.keys("*");
         System.out.println("----------------Redis中的所有key------------------");
         System.out.println(keys);
@@ -206,6 +203,21 @@ public class IndexController {
         Set<String> nowKeys = stringRedisTemplate.keys("*");
         System.out.println(nowKeys);
         return R.ok().put("data", "注销成功");
+    }
+
+    /**
+     * 用户注销正式接口，返回页面
+     */
+    @ApiOperation(value = "用户注销正式接口")
+    @GetMapping("/logout")
+    public String logout() {
+        Set<String> keys = stringRedisTemplate.keys("*");
+        for (String key : keys) {
+            if (key.contains("spring")) {
+                stringRedisTemplate.delete(key);
+            }
+        }
+        return "redirect:http://mall.com";
     }
 
 }

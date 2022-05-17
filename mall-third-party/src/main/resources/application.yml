@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 192.168.190.141:8848
     alicloud:
       access-key: LTAI5tQGwqa9Aoo1wQEey7iQ
       secret-key: K0cmhle8E0HzPgpw7hNR8IrmlVgSIe
@@ -25,7 +25,7 @@ server:
   port: 40000
 logging:
   level:
-    com.learn.mall: debug
+    com.learn.mall: info
     com.alibaba.nacos.client.naming: WARN
     com.alibaba.nacos.client.config.impl: WARN
 
