@@ -52,7 +52,7 @@ public class OssController {
      * 例如：http://LJL-mall.oss-cn-beijing.aliyuncs.com/
      */
     @ApiOperation(value = "OSS对象存储，服务端签名后直传")
-    @RequestMapping(value = "/oss/policy", method = RequestMethod.POST)
+    @RequestMapping(value = "/oss/policy", method = RequestMethod.GET)
     public R policy() {
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
         // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
